@@ -66,6 +66,7 @@ SEARCH_PARAMS = {
         "identifier",
         "subject",
         "issued",
+        "category"
     ],
     "FamilyMemberHistory": [
         "_content",
