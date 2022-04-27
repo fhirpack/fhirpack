@@ -1,3 +1,24 @@
+Metadata-Version: 2.1
+Name: fhirdrill
+Version: 0.0.1b0
+Summary: A minimalistic Python package that simplifies crawling, correlating and representing FHIR resources related to individual patients or cohorts thereof.
+Home-page: https://github.com/jdsalaro/fhirdrill/
+Author: Jayson Salazar
+Author-email: mail@jdsalaro.com
+License: UNKNOWN
+Project-URL: Documentation, https://github.com/jdsalaro/fhirdrill
+Project-URL: Source, https://github.com/jdsalaro/fhirdrill
+Project-URL: Changelog, https://github.com/jdsalaro/fhirdrill
+Project-URL: Tracker, https://github.com/jdsalaro/fhirdrill
+Project-URL: Download, https://github.com/jdsalaro/fhirdrill
+Project-URL: Twitter, https://github.com/jdsalaro/fhirdrill
+Platform: any
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python
+Description-Content-Type: text/markdown; charset=UTF-8; variant=GFM
+Provides-Extra: testing
+License-File: LICENSE.txt
+
 # FHIR Drill
 
 A minimalistic Python package that simplifies crawling, correlating and representing FHIR resources related to individual patients or cohorts thereof.
@@ -195,3 +216,5 @@ List any important or related reading material
 # Acknowledgements
 
 Acknowledge contributors 
+
+

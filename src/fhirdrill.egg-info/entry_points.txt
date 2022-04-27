@@ -1,0 +1,2 @@
+[console_scripts]
+fdrill = fhirdrill.cli:main

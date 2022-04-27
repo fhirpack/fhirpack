@@ -1,0 +1,36 @@
+include CHANGELOG.md
+include README.md
+include LICENSE.txt
+include VERSION
+include setup.py
+#include requirements.txt
+include CONTRIBUTING.rst
+
+# include docs in the final package
+graft docs
+
+# include tests/, tests_* and *_tests so
+# pytest ran via tox can discover the tests
+
+#prune tests
+#global-exclude conftest.py
+#global-exclude test_*.py
+#global-exclude *_test.py
+
+graft tests
+global-include conftest.py
+global-include *_test.py
+global-include test_*.py
+
+exclude tox.ini
+
+global-exclude .*
+global-exclude __pycache__
+global-exclude *.ipynb
+
+prune .*
+exclude *.svg
+exclude *.png
+
+include .env.example
+

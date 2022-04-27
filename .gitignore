@@ -1,0 +1,33 @@
+
+
+# directories
+__pycache__/
+
+**/state
+**/backup
+**/tmp
+**/*.swp
+**/.vscode
+
+# files
+
+.DS_Store
+
+.env
+
+.coverage
+.testmondata
+*.ignore
+scratch.py
+
+#**/Pipfile.lock
+#**/Pipfile
+
+#**/*.ipynb
+**/.ipynb_checkpoints
+
+**/*.log
+
+.tox
+build
+dist
