@@ -1,0 +1,60 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+ipykernel = "*"
+autopep8 = "*"
+pylint = "*"
+pytest = "*"
+bandit = "*"
+flake8 = "*"
+pytest-cov = "*"
+pipenv-setup = "*"
+pytest-watch = "*"
+pytest-picked = "*"
+pytest-testmon = "*"
+bump2version = "*"
+python-dotenv = {extras = ["cli"], version = "*"}
+fhirdrill = {editable = true, path = "."}
+black = "*"
+jupyter = "*"
+ipywidgets = "*"
+sphinx = "*"
+markupsafe = "==2.0.1"
+myst-parser = "*"
+build = "*"
+pytest-docker-compose = "*"
+
+[packages]
+fhirpy = "*"
+requests = "*"
+pydgraph = "*"
+pandas = "*"
+numpy = "*"
+matplotlib = "*"
+toml = "*"
+"fhir.resources" = "*"
+authlib = "*"
+pyjwt = "*"
+tqdm = "*"
+python-dotenv = {extras = ["cli"], version = "*"}
+apache-age-python = "*"
+psycopg2 = "*"
+prefect = "*"
+dagster = "*"
+dagit = "*"
+click = "*"
+black = "*"
+typeguard = "*"
+pipenv = "*"
+python-magic = "*"
+fhirdrill = {editable = true, path = "."}
+dicomweb-client = "*"
+
+[requires]
+python_version = "3.9.6"
+
+[pipenv]
+allow_prereleases = true

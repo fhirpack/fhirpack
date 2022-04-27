@@ -1,0 +1,89 @@
+---
+image: "python:3.9.6"
+
+stages:
+  - test
+  - docs
+  - package
+  - release
+
+# Pick zero or more services to be used on all builds.
+# Only needed when using a docker container to run your tests in.
+# Check out: http://docs.gitlab.com/ce/ci/docker/using_docker_images.html#what-is-service
+
+# services:
+#   - mysql:latest
+#   - redis:latest
+#   - postgres:latest
+
+# variables:
+#   POSTGRES_DB: database_name
+
+# Cache packages in between builds
+
+cache:
+  paths:
+    - vendor/python
+
+before_script:
+  - python -v
+  # Setup git
+  - apt-get update 
+  - apt-get install git 
+  - git config --global user.email "salazar@informatik.uni-heidelberg.de"
+  - git config --global user.name "Jayson Salazar"
+  # Install dependencies for the testing environment
+  - pip install -U pip setuptools
+  - pip install -U tox 
+  - pip install -U pipenv 
+  - echo 'DIRECTORY LISTING'
+  - ls -1l .
+
+.test_script: &test_script
+  script:
+    - tox -- -m 'not reqdocker'
+
+# Run in different environments
+#py36:
+#  image: "python:3.6"
+#  <<: *test_script
+#
+#py37:
+#  image: "python:3.7"
+#  <<: *test_script
+#
+#py38:
+#  image: "python:3.8"
+#  <<: *test_script
+
+python 3.9.6:
+  stage: test
+  image: "python:3.9.6"
+  <<: *test_script
+  
+lint:
+  stage: test
+  script:
+    - tox -e lint
+  allow_failure: true
+
+documentation:
+  stage: docs
+  script:
+    - apt-get update 
+    - apt-get install -y graphviz
+    - tox -e docs
+    - tox -e visualize
+
+build:
+  stage: package
+  script:
+    - tox -e build
+      
+publish:
+  stage: package
+  script:
+    - tox -e release
+  when: manual
+  needs: ["build"]
+
