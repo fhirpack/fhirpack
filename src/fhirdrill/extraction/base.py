@@ -251,7 +251,6 @@ class BaseExtractorMixin:
 
         resourcePageSize = 100
   
-        #pdb.set_trace()
         self.client.resources 
         
         search = (
