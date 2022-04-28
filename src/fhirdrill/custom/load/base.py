@@ -29,7 +29,7 @@ class PluginBaseLoaderMixin:
 
         # TODO prepare your context here
 
-        if input:
+        if len(input):
             # TODO your code for data coming in as arguments
             input = self.castOperand(input, SyncFHIRReference, "replace")
             result = self.getResources(input, resourceType="replace", raw=True)

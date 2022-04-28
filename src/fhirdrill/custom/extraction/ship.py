@@ -41,7 +41,7 @@ class PluginSHIPExtractorMixin(cumextbase.PluginBaseExtractorMixin):
             "presentedForm.creation",
         ]
 
-        if input:
+        if len(input):
             raise NotImplementedError
 
         elif self.isFrame and not ignoreFrame:
@@ -90,7 +90,7 @@ class PluginSHIPExtractorMixin(cumextbase.PluginBaseExtractorMixin):
             "presentedForm.creation",
         ]
 
-        if input:
+        if len(input):
             raise NotImplementedError
 
         elif self.isFrame and not ignoreFrame:
@@ -131,7 +131,7 @@ class PluginSHIPExtractorMixin(cumextbase.PluginBaseExtractorMixin):
         input = [] if input is None else input
         result = []
 
-        if input:
+        if len(input):
             raise NotImplementedError
 
         elif self.isFrame and not ignoreFrame:
@@ -189,7 +189,7 @@ class PluginSHIPExtractorMixin(cumextbase.PluginBaseExtractorMixin):
         input = [] if input is None else input
         result = []
 
-        if input:
+        if len(input):
             pass
         elif self.isFrame and not ignoreFrame:
             if self.resourceTypeIs("EpisodeOfCare"):

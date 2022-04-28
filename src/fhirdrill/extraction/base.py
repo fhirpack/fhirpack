@@ -21,9 +21,6 @@ from dicomweb_client.api import DICOMwebClient
 import os
 from pathlib import Path
 
-client = DICOMwebClient(
-    'https://shipdev.uk-essen.de/app/DicomWeb/view/deidentified/GEPACS', headers={"Authorization": "Bearer {}".format(CONFIG.get("OAUTH_TOKEN"))})
-
 
 # TODO build dinamically from metadata/capability statement
 SEARCH_PARAMS = {
@@ -64,7 +61,13 @@ SEARCH_PARAMS = {
         "identifier",
         "subject",
         "issued",
-        "category"
+        "category",
+        "issued__lt",
+        "issued__gt",
+        "issued__ge",
+        "date__lt",
+        "date__gt",
+        "date__ge",
     ],
     "FamilyMemberHistory": [
         "_content",
@@ -124,7 +127,7 @@ SEARCH_PARAMS = {
         "code",
         "identifier",
         "subject",
-        "shipProcedureCode"
+        "shipProcedureCode",
     ],
     "Procedure": [
         "_id",
@@ -191,7 +194,7 @@ class BaseExtractorMixin:
 
         result = []
 
-        if input:
+        if len(input):
             pass
 
         elif self.isFrame and not ignoreFrame:
@@ -237,7 +240,7 @@ class BaseExtractorMixin:
             if invalidsearchParams:
                 raise Exception(f"non allowed search parameters {invalidsearchParams}")
 
-        if input:
+        if len(input):
             raise NotImplementedError
 
         elif self.isFrame and not ignoreFrame:
@@ -479,46 +482,26 @@ class BaseExtractorMixin:
         elif input and self.isFrame:
             raise NotImplementedError
 
-        results = []
+        result = []
         input = self
 
-        result = input.data.apply(
-            lambda x: list(
-                client.iter_series(*x.split('|')
-                )
+        for i, series, study, endpoint in input[
+            ["series", "study", "endpoint"]
+        ].itertuples():
+            client = DICOMwebClient(
+                endpoint,
+                headers={
+                    "Authorization": f"Bearer {CONFIG.get('EXTRACTION_BASE_TOKEN_DICOM')}"
+                },
             )
-        )
-        
+            instances = list(client.iter_series(study, series))
+            result.append(instances)
+
         if inPlace:
-            self.data=result
+            self.data = result
             result = self
         else:
             result = self.prepareOutput(result)
             pass
 
         return result
-
-        # for i, se, st in input[["series.uid", "study.uid"]].itertuples():
-        #     try:
-        #         for instance in tqdm(client.iter_series(st, se)):
-        #             newStudyInstanceUID = str(instance.StudyInstanceUID)
-
-        #             try:
-        #                 desc = str(instance.SeriesDescription)
-        #             except:
-        #                 desc = "No Description"
-        #             save_dir = f"oliver/{newStudyInstanceUID}/{desc}"
-        #             os.makedirs(save_dir, exist_ok=True)
-        #             instance.save_as(f"{save_dir}/{instance.SOPInstanceUID}.dcm")
-            
-        #     except KeyboardInterrupt: raise 
-        #     except Exception as e:
-        #         print(e)
-        #         pass
-
-        #     time.sleep(0.5)
-        #     results.append(data)
-        # if resultInCol:
-        #     result = self.assign(**{resultInCol: results})
-        # else:
-        #     result = se
