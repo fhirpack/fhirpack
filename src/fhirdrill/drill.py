@@ -22,10 +22,6 @@ from fhirdrill.constants import CONFIG
 
 LOGGER = CONFIG.getLogger(__name__)
 
-
-SYSTEMIDENTIFIERS = {"LINKEDPATIENT": "https://uk-essen.de/SHIP/LinkedPatient|"}
-
-
 class Drill(
     fhirdrill.base.BaseMixin,
     fhirdrill.extraction.ExtractorMixin,

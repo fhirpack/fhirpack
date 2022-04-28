@@ -1,6 +1,5 @@
 fhirpy
 requests
-pydgraph
 pandas
 numpy
 matplotlib
@@ -10,11 +9,6 @@ authlib
 pyjwt
 tqdm
 python-dotenv[cli]
-apache-age-python
-psycopg2
-prefect
-dagster
-dagit
 click
 black
 typeguard
