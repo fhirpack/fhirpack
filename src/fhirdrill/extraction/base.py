@@ -251,7 +251,6 @@ class BaseExtractorMixin:
 
         resourcePageSize = 100
   
-        self.client.resources 
         
         search = (
             self.client.resources(resourceType)
