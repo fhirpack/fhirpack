@@ -22,6 +22,7 @@ from fhirdrill.constants import CONFIG
 
 LOGGER = CONFIG.getLogger(__name__)
 
+
 class Drill(
     fhirdrill.base.BaseMixin,
     fhirdrill.extraction.ExtractorMixin,
