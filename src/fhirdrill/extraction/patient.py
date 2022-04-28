@@ -74,6 +74,14 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
                         raw=True,
                     )
                 )
+            elif self.resourceTypeIs("ImagingStudy"):
+                result = input.apply(
+                    lambda x: self.searchResources(
+                        searchParams=dict(searchParams, **{"_id": x.subject.id}),
+                        resourceType="Patient",
+                        raw=True,
+                    )
+                ) 
             else:
                 raise NotImplementedError
 

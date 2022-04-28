@@ -22,9 +22,7 @@ import os
 from pathlib import Path
 
 client = DICOMwebClient(
-    "https://shipdev.uk-essen.de/app/DicomWeb/view/deidentified/GEPACS",
-    headers={"Authorization": "Bearer {}".format(CONFIG.get("OAUTH_TOKEN"))},
-)
+    'https://shipdev.uk-essen.de/app/DicomWeb/view/deidentified/GEPACS', headers={"Authorization": "Bearer {}".format(CONFIG.get("OAUTH_TOKEN"))})
 
 
 # TODO build dinamically from metadata/capability statement
@@ -126,6 +124,7 @@ SEARCH_PARAMS = {
         "code",
         "identifier",
         "subject",
+        "shipProcedureCode"
     ],
     "Procedure": [
         "_id",
@@ -458,12 +457,13 @@ class BaseExtractorMixin:
         result = self.prepareOutput(result)
         return result
 
-    def getDICOMBytes(
+    def getDICOMInstances(
         self,
         input: list[str] = None,
         operateOnCol: str = "data",
         resultInCol: str = None,
-        params: dict = {},
+        params: dict = None,
+        inPlace: dict = False,
     ):
 
         params = {} if params is None else params
@@ -480,21 +480,43 @@ class BaseExtractorMixin:
             raise NotImplementedError
 
         results = []
+        input = self
 
-        for i, se, st in input[["series.uid", "study.uid"]].itertuples():
-            try:
-                for instance in tqdm(client.iter_series(st, se)):
-                    newStudyInstanceUID = str(instance.StudyInstanceUID)
-                    save_dir = (
-                        f"moon/{newStudyInstanceUID}/{instance.SeriesDescription}"
-                    )
-                    os.makedirs(save_dir, exist_ok=True)
-                    instance.save_as(f"{save_dir}/{instance.SOPInstanceUID}.dcm")
-            except Exception as e:
-                print(e)
-                pass
+        result = input.data.apply(
+            lambda x: list(
+                client.iter_series(*x.split('|')
+                )
+            )
+        )
+        
+        if inPlace:
+            self.data=result
+            result = self
+        else:
+            result = self.prepareOutput(result)
+            pass
 
-            time.sleep(0.5)
+        return result
+
+        # for i, se, st in input[["series.uid", "study.uid"]].itertuples():
+        #     try:
+        #         for instance in tqdm(client.iter_series(st, se)):
+        #             newStudyInstanceUID = str(instance.StudyInstanceUID)
+
+        #             try:
+        #                 desc = str(instance.SeriesDescription)
+        #             except:
+        #                 desc = "No Description"
+        #             save_dir = f"oliver/{newStudyInstanceUID}/{desc}"
+        #             os.makedirs(save_dir, exist_ok=True)
+        #             instance.save_as(f"{save_dir}/{instance.SOPInstanceUID}.dcm")
+            
+        #     except KeyboardInterrupt: raise 
+        #     except Exception as e:
+        #         print(e)
+        #         pass
+
+        #     time.sleep(0.5)
         #     results.append(data)
         # if resultInCol:
         #     result = self.assign(**{resultInCol: results})
