@@ -1,0 +1,37 @@
+fhirdrill.custom.extraction package
+===================================
+
+Submodules
+----------
+
+fhirdrill.custom.extraction.base module
+---------------------------------------
+
+.. automodule:: fhirdrill.custom.extraction.base
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fhirdrill.custom.extraction.sample module
+-----------------------------------------
+
+.. automodule:: fhirdrill.custom.extraction.sample
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fhirdrill.custom.extraction.ship module
+---------------------------------------
+
+.. automodule:: fhirdrill.custom.extraction.ship
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: fhirdrill.custom.extraction
+   :members:
+   :undoc-members:
+   :show-inheritance:

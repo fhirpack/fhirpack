@@ -1,0 +1,39 @@
+fhirdrill.custom package
+========================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   fhirdrill.custom.extraction
+   fhirdrill.custom.load
+   fhirdrill.custom.transformation
+
+Submodules
+----------
+
+fhirdrill.custom.base module
+----------------------------
+
+.. automodule:: fhirdrill.custom.base
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fhirdrill.custom.utils module
+-----------------------------
+
+.. automodule:: fhirdrill.custom.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: fhirdrill.custom
+   :members:
+   :undoc-members:
+   :show-inheritance:
