@@ -3,7 +3,7 @@ import json
 import resource
 from typing import Union
 import time
-
+import pdb
 import requests
 import magic
 import numpy as np
@@ -66,6 +66,10 @@ SEARCH_PARAMS = {
         "identifier",
         "subject",
         "issued",
+        "category",
+        "date" ,
+        "date__lt",
+        "date__gt"
     ],
     "FamilyMemberHistory": [
         "_content",
@@ -247,7 +251,10 @@ class BaseExtractorMixin:
             pass
 
         resourcePageSize = 100
-
+  
+        #pdb.set_trace()
+        self.client.resources 
+        
         search = (
             self.client.resources(resourceType)
             .search(**searchParams)
