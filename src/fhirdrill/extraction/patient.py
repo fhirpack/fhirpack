@@ -42,7 +42,7 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
         input = [] if input is None else input
         result = []
 
-        if input:
+        if len(input):
             input = self.castOperand(input, SyncFHIRReference, "Patient")
             result = self.getResources(input, resourceType="Patient", raw=True)
 
@@ -81,7 +81,7 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
                         resourceType="Patient",
                         raw=True,
                     )
-                ) 
+                )
             else:
                 raise NotImplementedError
 
@@ -122,7 +122,7 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
         input = [] if input is None else input
         result = []
 
-        if input:
+        if len(input):
             pass
         elif self.isFrame and not ignoreFrame:
             input = self
@@ -172,7 +172,7 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
         input = [] if input is None else input
         result = []
 
-        if input:
+        if len(input):
             pass
 
         elif self.isFrame and not ignoreFrame:
