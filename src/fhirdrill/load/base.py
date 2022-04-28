@@ -111,3 +111,91 @@ class BaseLoaderMixin:
                 # TODO raise or log?
 
         return successes
+
+
+    def sendDICOMToFiles(
+        self,
+        input: Union[
+            list[str],
+            list[SyncFHIRReference],
+            list[SyncFHIRResource],
+        ] = None,
+        combine: bool = False,
+        params: dict = None,
+        ignoreFrame: bool = False,
+    ):
+        params = {} if params is None else params
+        input = [] if input is None else input
+        result = []
+
+        
+        if input:
+            raise NotImplementedError
+            # input = self.castOperand(input, SyncFHIRReference, "replace")
+            # result = self.getResources(input, resourceType="replace", raw=True)
+
+        elif self.isFrame and not ignoreFrame:
+            input = self
+            paths = self.path.values
+        
+            n = len(input)
+            if len(paths) == 1 and combine:
+                paths = [paths[0]] * n
+            elif len(paths) == len(input):
+                pass
+            else:
+                raise Exception("number of paths and number of data blobs must be equal")
+            
+            if self.resourceTypeIs("ImagingStudy"):
+
+                input.path.apply(
+                    lambda x: os.makedirs(x, exist_ok=True)
+                )
+                
+                results=input.apply(
+                    lambda x: x.data.save_as(x.path+'/'+x.data.SOPInstanceUID),
+                    axis=1
+                )
+                
+        #             newStudyInstanceUID = str(instance.StudyInstanceUID)
+
+        #             try:
+        #                 desc = str(instance.SeriesDescription)
+        #             except:
+        #                 desc = "No Description"
+        #             save_dir = f"oliver/{newStudyInstanceUID}/{desc}"
+        #             os.makedirs(save_dir, exist_ok=True)
+        #             instance.save_as(f"{save_dir}/{instance.SOPInstanceUID}.dcm")
+            
+        #     except KeyboardInterrupt: raise 
+        #     except Exception as e:
+        #         print(e)
+        #         pass
+
+        #     time.sleep(0.5)
+        #     results.append(data)
+        # if resultInCol:
+        #     result = self.assign(**{resultInCol: results})
+        # else:
+        #     result = se
+
+
+                # result = input.apply(
+                #     lambda x: self.searchResources(
+                #         searchParams=dict(searchParams, **{"replace": x.id}),
+                #         resourceType="replace",
+                #         raw=True,
+                #     )
+                # )
+                # result = result.values
+
+            else:
+                raise NotImplementedError
+
+        else:
+            raise NotImplementedError
+
+        result = self.prepareOutput(result)
+
+        return result
+
