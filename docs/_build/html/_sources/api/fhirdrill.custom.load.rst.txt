@@ -1,0 +1,29 @@
+fhirdrill.custom.load package
+=============================
+
+Submodules
+----------
+
+fhirdrill.custom.load.base module
+---------------------------------
+
+.. automodule:: fhirdrill.custom.load.base
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+fhirdrill.custom.load.sample module
+-----------------------------------
+
+.. automodule:: fhirdrill.custom.load.sample
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: fhirdrill.custom.load
+   :members:
+   :undoc-members:
+   :show-inheritance:

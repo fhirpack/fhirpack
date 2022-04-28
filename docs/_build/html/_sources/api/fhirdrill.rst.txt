@@ -1,6 +1,17 @@
 fhirdrill package
 =================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   fhirdrill.custom
+   fhirdrill.extraction
+   fhirdrill.load
+   fhirdrill.transformation
+
 Submodules
 ----------
 
@@ -36,6 +47,14 @@ fhirdrill.config module
    :undoc-members:
    :show-inheritance:
 
+fhirdrill.conftest module
+-------------------------
+
+.. automodule:: fhirdrill.conftest
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 fhirdrill.constants module
 --------------------------
 
@@ -52,26 +71,10 @@ fhirdrill.drill module
    :undoc-members:
    :show-inheritance:
 
-fhirdrill.extraction module
+fhirdrill.exceptions module
 ---------------------------
 
-.. automodule:: fhirdrill.extraction
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-fhirdrill.load module
----------------------
-
-.. automodule:: fhirdrill.load
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-fhirdrill.transformation module
--------------------------------
-
-.. automodule:: fhirdrill.transformation
+.. automodule:: fhirdrill.exceptions
    :members:
    :undoc-members:
    :show-inheritance:

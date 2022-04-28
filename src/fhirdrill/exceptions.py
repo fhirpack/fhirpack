@@ -6,7 +6,7 @@ class BaseError(Exception):
     pass
 
 
-class SampleError(BaseFHIRError):
+class SampleError(BaseError):
     pass
 
 
