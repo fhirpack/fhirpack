@@ -124,7 +124,7 @@ class BaseLoaderMixin:
         # combine: bool = False,
         params: dict = None,
         ignoreFrame: bool = False,
-        fileType: str = ".csv",
+        fileType: str = "csv",
         # TODO enforce existence of paths in checks
         paths: list[str] = None,
     ):
@@ -172,7 +172,6 @@ class BaseLoaderMixin:
 
         except Exception as e:
             raise e
-            result = [False]
 
         result = self.prepareOutput(result)
 
