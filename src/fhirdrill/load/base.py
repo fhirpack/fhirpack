@@ -215,7 +215,7 @@ class BaseLoaderMixin:
 
                 input.path.apply(lambda x: os.makedirs(x, exist_ok=True))
 
-                results = input.apply(
+                result = input.apply(
                     lambda x: x.data.save_as(x.path + "/" + x.data.SOPInstanceUID),
                     axis=1,
                 )
