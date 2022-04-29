@@ -29,7 +29,7 @@ scratch.py
 **/*.log
 **/_build
 
-docs
 .tox
 **/build
+**/_build
 dist

@@ -1,0 +1,24 @@
+# Requirements file for ReadTheDocs, check .readthedocs.yml.
+# To build the module reference correctly, make sure every external package
+# under `install_requires` in `setup.cfg` is also listed here!
+# sphinx_rtd_theme
+recommonmark
+sphinx>=3.2.1
+fhirpy
+requests
+pandas
+numpy
+matplotlib
+toml
+fhir.resources
+authlib
+pyjwt
+tqdm
+python-dotenv[cli]
+click
+black
+typeguard
+pipenv
+python-magic
+dicomweb-client
+
