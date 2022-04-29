@@ -502,6 +502,5 @@ class BaseExtractorMixin:
             result = self
         else:
             result = self.prepareOutput(result)
-            pass
 
         return result
