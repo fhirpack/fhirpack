@@ -38,7 +38,6 @@ before_script:
   - pip install -U pipenv 
   - echo 'DIRECTORY LISTING'
   - ls -1l .
-  - echo $CI_API_V4_URL
 
 .test_script: &test_script
   script:
