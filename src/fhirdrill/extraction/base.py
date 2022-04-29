@@ -483,7 +483,6 @@ class BaseExtractorMixin:
             raise NotImplementedError
 
         result = []
-        input = self
 
         for i, series, study, endpoint in input[
             ["series", "study", "endpoint"]
