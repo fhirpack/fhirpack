@@ -3,7 +3,6 @@ import json
 import resource
 from typing import Union
 import time
-
 import requests
 import magic
 import numpy as np
@@ -250,7 +249,8 @@ class BaseExtractorMixin:
             pass
 
         resourcePageSize = 100
-
+  
+        
         search = (
             self.client.resources(resourceType)
             .search(**searchParams)
