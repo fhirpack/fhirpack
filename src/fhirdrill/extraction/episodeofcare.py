@@ -26,7 +26,7 @@ class ExtractorEpisodeOfCareMixin(base.BaseExtractorMixin):
         input = [] if input is None else input
         result = []
 
-        if input:
+        if len(input):
             input = self.castOperand(input, SyncFHIRReference, "EpisodeOfCare")
             result = self.getResources(input, resourceType="EpisodeOfCare", raw=True)
 

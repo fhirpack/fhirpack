@@ -28,7 +28,7 @@ class ExtractorDiagnosticReportMixin(base.BaseExtractorMixin):
         input = [] if input is None else input
         result = []
 
-        if input:
+        if len(input):
             input = self.castOperand(input, SyncFHIRReference, "DiagnosticReport")
             result = self.getResources(input, resourceType="DiagnosticReport", raw=True)
 

@@ -20,11 +20,6 @@ from dicomweb_client.api import DICOMwebClient
 import os
 from pathlib import Path
 
-client = DICOMwebClient(
-    "https://shipdev.uk-essen.de/app/DicomWeb/view/deidentified/GEPACS",
-    headers={"Authorization": "Bearer {}".format(CONFIG.get("OAUTH_TOKEN"))},
-)
-
 
 # TODO build dinamically from metadata/capability statement
 SEARCH_PARAMS = {
@@ -66,9 +61,12 @@ SEARCH_PARAMS = {
         "subject",
         "issued",
         "category",
-        "date" ,
+        "issued__lt",
+        "issued__gt",
+        "issued__ge",
         "date__lt",
-        "date__gt"
+        "date__gt",
+        "date__ge",
     ],
     "FamilyMemberHistory": [
         "_content",
@@ -128,6 +126,7 @@ SEARCH_PARAMS = {
         "code",
         "identifier",
         "subject",
+        "shipProcedureCode",
     ],
     "Procedure": [
         "_id",
@@ -194,7 +193,7 @@ class BaseExtractorMixin:
 
         result = []
 
-        if input:
+        if len(input):
             pass
 
         elif self.isFrame and not ignoreFrame:
@@ -240,7 +239,7 @@ class BaseExtractorMixin:
             if invalidsearchParams:
                 raise Exception(f"non allowed search parameters {invalidsearchParams}")
 
-        if input:
+        if len(input):
             raise NotImplementedError
 
         elif self.isFrame and not ignoreFrame:
@@ -461,12 +460,13 @@ class BaseExtractorMixin:
         result = self.prepareOutput(result)
         return result
 
-    def getDICOMBytes(
+    def getDICOMInstances(
         self,
         input: list[str] = None,
         operateOnCol: str = "data",
         resultInCol: str = None,
-        params: dict = {},
+        params: dict = None,
+        inPlace: dict = False,
     ):
 
         params = {} if params is None else params
@@ -482,24 +482,24 @@ class BaseExtractorMixin:
         elif input and self.isFrame:
             raise NotImplementedError
 
-        results = []
+        result = []
 
-        for i, se, st in input[["series.uid", "study.uid"]].itertuples():
-            try:
-                for instance in tqdm(client.iter_series(st, se)):
-                    newStudyInstanceUID = str(instance.StudyInstanceUID)
-                    save_dir = (
-                        f"moon/{newStudyInstanceUID}/{instance.SeriesDescription}"
-                    )
-                    os.makedirs(save_dir, exist_ok=True)
-                    instance.save_as(f"{save_dir}/{instance.SOPInstanceUID}.dcm")
-            except Exception as e:
-                print(e)
-                pass
+        for i, series, study, endpoint in input[
+            ["series", "study", "endpoint"]
+        ].itertuples():
+            client = DICOMwebClient(
+                endpoint,
+                headers={
+                    "Authorization": f"Bearer {CONFIG.get('EXTRACTION_BASE_TOKEN_DICOM')}"
+                },
+            )
+            instances = list(client.iter_series(study, series))
+            result.append(instances)
 
-            time.sleep(0.5)
-        #     results.append(data)
-        # if resultInCol:
-        #     result = self.assign(**{resultInCol: results})
-        # else:
-        #     result = se
+        if inPlace:
+            self.data = result
+            result = self
+        else:
+            result = self.prepareOutput(result)
+
+        return result
