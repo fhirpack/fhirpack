@@ -17,7 +17,7 @@ import fhirdrill.extraction
 import fhirdrill.transformation
 import fhirdrill.load
 import fhirdrill.custom
-
+import fhirdrill.utils
 from fhirdrill.constants import CONFIG
 
 LOGGER = CONFIG.getLogger(__name__)
@@ -83,7 +83,7 @@ class Drill(
         results = []
         # TODO write function in utils to retrieve current installation path
         # TODO move path with others to common location, CONFIG?
-        with open("assets/supported.list") as f:
+        with open(f"{utils.getInstallationPath()}/assets/supported.list") as f:
             while resource := f.readline().strip():
                 count = self.client.execute(
                     # TODO handle and test when slash at the end of APIBASE in .env and without
