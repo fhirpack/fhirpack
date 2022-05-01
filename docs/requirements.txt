@@ -4,3 +4,21 @@
 # sphinx_rtd_theme
 recommonmark
 sphinx>=3.2.1
+fhirpy
+requests
+pandas
+numpy
+matplotlib
+toml
+fhir.resources
+authlib
+pyjwt
+tqdm
+python-dotenv[cli]
+click
+black
+typeguard
+pipenv
+python-magic
+dicomweb-client
+

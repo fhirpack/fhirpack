@@ -31,7 +31,7 @@ class ExtractorImagingStudyMixin(base.BaseExtractorMixin):
         input = [] if input is None else input
         result = []
 
-        if input:
+        if len(input):
             input = self.castOperand(input, SyncFHIRReference, "ImagingStudy")
             result = self.getResources(input, resourceType="ImagingStudy", raw=True)
 
