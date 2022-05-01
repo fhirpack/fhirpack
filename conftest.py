@@ -12,7 +12,6 @@ import os
 from pathlib import Path
 
 import pytest as pt
-from uvloop import install
 import tests as ts
 import fhirdrill as fd
 import fhirpy as fp

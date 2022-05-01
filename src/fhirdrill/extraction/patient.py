@@ -42,7 +42,7 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
         input = [] if input is None else input
         result = []
 
-        if input:
+        if len(input):
             input = self.castOperand(input, SyncFHIRReference, "Patient")
             result = self.getResources(input, resourceType="Patient", raw=True)
 
@@ -62,6 +62,22 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
                 result = input.apply(
                     lambda x: self.searchResources(
                         searchParams=dict(searchParams, **{"_id": x.id}),
+                        resourceType="Patient",
+                        raw=True,
+                    )
+                )
+            elif self.resourceTypeIs("DiagnosticReport"):
+                result = input.apply(
+                    lambda x: self.searchResources(
+                        searchParams=dict(searchParams, **{"_id": x.subject.id}),
+                        resourceType="Patient",
+                        raw=True,
+                    )
+                )
+            elif self.resourceTypeIs("ImagingStudy"):
+                result = input.apply(
+                    lambda x: self.searchResources(
+                        searchParams=dict(searchParams, **{"_id": x.subject.id}),
                         resourceType="Patient",
                         raw=True,
                     )
@@ -106,7 +122,7 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
         input = [] if input is None else input
         result = []
 
-        if input:
+        if len(input):
             pass
         elif self.isFrame and not ignoreFrame:
             input = self
@@ -156,7 +172,7 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
         input = [] if input is None else input
         result = []
 
-        if input:
+        if len(input):
             pass
 
         elif self.isFrame and not ignoreFrame:

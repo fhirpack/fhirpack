@@ -8,6 +8,8 @@ from fhirdrill.extraction.imagingstudy import ExtractorImagingStudyMixin
 from fhirdrill.extraction.medicationadministration import (
     ExtractorMedicationAdministrationMixin,
 )
+from fhirdrill.extraction.endpoint import ExtractorEndpointMixin
+
 from fhirdrill.extraction.medicationrequest import ExtractorMedicationRequestMixin
 from fhirdrill.extraction.list import ExtractorListMixin
 
@@ -25,6 +27,7 @@ class ExtractorMixin(
     ExtractorMedicationAdministrationMixin,
     ExtractorListMixin,
     ExtractorImagingStudyMixin,
+    ExtractorEndpointMixin,
     # Extractor Mixin,
 ):
 

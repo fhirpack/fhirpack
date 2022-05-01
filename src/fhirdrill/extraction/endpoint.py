@@ -1,14 +1,18 @@
 import json
+import importlib
 from typing import Union
+
+import pandas as pd
 
 from fhirpy.lib import SyncFHIRResource
 from fhirpy.lib import SyncFHIRReference
 
 import fhirdrill.extraction.base as base
+import fhirdrill.utils as utils
 
 
-class ExtractorListMixin(base.BaseExtractorMixin):
-    def getLists(
+class ExtractorEndpointMixin(base.BaseExtractorMixin):
+    def getEndpoints(
         self,
         input: Union[
             list[str],
@@ -19,7 +23,6 @@ class ExtractorListMixin(base.BaseExtractorMixin):
         params: dict = None,
         ignoreFrame: bool = False,
     ):
-
         searchActive = False if searchParams is None else True
         searchParams = {} if searchParams is None else searchParams
         params = {} if params is None else params
@@ -27,38 +30,25 @@ class ExtractorListMixin(base.BaseExtractorMixin):
         result = []
 
         if len(input):
-            input = self.castOperand(input, SyncFHIRReference, "List")
-            result = self.getResources(input, resourceType="List", raw=True)
+            raise NotImplementedError
 
         elif self.isFrame and not ignoreFrame:
 
-            if self.resourceTypeIs("Patient"):
+            if self.resourceTypeIs("ImagingStudy"):
                 input = self.data
-
-                result = input.apply(
-                    lambda x: self.searchResources(
-                        searchParams=dict(searchParams, **{}),
-                        resourceType="List",
-                        raw=True,
-                    )
-                )
-                result = result.values
-
-            elif self.resourceTypeIs("List"):
-                input = self.data.values
-                result = self.getResources(input, resourceType="List", raw=True)
+                input = self.castOperand(input, SyncFHIRReference, "Endpoint")
+                result = self.getResources(input, resourceType="Endpoint", raw=True)
+                result = result
 
             else:
                 raise NotImplementedError
 
         elif searchActive:
-            result = self.searchResources(
-                searchParams=searchParams, resourceType="List", raw=True
-            )
+            raise NotImplementedError
 
         else:
             raise NotImplementedError
 
-        result = self.prepareOutput(result, "List")
+        result = self.prepareOutput(result)
 
         return result

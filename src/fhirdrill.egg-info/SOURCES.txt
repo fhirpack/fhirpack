@@ -34,6 +34,7 @@ docs/readme.md
 docs/requirements.txt
 docs/api/fhirdrill.rst
 docs/api/modules.rst
+examples/data/README.md
 logs/README.md
 src/fhirdrill/__init__.py
 src/fhirdrill/auth.py
@@ -77,6 +78,7 @@ src/fhirdrill/extraction/base_test.py
 src/fhirdrill/extraction/condition.py
 src/fhirdrill/extraction/condition_test.py
 src/fhirdrill/extraction/diagnosticreport.py
+src/fhirdrill/extraction/endpoint.py
 src/fhirdrill/extraction/episodeofcare.py
 src/fhirdrill/extraction/familymemberhistory.py
 src/fhirdrill/extraction/imagingstudy.py

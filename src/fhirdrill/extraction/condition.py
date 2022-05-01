@@ -1,3 +1,4 @@
+import fhirdrill.extraction.base as base
 import json
 from typing import Union
 import math
@@ -9,8 +10,6 @@ import numpy as np
 from tqdm import tqdm
 
 tqdm.pandas()
-
-import fhirdrill.extraction.base as base
 
 
 class ExtractorConditionMixin(base.BaseExtractorMixin):
@@ -32,7 +31,7 @@ class ExtractorConditionMixin(base.BaseExtractorMixin):
         input = [] if input is None else input
         result = []
 
-        if input:
+        if len(input):
             input = self.castOperand(input, SyncFHIRReference, "Condition")
             result = self.getResources(input, resourceType="Condition", raw=True)
 
