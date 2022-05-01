@@ -46,6 +46,7 @@ pipenv = "*"
 python-magic = "*"
 fhirdrill = {editable = true, path = "."}
 dicomweb-client = "*"
+markupsafe = "==2.0.1"
 
 [requires]
 python_version = "3.9.6"
