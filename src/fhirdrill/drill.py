@@ -17,7 +17,7 @@ import fhirdrill.extraction
 import fhirdrill.transformation
 import fhirdrill.load
 import fhirdrill.custom
-
+import fhirdrill.utils
 from fhirdrill.constants import CONFIG
 
 LOGGER = CONFIG.getLogger(__name__)
