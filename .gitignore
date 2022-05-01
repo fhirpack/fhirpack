@@ -27,7 +27,9 @@ scratch.py
 **/.ipynb_checkpoints
 
 **/*.log
+**/_build
 
 .tox
-build
+**/build
+**/_build
 dist

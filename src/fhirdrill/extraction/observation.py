@@ -26,7 +26,7 @@ class ExtractorObservationMixin(base.BaseExtractorMixin):
         input = [] if input is None else input
         result = []
 
-        if input:
+        if len(input):
             input = self.castOperand(input, SyncFHIRReference, "Observation")
             result = self.getResources(input, resourceType="Observation", raw=True)
 

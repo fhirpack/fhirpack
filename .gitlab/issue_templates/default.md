@@ -21,6 +21,6 @@
 
 /relate 
 
-/assign @jsalazar @trostalski 
+/assign @jdsalaro @trostalski 
 
-cc @trostalski @jsalazar
+cc @jdsalaro @trostalski 
