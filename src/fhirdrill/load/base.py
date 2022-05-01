@@ -152,7 +152,7 @@ class BaseLoaderMixin:
                 path = f"{paths[0]}.{fileType}"
 
                 if "/" in path:
-                    os.makedirs(path, exist_ok=True)
+                    os.makedirs(os.path.dirname(path), exist_ok=True)
                 else:
                     path = f"./{path}"
 
