@@ -211,13 +211,37 @@ class BaseTransformerMixin:
             list[SyncFHIRReference],
             list[SyncFHIRResource],
         ] = None,
+        resourceType: str = None,
+        lookUps: list = None,
+        mapped: bool = False,
+        includeMeta: bool = False,
+        includeEmpty: bool = False,
+        defaultLookUps: bool = True,
+        includeDuplicates: bool = False,
     ):
 
         input = [] if input is None else input
+        lookUps = [] if lookUps is None else lookUps
 
-        if len(input):
+        if defaultLookUps:
+            lookUps.extend(
+                [
+                    "display",
+                    "summary",
+                    "description",
+                    "title",
+                    "conclusion",
+                    "note",
+                    "text",
+                    "answer",
+                    "valueString",
+                    # "value",
+                ]
+            )
+
+        if input:
             input = self.castOperand(input, SyncFHIRResource)
-        
+
         elif self.isFrame:
             input = self.data
 
@@ -230,29 +254,22 @@ class BaseTransformerMixin:
 
         for resource in input:
 
-            resource.pop("meta", None)
+            if not includeMeta:
+                resource.pop("meta", None)
 
-            # TODO text representation is dependent of resource type, handle others and move to constants.py
-            result.append(
-                list(
-                    utils.valuesForKeys(
-                        resource,
-                        [
-                            "display",
-                            "summary",
-                            "description",
-                            "title",
-                            "conclusion",
-                            "note",
-                            "text",
-                            "answer",
-                            "valueString",
-                        ],
-                    )
-                )
-            )
+            if not mapped:
+                # TODO text representation is dependent of resource type, handle others and move to constants.py
+                result.extend(list(utils.valuesForKeys(resource, lookUps)))
+            else:
+                d = {}
+                for k, v in resource.items():
+                    d[k] = list(utils.valuesForKeys(v, lookUps))
+                result.append(d)
 
-        result = self.prepareOutput(result)
+            # if not includeDuplicates:
+            #     result = list(set(result))
+
+        result = self.prepareOutput([result])
 
         return result
 
