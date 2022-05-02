@@ -1,3 +1,4 @@
+from cgitb import lookup
 import json
 import importlib
 from typing import Union
@@ -8,6 +9,7 @@ from fhirpy.lib import SyncFHIRResource
 from fhirpy.lib import SyncFHIRReference
 import numpy as np
 import fhirdrill.utils as utils
+import json
 import fhirdrill.base
 
 # LOGGER = CONFIG.getLogger(__name__)
@@ -211,7 +213,7 @@ class BaseTransformerMixin:
             list[SyncFHIRReference],
             list[SyncFHIRResource],
         ] = None,
-        resourceType: str = None,
+        typeLookUps: list = None,
         lookUps: list = None,
         mapped: bool = False,
         includeMeta: bool = False,
@@ -219,10 +221,23 @@ class BaseTransformerMixin:
         defaultLookUps: bool = True,
         includeDuplicates: bool = False,
     ):
+        """extract Text from resources by lookups.
+
+        Args:
+            input: Data to extract text from.
+            resourceType: The type is used the include type specific lookups.
+            lookUps (list, optional): List of lookups to include in the text extraction.
+            mapped (bool, optional): Store text labels as dictionary keys.
+            includeMeta (bool, optional): Include the resource meta data.
+            includeEmpty (bool, optional): Include empty Text for labels.
+            defaultLookUps (bool, optional): Include the list of default Lookups.
+            includeDuplicates (bool, optional): Include duplicated Test string.
+        """
 
         input = [] if input is None else input
         lookUps = [] if lookUps is None else lookUps
 
+        # default values that are optionally included in the text lookup
         if defaultLookUps:
             lookUps.extend(
                 [
@@ -235,9 +250,15 @@ class BaseTransformerMixin:
                     "text",
                     "answer",
                     "valueString",
-                    # "value",
+                    "value",
                 ]
             )
+
+        if typeLookUps:
+            # the file contains resource specific look ups
+            with open(f"{utils.getInstallationPath()}/../../assets/lookUps.json") as f:
+                resourceLookUps = json.load(f)
+                [lookUps.extend(resourceLookUps[t]) for t in typeLookUps]
 
         if input:
             input = self.castOperand(input, SyncFHIRResource)
@@ -260,14 +281,19 @@ class BaseTransformerMixin:
             if not mapped:
                 # TODO text representation is dependent of resource type, handle others and move to constants.py
                 result.extend(list(utils.valuesForKeys(resource, lookUps)))
+                if not includeDuplicates:
+                    result = list(set(result))
+
             else:
+                # text labels are stored as dictionary keys
                 d = {}
                 for k, v in resource.items():
                     d[k] = list(utils.valuesForKeys(v, lookUps))
+                    if not includeDuplicates:
+                        d[k] = list(set(d[k]))
+                    if not includeEmpty and not d[k]:
+                        d.pop(k)
                 result.append(d)
-
-            # if not includeDuplicates:
-            #     result = list(set(result))
 
         result = self.prepareOutput([result])
 

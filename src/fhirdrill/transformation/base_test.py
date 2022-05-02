@@ -1,31 +1,28 @@
 import pytest as pt
 import fhirdrill as fd
 
-@pt.mark.reqdocker
+
+# @pt.mark.reqdocker
 @pt.mark.parametrize("input", ["Frame", ["Patient/1"], "Reference", "Resource"])
-def test_gatherText(input, drillDocker, patientFrame, patientReference, patientResource):
+def test_gatherText(input, drillEnv, patientFrame, patientReference, patientResource):
 
     expected = [
-        "White",
-        "White",
+        "S99942380",
+        "M",
+        "X45815551X",
+        "Medical Record Number",
+        "Social Security Number",
+        "999-22-1962",
         "Not Hispanic or Latino",
-        "Not Hispanic or Latino",
+        "White",
+        "Passport Number",
+        "English",
         "Aiko Jacobs",
-        "Medical Record Number",
-        "Medical Record Number",
-        "Social Security Number",
-        "Social Security Number",
+        "e925b0f3-8006-43f6-aa31-94bd215e55e7",
         "Driver's License",
-        "Driver's License",
-        "Passport Number",
-        "Passport Number",
-        "M",
-        "M",
-        "English",
-        "English",
+        "555-978-4581",
     ]
-
-    d = drillDocker
+    d = drillEnv
     result = None
     if input == "Frame":
         result = patientFrame[:1].gatherText().data[0]
@@ -38,4 +35,4 @@ def test_gatherText(input, drillDocker, patientFrame, patientReference, patientR
     if not input == "Frame":
         result = d.gatherText(input).data[0]
 
-    assert result == expected
+    assert set(result) == set(expected)
