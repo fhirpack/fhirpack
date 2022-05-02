@@ -1,0 +1,3 @@
+{
+    "Patient": ["city", "state", "country", "given", "family"]
+}
