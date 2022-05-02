@@ -206,31 +206,31 @@ class BaseTransformerMixin:
 
     def gatherText(
         self,
-        recursive: bool = False,
-        references: Union[
+        input: Union[
             list[str],
             list[SyncFHIRReference],
             list[SyncFHIRResource],
         ] = None,
     ):
 
-        if references:
-            references = self.prepareReferences(references)
+        input = [] if input is None else input
 
-        if not references and self.isFrame:
-            references = [e.to_reference() for e in self.data]
-        elif references and not self.isFrame:
-            pass
-        elif references and self.isFrame:
+        if len(input):
+            input = self.castOperand(input, SyncFHIRResource)
+        
+        elif self.isFrame:
+            input = self.data
+
+        elif input and self.isFrame:
             # TODO raise error references and isFrame not allowed
             # TODO raise in other similar methods
             raise NotImplementedError
 
         result = []
-        for ref in references:
 
-            resource = ref.to_resource()
-            resource.pop("meta")
+        for resource in input:
+
+            resource.pop("meta", None)
 
             # TODO text representation is dependent of resource type, handle others and move to constants.py
             result.append(
@@ -252,7 +252,9 @@ class BaseTransformerMixin:
                 )
             )
 
-        return pd.DataFrame(pd.Series(result, dtype="object"), columns=["text"])
+        result = self.prepareOutput(result)
+
+        return result
 
     def gatherKeys(
         self,

@@ -14,6 +14,8 @@ logger = logging.getLogger(__name__)
 
 def valuesForKeys(data: Union[dict, list], lookup_keys: list):
 
+    lookup_keys = list(set(lookup_keys))
+
     if isinstance(data, dict):
         for k, v in data.items():
             if k in lookup_keys and not isinstance(v, list) and not isinstance(v, dict):
