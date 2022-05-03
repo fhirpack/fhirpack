@@ -1,16 +1,8 @@
 from fhirdrill.auth import AUTH_PARAMS_PRESETS
 from fhirdrill.auth import Auth
-import logging
-from datetime import datetime
-import json
-import base64
-import importlib
-from typing import Union
-import requests
 from pandas import DataFrame
-import pandas as pd
 from fhirpy import SyncFHIRClient
-import fhirpy
+import warnings
 
 import fhirdrill.base
 import fhirdrill.extraction
@@ -30,10 +22,17 @@ class Drill(
     fhirdrill.load.LoaderMixin,
     fhirdrill.custom.PluginMixin,
 ):
-    def __init__(self, client=None, envFile=None, authMethod=None, authParams=None):
+    def __init__(
+        self,
+        client=None,
+        envFile=None,
+        unconnected=False,
+        authMethod=None,
+        authParams=None,
+    ):
 
         self.logger = CONFIG.getLogger(__name__)
-        self.logger.info("drill initialization started")
+        self.logger.info("Drill initialization started.")
 
         if envFile:
             CONFIG.loadConfig(envFile)
@@ -42,8 +41,16 @@ class Drill(
 
         if client:
             self.client = client
+        elif unconnected:
+            self.client = None
         else:
             self.__setupClient(authMethod=authMethod, authParams=authParams)
+        try:
+            self.client._do_request("get", self.client.url + "/Patient")
+        except:
+            warnings.warn("Drill is not connected to server.")
+            self.logger.info("Drill is not connected to server.")
+            self.client = SyncFHIRClient("")
 
         self.logger.info("drill initialization finished")
 
@@ -80,7 +87,9 @@ class Drill(
         results = []
         # TODO write function in utils to retrieve current installation path
         # TODO move path with others to common location, CONFIG?
-        with open(f"{fhirdrill.utils.getInstallationPath()}/../../assets/supported.list") as f:
+        with open(
+            f"{fhirdrill.utils.getInstallationPath()}/../../assets/supported.list"
+        ) as f:
             while resource := f.readline().strip():
                 count = self.client.execute(
                     # TODO handle and test when slash at the end of APIBASE in .env and without
