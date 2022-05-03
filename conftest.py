@@ -67,8 +67,7 @@ def drillUnconnected(request):
 
     request.addfinalizer(globalSessionFixtureFin)
 
-    client = fp.SyncFHIRClient("")
-    drill = fd.Drill(client)
+    drill = fd.Drill(unconnected=True)
     return drill
 
 
