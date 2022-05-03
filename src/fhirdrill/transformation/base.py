@@ -279,10 +279,12 @@ class BaseTransformerMixin:
                 resource.pop("meta", None)
 
             if not mapped:
+                text = []
                 # TODO text representation is dependent of resource type, handle others and move to constants.py
-                result.extend(list(utils.valuesForKeys(resource, lookUps)))
+                text.append(list(utils.valuesForKeys(resource, lookUps)))
                 if not includeDuplicates:
-                    result = list(set(result))
+                    text = list(set(utils.flattenList(text)))
+                result.append(text)
 
             else:
                 # text labels are stored as dictionary keys
@@ -293,9 +295,9 @@ class BaseTransformerMixin:
                         d[k] = list(set(d[k]))
                     if not includeEmpty and not d[k]:
                         d.pop(k)
-                result.append(d)
+                result.append([d])
 
-        result = self.prepareOutput([result])
+        result = self.prepareOutput(result)
 
         return result
 
