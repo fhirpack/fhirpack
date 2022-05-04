@@ -21,8 +21,6 @@ class PluginBaseLoaderMixin:
         params: dict = None,
         ignoreFrame: bool = False,
     ):
-        searchActive = False if searchParams is None else True
-        searchParams = {} if searchParams is None else searchParams
         params = {} if params is None else params
         input = [] if input is None else input
         result = []
@@ -39,28 +37,14 @@ class PluginBaseLoaderMixin:
             # TODO your code for data coming in as a frame
             if self.resourceTypeIs("Patient"):
                 input = self.data
-
-                result = input.apply(
-                    lambda x: self.searchResources(
-                        searchParams=dict(searchParams, **{"replace": x.id}),
-                        resourceType="replace",
-                        raw=True,
-                    )
-                )
-                result = result.values
+                result = input.values
 
             elif self.resourceTypeIs("replace"):
-                input = self.data.values
-                result = self.getResources(input, resourceType="replace", raw=True)
+                input = self.data
+                result = input.values
 
             else:
                 raise NotImplementedError
-
-        elif searchActive:
-            # TODO your code for searches
-            result = self.searchResources(
-                searchParams=searchParams, resourceType="replace", raw=True
-            )
 
         else:
             raise NotImplementedError

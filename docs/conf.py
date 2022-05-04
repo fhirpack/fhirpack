@@ -142,7 +142,7 @@ release = version
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", ".venv", "_test","test_"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", ".venv", "_test", "test_"]
 
 # The reST default role (used for this markup: `text`) to use for all documents.
 # default_role = None
@@ -304,11 +304,13 @@ intersphinx_mapping = {
 
 print(f"loading configurations for {project} {version} ...", file=sys.stderr)
 
+
 def autodoc_skip_member_handler(app, what, name, obj, skip, options):
     # Basic approach; you might want a regex instead
-    return name.startswith("test_") or name.endswith("_test") 
+    return name.startswith("test_") or name.endswith("_test")
+
 
 # Automatically called by sphinx at startup
 def setup(app):
     # Connect the autodoc-skip-member event from apidoc to the callback
-    app.connect('autodoc-skip-member', autodoc_skip_member_handler)
+    app.connect("autodoc-skip-member", autodoc_skip_member_handler)
