@@ -12,7 +12,7 @@ import fhirdrill as fd
 logger = logging.getLogger(__name__)
 
 
-def valuesForKeys(data: Union[dict, list], lookup_keys: list):
+def valuesForKeys(data: Union[dict, list], lookupKeys: list):
 
     lookup_keys = list(set(lookupKeys))
 
