@@ -25,7 +25,7 @@ def valuesForKeys(data: Union[dict, list], lookup_keys: list):
 
     elif isinstance(data, list):
         for item in data:
-            yield from valuesForKeys(item, lookup_keys)
+            yield from valuesForKeys(item, lookupKeys)
 
 
 def keys(obj, prefix=""):
