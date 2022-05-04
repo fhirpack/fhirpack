@@ -5,7 +5,7 @@ services:
   r4: # ------------------------------------------------------------------------
     image: smartonfhir/hapi-5:r4-synthea
     environment:
-      PORT: 32112
+      PORT: 42112
       HOST: 127.0.0.1
     ports:
       - 127.0.0.1:42112:8080

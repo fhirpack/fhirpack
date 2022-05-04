@@ -47,8 +47,9 @@ class Config:
             level=logging.INFO,
         )
 
-    def set(self, key, value):
-        dotenv.set_key(self.__DOTENVPATH, key, value)
+    def set(self, key, value, saveToEnv=False):
+        if saveToEnv:
+            dotenv.set_key(self.__DOTENVPATH, key, value)
         return self.__CONFIG.update({key: value})
 
     def get(self, key):

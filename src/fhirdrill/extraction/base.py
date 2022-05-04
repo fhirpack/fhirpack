@@ -103,6 +103,8 @@ SEARCH_PARAMS = {
         "_include",
         "code",
         "_count",
+        "__count",
+        "count",
         "identifier",
         "patient",
     ],
@@ -117,6 +119,7 @@ SEARCH_PARAMS = {
         "family",
         "name",
         "link",
+        "link:missing",
     ],
     "ImagingStudy": [
         "_content",
@@ -126,6 +129,7 @@ SEARCH_PARAMS = {
         "code",
         "identifier",
         "subject",
+        "endpoint:missing",
         "shipProcedureCode",
     ],
     "Procedure": [
@@ -202,7 +206,7 @@ class BaseExtractorMixin:
         elif searchActive:
             raise NotImplementedError
 
-        for element in tqdm(input, desc="RETRIEVAL > "):
+        for element in tqdm(input, desc=f"GET[{resourceType}]> "):
             element = self.castOperand(element, SyncFHIRResource, resourceType)
             result.extend(element)
 
@@ -249,8 +253,7 @@ class BaseExtractorMixin:
             pass
 
         resourcePageSize = 100
-  
-        
+
         search = (
             self.client.resources(resourceType)
             .search(**searchParams)
@@ -266,7 +269,7 @@ class BaseExtractorMixin:
                 if not resourceCount:
                     resourceCount = search.count()
 
-                for element in tqdm(search, desc="SEARCH > ", total=resourceCount):
+                for element in tqdm(search, desc=f"SEARCH[{resourceType}]> ", total=resourceCount):
                     result.append(element)
             except:
                 # server doesn't support _total parameter nor returns total
@@ -430,7 +433,7 @@ class BaseExtractorMixin:
         if resultInCol:
             result = self.assign(**{resultInCol: results})
         else:
-            result = self.prepareOutput(results, "binary")
+            result = self.prepareOutput(results, "Binary")
         return result
 
     def getFromFiles(self, input: list[str]):

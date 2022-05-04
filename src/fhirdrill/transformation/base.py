@@ -287,7 +287,8 @@ class BaseTransformerMixin:
             e = e.serialize()
             result.append(list(utils.keys(e)))
 
-        return pd.DataFrame(pd.Series(result, dtype="object"), columns=["data"])
+        # return pd.DataFrame(pd.Series(result, dtype="object"), columns=["data"])
+        return self.prepareOutput(result, "Invalid")
 
     def gatherValuesForKeys(
         self,
@@ -323,7 +324,8 @@ class BaseTransformerMixin:
             e = e.serialize()
             result.append(list(utils.valuesForKeys(e, keys)))
 
-        return pd.DataFrame(pd.Series(result, dtype="object"), columns=["values"])
+        # return pd.DataFrame(pd.Series(result, dtype="object"), columns=["values"])
+        return self.prepareOutput(result, "Invalid")
 
     def gatherDates(
         self,

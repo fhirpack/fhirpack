@@ -48,7 +48,7 @@ def test_set(envFile):
 
     config = Config()
     config.loadConfig(envFile)
-    config.set("test_two", "2")
+    config.set("test_two", "2", saveToEnv=True)
 
     assert "test_two" in dotenv.dotenv_values(envFile)
 

@@ -19,6 +19,7 @@ class PluginSampleExtractorMixin(base.PluginBaseExtractorMixin):
             list[SyncFHIRReference],
             list[SyncFHIRResource],
         ] = None,
+        searchParams: dict = None,
         params: dict = None,
         ignoreFrame: bool = False,
     ):
