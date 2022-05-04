@@ -89,11 +89,11 @@ def guessBufferMIMEType(bytes: bytes):
 
 
 def flattenList(input: list):
-    if input == []:
-        return input
-    if isinstance(input[0], list):
-        return flattenList(input[0]) + flattenList(input[1:])
-    return input[:1] + flattenList(input[1:])
+    for i in input:
+        if isinstance(i, list):
+            yield from flattenList(i)
+        else:
+            yield i
 
 
 # TODO decide whether we need an alternative not in Frame/Drill
