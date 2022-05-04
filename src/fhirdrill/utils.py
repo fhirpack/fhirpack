@@ -21,7 +21,7 @@ def valuesForKeys(data: Union[dict, list], lookup_keys: list):
             if k in lookup_keys and not isinstance(v, list) and not isinstance(v, dict):
                 yield v
             else:
-                yield from valuesForKeys(v, lookup_keys)
+                yield from valuesForKeys(v, lookupKeys)
 
     elif isinstance(data, list):
         for item in data:
