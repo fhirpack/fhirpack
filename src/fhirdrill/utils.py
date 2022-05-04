@@ -2,9 +2,11 @@ import logging
 import dotenv
 import requests
 import os
+from pathlib import Path
 from enum import Enum
 from typing import Union
 import magic
+
 
 from fhirpy import SyncFHIRClient
 import fhirdrill as fd
@@ -43,7 +45,7 @@ def keys(obj, prefix=""):
 
 
 def getInstallationPath():
-    return os.path.dirname(fd.__file__)
+    return Path(fd.__file__).parent
 
 
 def clientFromEnv():
