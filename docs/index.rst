@@ -1,9 +1,9 @@
-.. FHIR Drill documentation master file, created by
+.. FHIR PACK documentation master file, created by
    sphinx-quickstart on Fri Apr 29 01:31:28 2022.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to FHIR Drill's documentation!
+Welcome to FHIR PACK's documentation!
 ======================================
 
 .. toctree::
