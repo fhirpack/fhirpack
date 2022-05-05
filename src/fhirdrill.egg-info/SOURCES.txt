@@ -82,6 +82,7 @@ src/fhirdrill/data/profiles.list
 src/fhirdrill/data/resources.list
 src/fhirdrill/data/supported.list
 src/fhirdrill/data/config/hapi.fhir.org.env
+src/fhirdrill/data/config/test.fhir.org.env
 src/fhirdrill/data/logs/README.md
 src/fhirdrill/extraction/__init__.py
 src/fhirdrill/extraction/base.py
