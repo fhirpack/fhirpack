@@ -197,7 +197,7 @@ class BaseExtractorMixin:
         elif searchActive:
             raise NotImplementedError
 
-        for element in tqdm(input, desc=f"GET[{resourceType}]> "):
+        for element in tqdm(input, desc=f"GET[{resourceType}]> ", leave=False):
             element = self.castOperand(element, SyncFHIRResource, resourceType)
             result.extend(element)
 
@@ -261,7 +261,7 @@ class BaseExtractorMixin:
                     resourceCount = search.count()
 
                 for element in tqdm(
-                    search, desc=f"SEARCH[{resourceType}]> ", total=resourceCount
+                    search, desc=f"SEARCH[{resourceType}]> ", total=resourceCount, leave=False
                 ):
                     result.append(element)
             except:
