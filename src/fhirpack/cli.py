@@ -2,8 +2,8 @@ import argparse
 import logging
 import sys
 import click
-import fhirpack as fpack
-import fhirpy as fp
+import fhirpack as fp
+import fhirpy
 import json
 import warnings
 
@@ -93,7 +93,7 @@ def main(source, params, operation, destination, verbose):
     # build client from source argument
     # if not source argument is passed, .env.example is used
     if not source:
-        pack = fpack.PACK()
+        pack = fp.PACK()
 
     # only json files are supported as source
     elif "json" in source:
@@ -101,12 +101,12 @@ def main(source, params, operation, destination, verbose):
             "When operating on Files, only transformation functions will work."
         )
         fromFile = True
-        client = fp.SyncFHIRClient("")
-        pack = fpack.PACK(client)
+        client = fhirpy.SyncFHIRClient("")
+        pack = fp.PACK(client)
         source = source.replace(",", "").split(" ")
     else:
-        client = fp.SyncFHIRClient(source)
-        pack = fpack.PACK(client)
+        client = fhirpy.SyncFHIRClient(source)
+        pack = fp.PACK(client)
 
     result = None
 

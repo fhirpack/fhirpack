@@ -6,8 +6,8 @@
 
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
-import fhirpy as fp
-import fhirpack as fpack
+import fhirpy
+import fhirpack as fp
 import tests as ts
 import pytest as pt
 import requests
@@ -54,7 +54,7 @@ def packUnconnected(request):
 
     ts.debug("global session pack")
     # session, apiUrl = remoteFhirServer
-    # client = fp.SyncFHIRClient(f"{apiUrl}hapi-fhir-jpaserver/fhir")
+    # client = fhirpy.SyncFHIRClient(f"{apiUrl}hapi-fhir-jpaserver/fhir")
 
     def globalSessionFixtureFin():
         ts.debug("global session pack Teardown")
@@ -62,7 +62,7 @@ def packUnconnected(request):
 
     request.addfinalizer(globalSessionFixtureFin)
 
-    pack = fpack.PACK(unconnected=True)
+    pack = fp.PACK(unconnected=True)
     return pack
 
 
@@ -71,7 +71,7 @@ def packEnv(request):
 
     ts.debug("global session pack")
     # session, apiUrl = remoteFhirServer
-    # client = fp.SyncFHIRClient(f"{apiUrl}hapi-fhir-jpaserver/fhir")
+    # client = fhirpy.SyncFHIRClient(f"{apiUrl}hapi-fhir-jpaserver/fhir")
 
     def globalSessionFixtureFin():
         ts.debug("global session pack Teardown")
@@ -79,7 +79,7 @@ def packEnv(request):
 
     request.addfinalizer(globalSessionFixtureFin)
 
-    pack = fpack.PACK(envFile=".env.example")
+    pack = fp.PACK(envFile=".env.example")
     return pack
 
 
@@ -95,7 +95,7 @@ def packDocker(request, fhirServerDocker):
 
     request.addfinalizer(globalSessionFixtureFin)
 
-    return fpack.PACK(f"{apiUrl}hapi-fhir-jpaserver/fhir")
+    return fp.PACK(f"{apiUrl}hapi-fhir-jpaserver/fhir")
 
 
 @pt.fixture(scope="function")
@@ -104,7 +104,7 @@ def functionData(request):
     # behaves differently on linux and mac, src. prepended on mac
     # moduleName = request.module.__name__
 
-    installationPath = os.path.dirname(fpack.__file__)
+    installationPath = os.path.dirname(fp.__file__)
     installationPath = str(Path(installationPath).parent.absolute())
 
     testSessionPath = str(request.session.path)

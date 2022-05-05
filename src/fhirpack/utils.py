@@ -9,7 +9,7 @@ import magic
 
 
 from fhirpy import SyncFHIRClient
-import fhirpack as fpack
+import fhirpack as fp
 
 logger = logging.getLogger(__name__)
 
@@ -45,7 +45,7 @@ def keys(obj, prefix=""):
 
 
 def getInstallationPath():
-    return Path(fpack.__file__).parent
+    return Path(fp.__file__).parent
 
 
 def clientFromEnv():

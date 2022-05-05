@@ -174,8 +174,8 @@ https://peps.python.org/pep-0440/#final-releases
 ### Python with .env File
 
 ```
-client=fpack.utils.clientFromEnv()
-pack= fpack.pack.PACK(client)
+client=fp.utils.clientFromEnv()
+pack= fp.pack.PACK(client)
 ```
 
 ### Python with Manual Client Definition
@@ -183,7 +183,7 @@ pack= fpack.pack.PACK(client)
 ```
 import fhirpy
 client = fhirpy.SyncFHIRClient("http://127.0.0.1:32112/hapi-fhir-jpaserver/fhir/")
-pack  = fpack.pack.PACK(client)
+pack  = fp.pack.PACK(client)
 pack.getPatient('1').to_resource().serialize()
 ```
 
