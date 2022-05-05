@@ -15,6 +15,7 @@ typeguard
 pipenv
 python-magic
 dicomweb-client
+markupsafe==2.0.1
 
 [testing]
 setuptools

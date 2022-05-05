@@ -1,15 +1,25 @@
-from fhirdrill.auth import AUTH_PARAMS_PRESETS
-from fhirdrill.auth import Auth
+
+import logging
+from datetime import datetime
+import json
+import base64
+import importlib
+from typing import Union
+import requests
+
 from pandas import DataFrame
 from fhirpy import SyncFHIRClient
 import warnings
+
+from fhirdrill.auth import AUTH_PARAMS_PRESETS
+from fhirdrill.auth import Auth
 
 import fhirdrill.base
 import fhirdrill.extraction
 import fhirdrill.transformation
 import fhirdrill.load
 import fhirdrill.custom
-import fhirdrill.utils
+import fhirdrill.utils as utils
 from fhirdrill.constants import CONFIG
 
 LOGGER = CONFIG.getLogger(__name__)
@@ -24,6 +34,7 @@ class Drill(
 ):
     def __init__(
         self,
+        apiBase=None,
         client=None,
         envFile=None,
         unconnected=False,
@@ -44,7 +55,9 @@ class Drill(
         elif unconnected:
             self.client = None
         else:
-            self.__setupClient(authMethod=authMethod, authParams=authParams)
+            self.__setupClient(
+                apiBase=apiBase, authMethod=authMethod, authParams=authParams
+            )
         try:
             self.client._do_request("get", f"{self.client.url}/metadata")
         except:
@@ -54,7 +67,7 @@ class Drill(
 
         self.logger.info("drill initialization finished")
 
-    def __setupClient(self, authMethod=None, authParams=None):
+    def __setupClient(self, apiBase=None, authMethod=None, authParams=None):
 
         if authMethod:
             CONFIG.set("AUTH_METHOD", authMethod)
@@ -80,6 +93,9 @@ class Drill(
         else:
             raise NotImplementedError
 
+        if apiBase:
+            CONFIG.set("APIBASE", apiBase)
+
         self.client = SyncFHIRClient(CONFIG.get("APIBASE"), authorization=authorization)
 
     def countServerResources(self):
@@ -87,9 +103,7 @@ class Drill(
         results = []
         # TODO write function in utils to retrieve current installation path
         # TODO move path with others to common location, CONFIG?
-        with open(
-            f"{fhirdrill.utils.getInstallationPath()}/../../assets/supported.list"
-        ) as f:
+        with open(f"{utils.getInstallationPath()}/data/supported.list") as f:
             while resource := f.readline().strip():
                 count = self.client.execute(
                     # TODO handle and test when slash at the end of APIBASE in .env and without

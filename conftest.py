@@ -90,7 +90,6 @@ def drillDocker(request, fhirServerDocker):
     ts.debug("global session localDrill")
 
     session, apiUrl = fhirServerDocker
-    client = fp.SyncFHIRClient(f"{apiUrl}hapi-fhir-jpaserver/fhir")
 
     def globalSessionFixtureFin():
         ts.debug("global session confTeardown")
@@ -98,7 +97,7 @@ def drillDocker(request, fhirServerDocker):
 
     request.addfinalizer(globalSessionFixtureFin)
 
-    return fd.Drill(client)
+    return fd.Drill(f"{apiUrl}hapi-fhir-jpaserver/fhir")
 
 
 @pt.fixture(scope="function")

@@ -2,9 +2,11 @@ import logging
 import dotenv
 import requests
 import os
+from pathlib import Path
 from enum import Enum
 from typing import Union
 import magic
+
 
 from fhirpy import SyncFHIRClient
 import fhirdrill as fd
@@ -12,20 +14,20 @@ import fhirdrill as fd
 logger = logging.getLogger(__name__)
 
 
-def valuesForKeys(data: Union[dict, list], lookup_keys: list):
+def valuesForKeys(data: Union[dict, list], lookupKeys: list):
 
-    lookup_keys = list(set(lookup_keys))
+    lookup_keys = list(set(lookupKeys))
 
     if isinstance(data, dict):
         for k, v in data.items():
             if k in lookup_keys and not isinstance(v, list) and not isinstance(v, dict):
                 yield v
             else:
-                yield from valuesForKeys(v, lookup_keys)
+                yield from valuesForKeys(v, lookupKeys)
 
     elif isinstance(data, list):
         for item in data:
-            yield from valuesForKeys(item, lookup_keys)
+            yield from valuesForKeys(item, lookupKeys)
 
 
 def keys(obj, prefix=""):
@@ -43,7 +45,7 @@ def keys(obj, prefix=""):
 
 
 def getInstallationPath():
-    return os.path.dirname(fd.__file__)
+    return Path(fd.__file__).parent
 
 
 def clientFromEnv():
