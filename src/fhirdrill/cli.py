@@ -1,4 +1,3 @@
-import argparse
 import logging
 import sys
 import click
@@ -6,6 +5,7 @@ import fhirdrill as fd
 import fhirpy as fp
 import json
 import warnings
+import os
 
 from fhirdrill import __version__
 
@@ -53,6 +53,13 @@ def setupLogging():
     help="URL of the FHIR server or path to json files.",
 )
 @click.option(
+    "-e",
+    "--environment",
+    type=str,
+    default=None,
+    help="Path to Dotenv file containing configurations.",
+)
+@click.option(
     "-d",
     "--destination",
     type=str,
@@ -76,6 +83,13 @@ def setupLogging():
     multiple=True,
 )
 @click.option(
+    "-a",
+    "--all",
+    default=False,
+    help="Extract all present resources.",
+    is_flag=True,
+)
+@click.option(
     "-v",
     "--verbose",
     default=False,
@@ -83,30 +97,36 @@ def setupLogging():
     show_default=True,
     is_flag=True,
 )
-def main(source, params, operation, destination, verbose):
+def main(source, environment, params, operation, destination, verbose):
 
     setupLogging()
     info("execution started")
 
     fromFile = False
+    supportedInputFiles = ["txt", "json"]
 
     # build client from source argument
     # if not source argument is passed, .env.example is used
+
+    if environment:
+        envFile = environment
+    else:
+        envFile = None
+
     if not source:
-        drill = fd.Drill()
+        drill = fd.Drill(envFile=envFile)
 
     # only json files are supported as source
-    elif "json" in source:
+    elif source.split(".")[-1] in supportedInputFiles:
         warnings.warn(
             "When operating on Files, only transformation functions will work."
         )
         fromFile = True
-        client = fp.SyncFHIRClient("")
         drill = fd.Drill(client)
         source = source.replace(",", "").split(" ")
     else:
         client = fp.SyncFHIRClient(source)
-        drill = fd.Drill(client)
+        drill = fd.Drill(client=client, envFile=envFile)
 
     result = None
 
@@ -120,8 +140,6 @@ def main(source, params, operation, destination, verbose):
     # execute operations
     if operation:
         if fromFile:
-            # this drill does not have client connection
-            # only transformations can be performed
             drill = drill.getFromFiles(source)
 
         for op in operation:
@@ -134,7 +152,10 @@ def main(source, params, operation, destination, verbose):
             drillEquivalentFunc = getattr(drill, desiredOperation.pop(0))
 
             # exectue method, with associated search parameters
-            result = drillEquivalentFunc(desiredOperation, **searchParams)
+            if desiredOperation:
+                result = drillEquivalentFunc(desiredOperation, **searchParams)
+            else:
+                result = drillEquivalentFunc(**searchParams)
             drill = result
 
     if destination:
