@@ -260,7 +260,9 @@ class BaseExtractorMixin:
                 if not resourceCount:
                     resourceCount = search.count()
 
-                for element in tqdm(search, desc=f"SEARCH[{resourceType}]> ", total=resourceCount):
+                for element in tqdm(
+                    search, desc=f"SEARCH[{resourceType}]> ", total=resourceCount
+                ):
                     result.append(element)
             except:
                 # server doesn't support _total parameter nor returns total

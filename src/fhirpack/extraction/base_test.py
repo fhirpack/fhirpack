@@ -74,9 +74,7 @@ def test_searchResources_patientId(searchParamsId, packDocker):
 def test_getFromFiles_singleResource(packDocker):
 
     d = packDocker
-    dataPath = (
-        f"{ts.TEST_DATA_DIR}/fhirpack.extraction.base.getFromFiles.patient.00.in"
-    )
+    dataPath = f"{ts.TEST_DATA_DIR}/fhirpack.extraction.base.getFromFiles.patient.00.in"
     p = d.getFromFiles([dataPath]).data[0]
 
     checks = {
