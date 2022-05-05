@@ -9,14 +9,13 @@ include CONTRIBUTING.rst
 # include docs in the final package
 graft docs
 
-# include tests/, tests_* and *_tests so
-# pytest ran via tox can discover the tests
-
 #prune tests
 #global-exclude conftest.py
 #global-exclude test_*.py
 #global-exclude *_test.py
 
+# include tests/, tests_* and *_tests so
+# pytest ran via tox can discover the tests
 graft tests
 global-include conftest.py
 global-include *_test.py
@@ -29,8 +28,9 @@ global-exclude __pycache__
 global-exclude *.ipynb
 
 prune .*
+exclude *.dot
 exclude *.svg
 exclude *.png
 
 include .env.example
-
+graft src
