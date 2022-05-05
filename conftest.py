@@ -4,20 +4,18 @@
     - https://docs.pytest.org/en/stable/writing_plugins.html
 """
 
-pytest_plugins = ["docker_compose"]
-
-import re
-import os
-from pathlib import Path
-import requests
-
-import pytest as pt
-import tests as ts
-import fhirdrill as fd
-import fhirpy as fp
-
-from urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+import fhirpy
+import fhirpack as fp
+import tests as ts
+import pytest as pt
+import requests
+from pathlib import Path
+import os
+import re
+
+pytest_plugins = ["docker_compose"]
 
 
 # this is an example fixture with session scope,
@@ -52,42 +50,42 @@ def fhirServerDocker(session_scoped_container_getter):
 
 
 @pt.fixture(scope="session")
-def drillUnconnected(request):
+def packUnconnected(request):
 
-    ts.debug("global session drill")
+    ts.debug("global session pack")
     # session, apiUrl = remoteFhirServer
-    # client = fp.SyncFHIRClient(f"{apiUrl}hapi-fhir-jpaserver/fhir")
+    # client = fhirpy.SyncFHIRClient(f"{apiUrl}hapi-fhir-jpaserver/fhir")
 
     def globalSessionFixtureFin():
-        ts.debug("global session drill Teardown")
+        ts.debug("global session pack Teardown")
         pass
 
     request.addfinalizer(globalSessionFixtureFin)
 
-    drill = fd.Drill(unconnected=True)
-    return drill
+    pack = fp.PACK(unconnected=True)
+    return pack
 
 
 @pt.fixture(scope="session")
-def drillEnv(request):
+def packEnv(request):
 
-    ts.debug("global session drill")
+    ts.debug("global session pack")
     # session, apiUrl = remoteFhirServer
-    # client = fp.SyncFHIRClient(f"{apiUrl}hapi-fhir-jpaserver/fhir")
+    # client = fhirpy.SyncFHIRClient(f"{apiUrl}hapi-fhir-jpaserver/fhir")
 
     def globalSessionFixtureFin():
-        ts.debug("global session drill Teardown")
+        ts.debug("global session pack Teardown")
         pass
 
     request.addfinalizer(globalSessionFixtureFin)
 
-    drill = fd.Drill(envFile=".env.example")
-    return drill
+    pack = fp.PACK(envFile=".env.example")
+    return pack
 
 
 @pt.fixture(scope="session")
-def drillDocker(request, fhirServerDocker):
-    ts.debug("global session localDrill")
+def packDocker(request, fhirServerDocker):
+    ts.debug("global session localPACK")
 
     session, apiUrl = fhirServerDocker
 
@@ -97,7 +95,7 @@ def drillDocker(request, fhirServerDocker):
 
     request.addfinalizer(globalSessionFixtureFin)
 
-    return fd.Drill(f"{apiUrl}hapi-fhir-jpaserver/fhir")
+    return fp.PACK(f"{apiUrl}hapi-fhir-jpaserver/fhir")
 
 
 @pt.fixture(scope="function")
@@ -106,17 +104,17 @@ def functionData(request):
     # behaves differently on linux and mac, src. prepended on mac
     # moduleName = request.module.__name__
 
-    installationPath = os.path.dirname(fd.__file__)
+    installationPath = os.path.dirname(fp.__file__)
     installationPath = str(Path(installationPath).parent.absolute())
 
     testSessionPath = str(request.session.path)
-    # /home/jsalazar/git/projects/lib-fhirdrill
+    # /home/jsalazar/git/projects/lib-fhirpack
 
     testPath = str(request.fspath)
-    # /home/jsalazar/git/projects/lib-fhirdrill/src/fhirdrill/utils_test.p
+    # /home/jsalazar/git/projects/lib-fhirpack/src/fhirpack/utils_test.p
 
     testPath = testPath.split(f"{installationPath}/")
-    # ['', '/src/fhirdrill/utils_test.py']
+    # ['', '/src/fhirpack/utils_test.py']
 
     if len(testPath) == 1:
         testPath = testPath[0].split(testSessionPath)
@@ -128,7 +126,7 @@ def functionData(request):
         .replace("_test", "")
         .replace("test_", "")
         .replace(".py", "")
-    )  # fhirdrill.utils
+    )  # fhirpack.utils
     # tests.cli
 
     testedFunctionName = request.function.__name__
@@ -140,12 +138,12 @@ def functionData(request):
 
     if testRelativePath:
         libraryDataPrefix = f"all"
-        packageDataPrefix = f"fhirdrill"
+        packageDataPrefix = f"fhirpack"
 
         functionDataPrefix = f"{testRelativePath}.{testedFunctionName}"
         # tests.cli.main
-        # fhirdrill.utils.guessBufferMIMEType
-        # fhirdrill.utils.valuesForKeys
+        # fhirpack.utils.guessBufferMIMEType
+        # fhirpack.utils.valuesForKeys
     else:
         packageDataPrefix = f"tests"
 

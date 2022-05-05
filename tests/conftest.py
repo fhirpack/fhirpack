@@ -1,6 +1,6 @@
 import pytest as pt
 import tests as ts
-import fhirdrill as fd
+import fhirpack as fp
 
 # this is an example fixture with session scope,
 # for the tests package, with autouse enabled and a finalizer

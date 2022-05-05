@@ -1,5 +1,5 @@
 """
-    Setup file for fhirdrill.
+    Setup file for fhirpack.
     Use setup.cfg to configure your project.
 
     This file was generated with PyScaffold 4.1.5.

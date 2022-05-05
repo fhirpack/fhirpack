@@ -1,9 +1,9 @@
-import fhirdrill
+import fhirpack
 import os
 import inspect
 import pathlib
 
-PACKAGE_INSTALLATION_DIR = os.path.dirname(fhirdrill.__file__)
+PACKAGE_INSTALLATION_DIR = os.path.dirname(fhirpack.__file__)
 
 CURRENT_DIR = pathlib.Path().resolve()
 TEST_DATA_DIR = f"{CURRENT_DIR}/tests/data"
