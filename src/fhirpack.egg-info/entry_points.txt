@@ -1,0 +1,2 @@
+[console_scripts]
+fpack = fhirpack.cli:main

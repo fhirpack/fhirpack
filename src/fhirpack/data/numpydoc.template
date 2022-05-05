@@ -1,0 +1,60 @@
+    r""" SUMMARY
+
+    DESCRIPTION
+
+    Parameters
+    ----------
+    var1 : array_like
+        DESCRIPTION
+    var2 : int
+        DESCRIPTION
+    *args : iterable
+        DESCRIPTION
+    long_var_name : {'hi', 'ho'}, optional
+        DESCRIPTION
+
+    Returns
+    -------
+    type
+        DESCRIPTION
+    describe : type
+        DESCRIPTION
+    out : type
+        DESCRIPTION
+    type_without_description
+
+    Other Parameters
+    ----------------
+    only_seldom_used_keyword : int, optional
+        DESCRIPTION
+    **kwargs : dict
+        DESCRIPTION
+
+    Raises
+    ------
+    Exception
+        DESCRIPTION
+
+    See Also
+    --------
+    fhirpack.sample : Relationship (optional).
+    fhirpack.sample : Relationship (optional), which could be fairly long, in
+                    which case the line wraps here.
+    fhirpack.sample, fhirpack.sample, fhirpack.sample
+
+    Notes
+    -----
+    Description
+
+    References
+    ----------
+    DESCRIPTION
+
+    .. [1] DESCRIPTION
+
+    Examples
+    --------
+    DESCRIPTION
+
+    >>> EXAMPLE
+    """

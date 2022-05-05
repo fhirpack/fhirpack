@@ -4,7 +4,7 @@ __license__ = ""
 
 import pytest as pt
 import tests as ts
-import fhirdrill as fd
+import fhirpack as fpack
 import fhirpy as fp
 
 
@@ -25,9 +25,9 @@ print("[debug pytest] INSTALLATION DIRECTORY: ", ts.PACKAGE_INSTALLATION_DIR)
 
 
 @pt.mark.reqdocker
-def test_sample(drillDocker):
+def test_sample(packDocker):
 
-    d = drillDocker
+    d = packDocker
     ts.debug(d.client)
     p = d.getPatients(["Patient/1"]).data[0]
 
