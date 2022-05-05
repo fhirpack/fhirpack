@@ -1,7 +1,5 @@
 import pytest as pt
-from conftest import drillUnconnected
 import tests as ts
-import fhirdrill as fd
 
 # this is an example fixture with session scope,
 # only for the fhirdrill package, with autouse enabled and a finalizer

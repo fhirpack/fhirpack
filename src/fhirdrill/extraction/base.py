@@ -1,24 +1,15 @@
-from abc import abstractmethod
 import json
-import resource
 from typing import Union
 import time
 import requests
-import magic
-import numpy as np
-import math
 from tqdm import tqdm
+from dicomweb_client.api import DICOMwebClient
 
 from fhirpy.lib import SyncFHIRResource
 from fhirpy.lib import SyncFHIRReference
 
 import fhirdrill
 from fhirdrill.constants import CONFIG
-
-
-from dicomweb_client.api import DICOMwebClient
-import os
-from pathlib import Path
 
 
 # TODO build dinamically from metadata/capability statement
@@ -249,8 +240,7 @@ class BaseExtractorMixin:
             pass
 
         resourcePageSize = 100
-  
-        
+
         search = (
             self.client.resources(resourceType)
             .search(**searchParams)

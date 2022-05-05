@@ -46,7 +46,7 @@ class Drill(
         else:
             self.__setupClient(authMethod=authMethod, authParams=authParams)
         try:
-            self.client._do_request("get", f"{self.client.url}/Patient")
+            self.client._do_request("get", f"{self.client.url}/metadata")
         except:
             warnings.warn("Drill is not connected to server.")
             self.logger.info("Drill is not connected to server.")
