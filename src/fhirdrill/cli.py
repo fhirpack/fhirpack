@@ -28,8 +28,11 @@ def processParams(string: str) -> dict:
     params = {}
     for s in string:
         s = s.replace(" ", "")
-        p = s.split("=")
-        params[p[0]] = p[1]
+        if s == "all":
+            params = {}
+        else:
+            p = s.split("=")
+            params[p[0]] = p[1]
     return params
 
 
@@ -81,13 +84,6 @@ def setupLogging():
     default=[],
     help="Provide additional search parameters.",
     multiple=True,
-)
-@click.option(
-    "-a",
-    "--all",
-    default=False,
-    help="Extract all present resources.",
-    is_flag=True,
 )
 @click.option(
     "-v",
