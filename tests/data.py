@@ -8,7 +8,7 @@ import json
 import pytest
 import tests
 
-from fhirdrill.drill import Drill
+from fhirpack.pack import PACK
 
 
 def textFile(file):

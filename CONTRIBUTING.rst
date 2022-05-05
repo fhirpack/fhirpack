@@ -27,7 +27,7 @@
 Contributing
 ============
 
-Welcome to ``fhirdrill`` contributor's guide.
+Welcome to ``fhirpack`` contributor's guide.
 
 This document focuses on getting any potential contributor familiarized
 with the development processes, but `other kinds of contributions`_ are also
@@ -46,7 +46,7 @@ guidelines.
 Issue Reports
 =============
 
-If you experience bugs or general issues with ``fhirdrill``, please have a look
+If you experience bugs or general issues with ``fhirpack``, please have a look
 on the `issue tracker`_. If you don't see anything useful there, please feel
 free to fire an issue report.
 
@@ -65,10 +65,10 @@ you help us to identify the root cause of the issue.
 Documentation Improvements
 ==========================
 
-You can help improve ``fhirdrill`` docs by making them more readable and coherent, or
+You can help improve ``fhirpack`` docs by making them more readable and coherent, or
 by adding missing information and correcting mistakes.
 
-``fhirdrill`` documentation uses Sphinx_ as its main documentation compiler.
+``fhirpack`` documentation uses Sphinx_ as its main documentation compiler.
 This means that the docs are kept in the same repository as the project code, and
 that any documentation update is done in the same way was a code contribution.
 
@@ -80,7 +80,7 @@ that any documentation update is done in the same way was a code contribution.
 
    .. tip::
       Please notice that the `GitHub web interface`_ provides a quick way of
-      propose changes in ``fhirdrill``'s files. While this mechanism can
+      propose changes in ``fhirpack``'s files. While this mechanism can
       be tricky for normal code contributions, it works perfectly fine for
       contributing to the docs, and can be quite handy.
 
@@ -131,8 +131,8 @@ This can easily be done via either |virtualenv|_::
 
 or Miniconda_::
 
-    conda create -n fhirdrill python=3 six virtualenv pytest pytest-cov
-    conda activate fhirdrill
+    conda create -n fhirpack python=3 six virtualenv pytest pytest-cov
+    conda activate fhirpack
 
 Clone the repository
 --------------------
@@ -142,8 +142,8 @@ Clone the repository
    page. This creates a copy of the code under your account on |the repository service|.
 #. Clone this copy to your local disk::
 
-    git clone git@github.com:YourLogin/fhirdrill.git
-    cd fhirdrill
+    git clone git@github.com:YourLogin/fhirpack.git
+    cd fhirpack
 
 #. You should run::
 
@@ -158,7 +158,7 @@ Clone the repository
     pip install pre-commit
     pre-commit install
 
-   ``fhirdrill`` comes with a lot of hooks configured to automatically help the
+   ``fhirpack`` comes with a lot of hooks configured to automatically help the
    developer to check the code being written.
 
 Implement your changes
@@ -285,7 +285,7 @@ Releases
 
 If you are part of the group of maintainers and have correct user permissions
 on PyPI_, the following steps can be used to release a new version for
-``fhirdrill``:
+``fhirpack``:
 
 #. Make sure all unit tests are successful.
 #. Tag the current commit on the main branch with a release tag, e.g., ``v1.2.3``.
@@ -314,8 +314,8 @@ on PyPI_, the following steps can be used to release a new version for
 .. |the repository service| replace:: GitHub
 .. |contribute button| replace:: "Create pull request"
 
-.. _repository: https://github.com/<USERNAME>/fhirdrill
-.. _issue tracker: https://github.com/<USERNAME>/fhirdrill/issues
+.. _repository: https://github.com/<USERNAME>/fhirpack
+.. _issue tracker: https://github.com/<USERNAME>/fhirpack/issues
 .. <-- end -->
 
 

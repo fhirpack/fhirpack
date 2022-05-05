@@ -460,7 +460,7 @@
             "index": "pypi",
             "version": "==6.2.2"
         },
-        "fhirdrill": {
+        "fhirpack": {
             "editable": true,
             "path": "."
         },
@@ -2783,7 +2783,7 @@
             "index": "pypi",
             "version": "==6.2.2"
         },
-        "fhirdrill": {
+        "fhirpack": {
             "editable": true,
             "path": "."
         },
