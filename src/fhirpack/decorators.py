@@ -15,4 +15,5 @@ def validateFrame(func):
                 "Frame must contain a 'data' column"
             )
         return frame
+
     return wrapper
