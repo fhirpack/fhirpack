@@ -1,5 +1,5 @@
 import pytest as pt
-import fhirpack as fpack
+import fhirpack as fp
 from fhirpy.lib import SyncFHIRResource, SyncFHIRReference
 import tests as ts
 

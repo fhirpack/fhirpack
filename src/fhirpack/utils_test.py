@@ -6,7 +6,7 @@ __license__ = ""
 import tests as ts
 import tests.data as td
 
-import fhirpack as fpack
+import fhirpack as fp
 
 # this is an example of a test that uses
 # the fixture defined at /conftest.py with session scope
@@ -21,7 +21,7 @@ def test_keys_forPatients():
     input = td.jsonFile("fhirpack.utils.keys.forPatients.00.in")
     expected = td.jsonFile("fhirpack.utils.keys.forPatients.00.out")
 
-    result = list(fpack.utils.keys(input))
+    result = list(fp.utils.keys(input))
 
     ok = result == expected
 
@@ -35,7 +35,7 @@ def test_valuesForKeys_onlyDicts():
 
     expected = ["Boston", "Springfield"]
 
-    result = list(fpack.utils.valuesForKeys(input, ["city"]))
+    result = list(fp.utils.valuesForKeys(input, ["city"]))
 
     ok = result == expected
 
@@ -69,7 +69,7 @@ def test_valuesForKeys_dictsAndLists():
         "urn:ietf:bcp:47",
     ]
 
-    result = list(fpack.utils.valuesForKeys(input, ["system", "valueDecimal"]))
+    result = list(fp.utils.valuesForKeys(input, ["system", "valueDecimal"]))
 
     ok = result == expected
 

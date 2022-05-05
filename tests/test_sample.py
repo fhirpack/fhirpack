@@ -4,8 +4,8 @@ __license__ = ""
 
 import pytest as pt
 import tests as ts
-import fhirpack as fpack
-import fhirpy as fp
+import fhirpack as fp
+import fhirpy
 
 
 # this is an example fixture with module scope,

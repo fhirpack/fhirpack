@@ -1,5 +1,5 @@
 import pytest as pt
-import fhirpack as fpack
+import fhirpack as fp
 import tests as ts
 
 # TODO test with resource and reference input
