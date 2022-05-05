@@ -1,5 +1,4 @@
 from enum import Enum
-import requests
 
 
 class BaseError(Exception):
@@ -17,7 +16,7 @@ class ErrorSeverity(Enum):
     information = "information"
 
 
-class ServerConnectionException(requests.exceptions.MissingSchema):
+class ServerConnectionException(ConnectionError):
     """Raised when drill does not have connection to server."""
 
     pass

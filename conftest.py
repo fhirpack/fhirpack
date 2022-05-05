@@ -6,21 +6,18 @@
 
 pytest_plugins = ["docker_compose"]
 
-from cgi import test
 import re
 import os
 from pathlib import Path
+import requests
 
 import pytest as pt
 import tests as ts
 import fhirdrill as fd
 import fhirpy as fp
 
-import requests
-from urllib.parse import urljoin
 from urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
-from requests.exceptions import ConnectionError
 
 
 # this is an example fixture with session scope,

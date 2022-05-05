@@ -256,7 +256,9 @@ class BaseTransformerMixin:
 
         if typeLookUps:
             # the file contains resource specific look ups
-            with open(f"{utils.getInstallationPath()}/../../assets/lookUps.json") as f:
+            with open(
+                f"{utils.getInstallationPath()}/../../assets/resourceTextElementMapping.json"
+            ) as f:
                 resourceLookUps = json.load(f)
                 [lookUps.extend(resourceLookUps[t]) for t in typeLookUps]
 
