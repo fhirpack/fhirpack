@@ -1,3 +1,4 @@
+from cgitb import lookup
 import json
 import importlib
 from typing import Union
@@ -8,6 +9,7 @@ from fhirpy.lib import SyncFHIRResource
 from fhirpy.lib import SyncFHIRReference
 import numpy as np
 import fhirdrill.utils as utils
+import json
 import fhirdrill.base
 
 # LOGGER = CONFIG.getLogger(__name__)
@@ -206,53 +208,100 @@ class BaseTransformerMixin:
 
     def gatherText(
         self,
-        recursive: bool = False,
-        references: Union[
+        input: Union[
             list[str],
             list[SyncFHIRReference],
             list[SyncFHIRResource],
         ] = None,
+        typeLookUps: list = None,
+        lookUps: list = None,
+        mapped: bool = False,
+        includeMeta: bool = False,
+        includeEmpty: bool = False,
+        defaultLookUps: bool = True,
+        includeDuplicates: bool = False,
     ):
+        """extract Text from resources by lookups.
 
-        if references:
-            references = self.prepareReferences(references)
+        Args:
+            input: Data to extract text from.
+            resourceType: The type is used the include type specific lookups.
+            lookUps (list, optional): List of lookups to include in the text extraction.
+            mapped (bool, optional): Store text labels as dictionary keys.
+            includeMeta (bool, optional): Include the resource meta data.
+            includeEmpty (bool, optional): Include empty Text for labels.
+            defaultLookUps (bool, optional): Include the list of default Lookups.
+            includeDuplicates (bool, optional): Include duplicated Test string.
+        """
 
-        if not references and self.isFrame:
-            references = [e.to_reference() for e in self.data]
-        elif references and not self.isFrame:
-            pass
-        elif references and self.isFrame:
+        input = [] if input is None else input
+        lookUps = [] if lookUps is None else lookUps
+
+        # default values that are optionally included in the text lookup
+        if defaultLookUps:
+            lookUps.extend(
+                [
+                    "display",
+                    "summary",
+                    "description",
+                    "title",
+                    "conclusion",
+                    "note",
+                    "text",
+                    "answer",
+                    "valueString",
+                    "value",
+                ]
+            )
+
+        if typeLookUps:
+            # the file contains resource specific look ups
+            with open(
+                f"{utils.getInstallationPath()}/data/resourceTextElementMapping.json"
+            ) as f:
+                resourceLookUps = json.load(f)
+                [lookUps.extend(resourceLookUps[t]) for t in typeLookUps]
+
+        if input:
+            input = self.castOperand(input, SyncFHIRResource)
+
+        elif self.isFrame:
+            input = self.data
+
+        elif input and self.isFrame:
             # TODO raise error references and isFrame not allowed
             # TODO raise in other similar methods
             raise NotImplementedError
 
         result = []
-        for ref in references:
 
-            resource = ref.to_resource()
-            resource.pop("meta")
+        for resource in input:
 
-            # TODO text representation is dependent of resource type, handle others and move to constants.py
-            result.append(
-                list(
-                    utils.valuesForKeys(
-                        resource,
-                        [
-                            "display",
-                            "summary",
-                            "description",
-                            "title",
-                            "conclusion",
-                            "note",
-                            "text",
-                            "answer",
-                            "valueString",
-                        ],
-                    )
-                )
-            )
+            if not includeMeta:
+                resource.pop("meta", None)
 
-        return pd.DataFrame(pd.Series(result, dtype="object"), columns=["text"])
+            if not mapped:
+                text = []
+                # TODO text representation is dependent of resource type, handle others and move to constants.py
+                text.append(list(utils.valuesForKeys(resource, lookUps)))
+                if not includeDuplicates:
+                    text = list(set(utils.flattenList(text)))
+                result.append(text)
+
+            else:
+                # text labels are stored as dictionary keys
+                d = {}
+                for k, v in resource.items():
+                    d[k] = list(utils.valuesForKeys(v, lookUps))
+                    if not includeDuplicates:
+                        d[k] = list(set(d[k]))
+                    if not includeEmpty and not d[k]:
+                        d.pop(k)
+                result.append([d])
+
+        result = self.prepareOutput(result)
+
+        return result
 
     def gatherKeys(
         self,
