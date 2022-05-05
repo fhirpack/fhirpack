@@ -14,18 +14,20 @@ import fhirdrill as fd
 logger = logging.getLogger(__name__)
 
 
-def valuesForKeys(data: Union[dict, list], lookup_keys: list):
+def valuesForKeys(data: Union[dict, list], lookupKeys: list):
+
+    lookup_keys = list(set(lookupKeys))
 
     if isinstance(data, dict):
         for k, v in data.items():
             if k in lookup_keys and not isinstance(v, list) and not isinstance(v, dict):
                 yield v
             else:
-                yield from valuesForKeys(v, lookup_keys)
+                yield from valuesForKeys(v, lookupKeys)
 
     elif isinstance(data, list):
         for item in data:
-            yield from valuesForKeys(item, lookup_keys)
+            yield from valuesForKeys(item, lookupKeys)
 
 
 def keys(obj, prefix=""):
@@ -89,11 +91,11 @@ def guessBufferMIMEType(bytes: bytes):
 
 
 def flattenList(input: list):
-    if input == []:
-        return input
-    if isinstance(input[0], list):
-        return flattenList(input[0]) + flattenList(input[1:])
-    return input[:1] + flattenList(input[1:])
+    for i in input:
+        if isinstance(i, list):
+            yield from flattenList(i)
+        else:
+            yield i
 
 
 # TODO decide whether we need an alternative not in Frame/Drill

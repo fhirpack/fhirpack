@@ -1,6 +1,3 @@
-import fhirdrill as fd
-from fhirdrill.conftest import patientReferenceList
-import tests.data as td
 import pytest as pt
 import tests as ts
 

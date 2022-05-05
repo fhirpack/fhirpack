@@ -1,3 +1,4 @@
+
 import logging
 from datetime import datetime
 import json
@@ -7,9 +8,8 @@ from typing import Union
 import requests
 
 from pandas import DataFrame
-import pandas as pd
 from fhirpy import SyncFHIRClient
-import fhirpy
+import warnings
 
 from fhirdrill.auth import AUTH_PARAMS_PRESETS
 from fhirdrill.auth import Auth
@@ -33,11 +33,17 @@ class Drill(
     fhirdrill.custom.PluginMixin,
 ):
     def __init__(
-        self, apiBase=None, envFile=None, authMethod=None, authParams=None, client=None
+        self,
+        apiBase=None,
+        client=None,
+        envFile=None,
+        unconnected=False,
+        authMethod=None,
+        authParams=None,
     ):
 
         self.logger = CONFIG.getLogger(__name__)
-        self.logger.info("drill initialization started")
+        self.logger.info("Drill initialization started.")
 
         if envFile:
             CONFIG.loadConfig(envFile)
@@ -46,10 +52,18 @@ class Drill(
 
         if client:
             self.client = client
+        elif unconnected:
+            self.client = None
         else:
             self.__setupClient(
                 apiBase=apiBase, authMethod=authMethod, authParams=authParams
             )
+        try:
+            self.client._do_request("get", f"{self.client.url}/metadata")
+        except:
+            warnings.warn("Drill is not connected to server.")
+            self.logger.info("Drill is not connected to server.")
+            self.client = SyncFHIRClient("")
 
         self.logger.info("drill initialization finished")
 
