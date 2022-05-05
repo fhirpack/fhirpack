@@ -17,7 +17,7 @@ pytest-picked = "*"
 pytest-testmon = "*"
 bump2version = "*"
 python-dotenv = {extras = ["cli"], version = "*"}
-fhirdrill = {editable = true, path = "."}
+fhirpack = {editable = true, path = "."}
 black = "*"
 jupyter = "*"
 ipywidgets = "*"
@@ -44,7 +44,7 @@ black = "*"
 typeguard = "*"
 pipenv = "*"
 python-magic = "*"
-fhirdrill = {editable = true, path = "."}
+fhirpack = {editable = true, path = "."}
 dicomweb-client = "*"
 markupsafe = "==2.0.1"
 

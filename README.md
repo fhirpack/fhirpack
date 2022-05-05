@@ -1,4 +1,4 @@
-# FHIR Drill
+# FHIR PACK
 
 A minimalistic Python package that simplifies crawling, correlating and representing FHIR resources related to individual patients or cohorts thereof.
 
@@ -17,8 +17,7 @@ A brief description of this repository and the background of this project.
 
 ## Structure
 
-`putup lib-fhirdrill  -p fhirdrill -n 'fhirdrill' -d 'A minimalistic Python package that simplifies crawling, correlating and representing FHIR resources related to individual patients or cohorts thereof.' --markdown  --gitlab`
-
+`putup lib-fhirpack -p fhirpack -n 'fhirpack' -d 'A minimalistic Python package that simplifies crawling, correlating and representing FHIR resources related to individual patients or cohorts thereof.' --markdown --gitlab`
 
 ```
 .
@@ -38,24 +37,23 @@ A brief description of this repository and the background of this project.
 ├── setup.cfg
 ├── setup.py
 ├── src
-│   ├── fhirdrill
-│   └── fhirdrill.egg-info
+│   ├── fhirpack
+│   └── fhirpack.egg-info
 ├── tests
 │   ├── conftest.py
 │   ├── __init__.py
 │   ├── __pycache__
 │   ├── test_cli.py
-│   ├── test_drill.py
+│   ├── test_pack.py
 │   └── test_utils.py
 └── tox.ini
 ```
-
 
 ## Contributing
 
 Describe how to contribute.
 
-### Issues 
+### Issues
 
 Describe how to open issues, who to assign them to, what goes where, etc.
 
@@ -64,6 +62,7 @@ Describe how to open issues, who to assign them to, what goes where, etc.
 Describe how to open MRs, who to assign them to, what goes where, etc.
 
 ---
+
 # Architecture
 
 Describe the architecture of the project and add an architecture diagram.
@@ -77,6 +76,7 @@ Describe the stack components in detail
 For more information, see our [Pipfile](Pipfile)
 
 ---
+
 # Development
 
 ## Setup
@@ -84,7 +84,7 @@ For more information, see our [Pipfile](Pipfile)
 Clone this repository
 
 ```
-git clone ssh://git@git-dbs.ifi.uni-heidelberg.de:2222/main/lib-fhirdrill.git
+git clone ssh://git@git-dbs.ifi.uni-heidelberg.de:2222/main/lib-fhirpack.git
 ```
 
 Install your virtual environment
@@ -94,16 +94,16 @@ pip install pipenv python-dotenv tox pipenv-setup
 pipenv install --dev
 ```
 
-Verify you can run the tests and build FHIR Drill via `tox`
+Verify you can run the tests and build FHIR PACK via `tox`
 
 ```
 tox -e; tox -e build; tox -e clean
 ```
 
-Verify you can run the tests and execute FHIR Drill via your virtual environment
+Verify you can run the tests and execute FHIR PACK via your virtual environment
 
 ```
-pipenv run pytest --mypkg fhirdrill
+pipenv run pytest --mypkg fhirpack
 ```
 
 ```
@@ -116,17 +116,17 @@ In some cases, tox can have problems installing dependencies, you can recreate t
 
 This project only relies on pyenv or asdf, pipenv, pipenv-setup, python-dotenv, pytest, pytest-watch, pytest-picked, pytest-testmon, bump2version and tox for development, testing, building and publishing
 
-|Tool|Rationale|
-|-|-|
-[pyenv](https://github.com/pyenv/pyenv) or [asdf](http://asdf-vm.com/)|managing multiple python versions|
-[pipenv](https://github.com/pypa/pipenv)|managing virtual environments and seemless environment setup|
-[tox](https://github.com/tox-dev/tox)|one single tool for testing, packaging and publishing|
-[pytest](https://github.com/pytest-dev/pytest)|running unit tests|
-[pytest-picked](https://github.com/anapaulagomes/pytest-picked)|running only unit tests of code that has been changed|
-[pytest-watch](https://github.com/joeyespo/pytest-watch)|run unit tests continuously|
-[python-dotenv](https://pypi.org/project/python-dotenv/)|use `.env` variables within `tox.ini` seemlesly |
-[pipenv-setup](https://github.com/Madoshakalaka/pipenv-setup)| automatically populate Python's `setup.py` requirements|
-[bump2version](https://github.com/c4urself/bump2version/)|simple version management|
+| Tool                                                                   | Rationale                                                    |
+| ---------------------------------------------------------------------- | ------------------------------------------------------------ |
+| [pyenv](https://github.com/pyenv/pyenv) or [asdf](http://asdf-vm.com/) | managing multiple python versions                            |
+| [pipenv](https://github.com/pypa/pipenv)                               | managing virtual environments and seemless environment setup |
+| [tox](https://github.com/tox-dev/tox)                                  | one single tool for testing, packaging and publishing        |
+| [pytest](https://github.com/pytest-dev/pytest)                         | running unit tests                                           |
+| [pytest-picked](https://github.com/anapaulagomes/pytest-picked)        | running only unit tests of code that has been changed        |
+| [pytest-watch](https://github.com/joeyespo/pytest-watch)               | run unit tests continuously                                  |
+| [python-dotenv](https://pypi.org/project/python-dotenv/)               | use `.env` variables within `tox.ini` seemlesly              |
+| [pipenv-setup](https://github.com/Madoshakalaka/pipenv-setup)          | automatically populate Python's `setup.py` requirements      |
+| [bump2version](https://github.com/c4urself/bump2version/)              | simple version management                                    |
 
 ## Jupyter Notebook
 
@@ -139,8 +139,8 @@ That line defines a clean for Jupyter notebooks that git can then use for all `.
 
 `tox -e clean`
 
-
 ---
+
 # Testing
 
 `pipenv run pytest tests`
@@ -149,10 +149,10 @@ That line defines a clean for Jupyter notebooks that git can then use for all `.
 
 `tox`
 
-`pipenv run pytest -s --use-running-containers --docker-compose-no-build --pyargs fhirdrill tests`
+`pipenv run pytest -s --use-running-containers --docker-compose-no-build --pyargs fhirpack tests`
 
-`ptw -- -s --use-running-containers --docker-compose-no-build --pyargs fhirdrill tests -m 'not reqdocker'`
----
+## `ptw -- -s --use-running-containers --docker-compose-no-build --pyargs fhirpack tests -m 'not reqdocker'`
+
 # Releasing
 
 `bumpversion --allow-dirty patch ; cat VERSION`
@@ -164,17 +164,18 @@ https://peps.python.org/pep-0440/#final-releases
 `tox -e publish`
 
 ---
+
 # Usage
 
 ### CLI
 
-`python -m fhirdrill.cli baseurl token resource id -o option`
+`python -m fhirpack.cli baseurl token resource id -o option`
 
-### Python with .env File 
+### Python with .env File
 
 ```
-client=fd.utils.clientFromEnv()
-drill= fd.drill.Drill(client)
+client=fp.utils.clientFromEnv()
+pack= fp.pack.PACK(client)
 ```
 
 ### Python with Manual Client Definition
@@ -182,16 +183,18 @@ drill= fd.drill.Drill(client)
 ```
 import fhirpy
 client = fhirpy.SyncFHIRClient("http://127.0.0.1:32112/hapi-fhir-jpaserver/fhir/")
-drill  = fd.drill.Drill(client)
-drill.getPatient('1').to_resource().serialize()
+pack  = fp.pack.PACK(client)
+pack.getPatient('1').to_resource().serialize()
 ```
 
 ---
+
 # References
 
-List any important or related reading material 
+List any important or related reading material
 
 ---
+
 # Acknowledgements
 
-Acknowledge contributors 
+Acknowledge contributors
