@@ -63,7 +63,6 @@ class BaseMixin:
 
         return output
 
-    @decorators.validateFrame
     def prepareOutput(self, data, resourceType=None, columns=["data"], wrap=True):
 
         if len(data) and not resourceType:

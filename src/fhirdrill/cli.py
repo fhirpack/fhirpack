@@ -5,9 +5,9 @@ import fhirdrill as fd
 import fhirpy as fp
 import json
 import warnings
-import os
 
 from fhirdrill import __version__
+import fhirdrill.utils as utils
 
 __author__ = "Jayson Salazar"
 __copyright__ = "Jayson Salazar"
@@ -34,6 +34,18 @@ def processParams(string: str) -> dict:
             p = s.split("=")
             params[p[0]] = p[1]
     return params
+
+
+def loadToDestination(data, destination: str) -> None:
+
+    destination = destination.replace(",", "").split(" ")
+    jsonString = data.to_json(date_format="iso", orient="records")
+    jsonParsed = json.loads(jsonString)
+
+    for d in destination:
+        with open(d, "w") as f:
+            json.dump(jsonParsed, f, ensure_ascii=False, indent=4)
+
 
 
 def setupLogging():
@@ -118,7 +130,7 @@ def main(source, environment, params, operation, destination, verbose):
             "When operating on Files, only transformation functions will work."
         )
         fromFile = True
-        drill = fd.Drill(client)
+        drill = fd.Drill(envFile=envFile)
         source = source.replace(",", "").split(" ")
     else:
         client = fp.SyncFHIRClient(source)
@@ -155,14 +167,8 @@ def main(source, environment, params, operation, destination, verbose):
             drill = result
 
     if destination:
+        loadToDestination(data=result, destination=destination)
 
-        destination = destination.replace(",", "").split(" ")
-        jsonString = result.to_json(date_format="iso")
-        jsonParsed = json.loads(jsonString)
-
-        for d in destination:
-            with open(d, "w") as f:
-                json.dump(jsonParsed, f, ensure_ascii=False, indent=4)
     else:
         if verbose:
             try:

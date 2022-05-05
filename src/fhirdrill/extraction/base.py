@@ -9,6 +9,7 @@ from fhirpy.lib import SyncFHIRResource
 from fhirpy.lib import SyncFHIRReference
 
 import fhirdrill
+import fhirdrill.decorators as decorators
 from fhirdrill.constants import CONFIG
 
 
