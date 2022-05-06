@@ -132,7 +132,7 @@ def main(source, environment, params, operation, destination, verbose):
         pack = fp.PACK(envFile=envFile)
         source = source.replace(",", "").split(" ")
     else:
-        client = fp.SyncFHIRClient(source)
+        client = fhirpy.SyncFHIRClient(source)
         pack = fp.PACK(client=client, envFile=envFile)
 
     result = None
