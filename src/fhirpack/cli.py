@@ -1,4 +1,3 @@
-import argparse
 import logging
 import sys
 import click
@@ -7,13 +6,14 @@ import fhirpy
 import json
 import warnings
 
+
 from fhirpack import __version__
 
 __author__ = "Jayson Salazar"
 __copyright__ = "Jayson Salazar"
 __license__ = ""
 
-LOGGERPREFIX = "FHIRDRILL:"
+LOGGERPREFIX = "FHIRPACK:"
 
 
 logger = logging.getLogger(__name__)
@@ -28,9 +28,23 @@ def processParams(string: str) -> dict:
     params = {}
     for s in string:
         s = s.replace(" ", "")
-        p = s.split("=")
-        params[p[0]] = p[1]
+        if s == "all":
+            params = {}
+        else:
+            p = s.split("=")
+            params[p[0]] = p[1]
     return params
+
+
+def loadToDestination(data, destination: str) -> None:
+
+    destination = destination.replace(",", "").split(" ")
+    jsonString = data.to_json(date_format="iso", orient="records")
+    jsonParsed = json.loads(jsonString)
+
+    for d in destination:
+        with open(d, "w") as f:
+            json.dump(jsonParsed, f, ensure_ascii=False, indent=4)
 
 
 def setupLogging():
@@ -51,6 +65,13 @@ def setupLogging():
     type=str,
     default=None,
     help="URL of the FHIR server or path to json files.",
+)
+@click.option(
+    "-e",
+    "--environment",
+    type=str,
+    default=None,
+    help="Path to Dotenv file containing configurations.",
 )
 @click.option(
     "-d",
@@ -83,30 +104,36 @@ def setupLogging():
     show_default=True,
     is_flag=True,
 )
-def main(source, params, operation, destination, verbose):
+def main(source, environment, params, operation, destination, verbose):
 
     setupLogging()
     info("execution started")
 
     fromFile = False
+    supportedInputFiles = ["txt", "json"]
 
     # build client from source argument
     # if not source argument is passed, .env.example is used
+
+    if environment:
+        envFile = environment
+    else:
+        envFile = None
+
     if not source:
-        pack = fp.PACK()
+        pack = fp.PACK(envFile=envFile)
 
     # only json files are supported as source
-    elif "json" in source:
+    elif source.split(".")[-1] in supportedInputFiles:
         warnings.warn(
             "When operating on Files, only transformation functions will work."
         )
         fromFile = True
-        client = fhirpy.SyncFHIRClient("")
-        pack = fp.PACK(client)
+        pack = fp.PACK(envFile=envFile)
         source = source.replace(",", "").split(" ")
     else:
-        client = fhirpy.SyncFHIRClient(source)
-        pack = fp.PACK(client)
+        client = fp.SyncFHIRClient(source)
+        pack = fp.PACK(client=client, envFile=envFile)
 
     result = None
 
@@ -120,8 +147,6 @@ def main(source, params, operation, destination, verbose):
     # execute operations
     if operation:
         if fromFile:
-            # this pack does not have client connection
-            # only transformations can be performed
             pack = pack.getFromFiles(source)
 
         for op in operation:
@@ -134,18 +159,15 @@ def main(source, params, operation, destination, verbose):
             packEquivalentFunc = getattr(pack, desiredOperation.pop(0))
 
             # exectue method, with associated search parameters
-            result = packEquivalentFunc(desiredOperation, **searchParams)
+            if desiredOperation:
+                result = packEquivalentFunc(desiredOperation, **searchParams)
+            else:
+                result = packEquivalentFunc(**searchParams)
             pack = result
 
     if destination:
+        loadToDestination(data=result, destination=destination)
 
-        destination = destination.replace(",", "").split(" ")
-        jsonString = result.to_json(date_format="iso")
-        jsonParsed = json.loads(jsonString)
-
-        for d in destination:
-            with open(d, "w") as f:
-                json.dump(jsonParsed, f, ensure_ascii=False, indent=4)
     else:
         if verbose:
             try:
