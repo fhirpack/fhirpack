@@ -169,7 +169,7 @@ https://peps.python.org/pep-0440/#final-releases
 
 ### CLI
 
-Entry points are `python -m fhirpack.cli` or `fp`.
+The CLI can be invoked by using `python -m fhirpack.cli` or `fp`.
 
 ```
 > fp --help                                
