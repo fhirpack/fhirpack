@@ -196,11 +196,12 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
             )
             # .fillna("").apply(list)
 
-            patients = input.data.apply(
-                lambda x: self.getPatients(x, ignoreFrame=True).data.values,
-            )
+            if len(input):
+                patients = input.data.apply(
+                    lambda x: self.getPatients(x, ignoreFrame=True).data.values,
+                )
 
-            result = patients
+                result = patients
 
         else:
             raise NotImplementedError
