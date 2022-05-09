@@ -1,4 +1,5 @@
 import json
+import resource
 from typing import Union
 
 from fhirpy.lib import SyncFHIRResource
@@ -196,12 +197,12 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
             )
             # .fillna("").apply(list)
 
-            if len(input):
-                patients = input.data.apply(
-                    lambda x: self.getPatients(x, ignoreFrame=True).data.values,
-                )
+            patients = input.data.apply(
+                lambda x: self.getResources(
+                    x, ignoreFrame=True, resourceType="Patient").data.values,
+            )
 
-                result = patients
+            result = patients
 
         else:
             raise NotImplementedError
