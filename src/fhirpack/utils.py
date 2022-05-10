@@ -1,7 +1,6 @@
 import logging
 import dotenv
 import requests
-import os
 from pathlib import Path
 from enum import Enum
 from typing import Union
@@ -9,6 +8,7 @@ import magic
 
 
 from fhirpy import SyncFHIRClient
+import fhirpack.exceptions as exceptions
 import fhirpack as fp
 
 logger = logging.getLogger(__name__)
@@ -96,6 +96,26 @@ def flattenList(input: list):
             yield from flattenList(i)
         else:
             yield i
+
+
+def validateFrame(frame):
+
+    if frame.client is None:
+        raise exceptions.ServerConnectionException(
+            "No server connection. For this operation, a server connection is required."
+        )
+    if frame.isnull().values.any():
+        raise exceptions.InvalidInputDataException(
+            "Frame must not contain null values."
+        )
+    if not "data" in frame.columns:
+        raise exceptions.InvalidInputDataException(
+            "Frame must contain a 'data' column."
+        )
+    if isinstance(frame.data.values[0], list):
+        raise exceptions.InvalidInputDataException(
+            "Frame object must not contain lists. Most likely, use .explode()"
+        )
 
 
 # TODO decide whether we need an alternative not in Frame/PACK
