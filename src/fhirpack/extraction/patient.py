@@ -1,5 +1,3 @@
-import json
-import resource
 from typing import Union
 
 from fhirpy.lib import SyncFHIRResource
@@ -8,10 +6,6 @@ from fhirpy.lib import SyncFHIRReference
 import fhirpack.utils as utils
 import fhirpack.base as base
 import fhirpack.extraction.base as extractionBase
-import numpy as np
-import math
-
-from tqdm import tqdm
 
 
 class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
@@ -48,6 +42,9 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
             result = self.getResources(input, resourceType="Patient", raw=True)
 
         elif self.isFrame and not ignoreFrame:
+            
+            utils.validateFrame(self)
+
             input = self.data
 
             if self.resourceTypeIs("Condition"):

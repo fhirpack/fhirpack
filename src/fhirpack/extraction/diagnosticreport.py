@@ -1,10 +1,9 @@
-import json
 from typing import Union
 
-import requests
 
 from fhirpy.lib import SyncFHIRResource
 from fhirpy.lib import SyncFHIRReference
+import fhirpack.utils as utils
 
 import fhirpack.extraction.base as base
 
@@ -33,6 +32,8 @@ class ExtractorDiagnosticReportMixin(base.BaseExtractorMixin):
             result = self.getResources(input, resourceType="DiagnosticReport", raw=True)
 
         elif self.isFrame and not ignoreFrame:
+
+            utils.validateFrame(self)
 
             if self.resourceTypeIs("Patient"):
                 input = self.data
