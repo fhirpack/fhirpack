@@ -5,6 +5,7 @@ import math
 
 from fhirpy.lib import SyncFHIRResource
 from fhirpy.lib import SyncFHIRReference
+import fhirpack.utils as utils
 
 import numpy as np
 from tqdm import tqdm
@@ -36,6 +37,8 @@ class ExtractorImagingStudyMixin(base.BaseExtractorMixin):
             result = self.getResources(input, resourceType="ImagingStudy", raw=True)
 
         elif self.isFrame and not ignoreFrame:
+
+            utils.validateFrame(self)
 
             if self.resourceTypeIs("Patient"):
                 input = self.data

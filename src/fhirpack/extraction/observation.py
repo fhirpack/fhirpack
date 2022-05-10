@@ -3,6 +3,7 @@ from typing import Union
 
 from fhirpy.lib import SyncFHIRResource
 from fhirpy.lib import SyncFHIRReference
+import fhirpack.utils as utils
 
 import fhirpack.extraction.base as base
 
@@ -31,6 +32,8 @@ class ExtractorObservationMixin(base.BaseExtractorMixin):
             result = self.getResources(input, resourceType="Observation", raw=True)
 
         elif self.isFrame and not ignoreFrame:
+
+            utils.validateFrame(self)
 
             if self.resourceTypeIs("Patient"):
                 input = self.data
