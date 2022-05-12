@@ -7,7 +7,6 @@ import fhirpack.utils as utils
 import fhirpack.extraction.base as base
 
 
-tqdm.pandas()
 
 
 class ExtractorConditionMixin(base.BaseExtractorMixin):
