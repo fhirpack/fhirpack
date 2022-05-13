@@ -1,6 +1,5 @@
 from typing import Union
 from tqdm import tqdm
-
 from fhirpy.lib import SyncFHIRResource
 from fhirpy.lib import SyncFHIRReference
 import fhirpack.utils as utils
