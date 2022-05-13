@@ -10,7 +10,6 @@ import fhirpack.extraction as extraction
 import fhirpack.transformation as transformation
 import fhirpack.load as load
 import fhirpack.custom as custom
-import fhirpack.decorators as decorators
 
 import fhirpack.utils as utils
 from fhirpack.constants import CONFIG
