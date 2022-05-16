@@ -3,10 +3,12 @@ __copyright__ = "Jayson Salazar"
 __license__ = ""
 
 
-import tests as ts
 import tests.data as td
-
 import fhirpack as fp
+import pytest as pt
+import numpy as np
+import pandas as pd
+import tests as ts
 
 # this is an example of a test that uses
 # the fixture defined at /conftest.py with session scope
@@ -78,3 +80,28 @@ def test_valuesForKeys_dictsAndLists():
 
 def test_guessBufferMIMEType(globalSessionFixture):
     assert 1 == 1
+
+
+@pt.mark.reqdocker
+@pt.mark.parametrize("input", [np.nan, None, pd.NA, np.NaN])
+def test_validateFrame_NullValues(input, packDocker):
+
+    d = packDocker
+
+    p = d.getPatients(["2648712"])
+    nullValues = fp.base.Frame({"data": [input]})
+    brokenFrame = p.append(nullValues)
+
+    with pt.raises(fp.exceptions.InvalidInputDataException):
+        fp.utils.validateFrame(brokenFrame)
+
+
+def test_validateFrame_Unconnected(packUnconnected):
+
+    d = packUnconnected
+    d.client = None
+    dataPath = f"{ts.TEST_DATA_DIR}/fhirpack.extraction.base.getFromFiles.patient.00.in"
+    p = d.getFromFiles([dataPath]).data[0]
+
+    with pt.raises(fp.exceptions.ServerConnectionException):
+        fp.utils.validateFrame(p)
