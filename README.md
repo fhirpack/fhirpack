@@ -151,7 +151,7 @@ That line defines a clean for Jupyter notebooks that git can then use for all `.
 
 `pipenv run pytest -s --use-running-containers --docker-compose-no-build --pyargs fhirpack tests`
 
-## `ptw -- -s --use-running-containers --docker-compose-no-build --pyargs fhirpack tests -m 'not reqdocker'`
+`ptw -- -s --use-running-containers --docker-compose-no-build --pyargs fhirpack tests -m 'not reqdocker'`
 
 # Releasing
 

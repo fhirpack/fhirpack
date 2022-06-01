@@ -1,10 +1,13 @@
+import traceback
+import sys
+from loguru import logger
 import logging
 import dotenv
 import requests
 import os
 from enum import Enum
 from pathlib import Path
-
+import sys
 
 class Config:
     __CONFIG = dict()
@@ -26,6 +29,12 @@ class Config:
         self.__CONFIG = config
         self.__DOTENVPATH = dotenvPath
 
+    def globalExceptionHandler(self,exctype, value, tb):
+        logger.error(exctype)
+        logger.error(value)
+        logger.error(traceback.extract_tb(tb))
+
+
     @property
     def data(self):
         return self.__CONFIG
@@ -46,6 +55,7 @@ class Config:
             datefmt="%H:%M:%S",
             level=logging.INFO,
         )
+        sys.excepthook = globalExceptionHandler
 
     def set(self, key, value, saveToEnv=False):
         if saveToEnv:
