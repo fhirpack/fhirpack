@@ -70,6 +70,7 @@ def observationResourceList(observationFrame):
 
 @pt.fixture(scope="session")
 def patientReferenceList(patientResourceList):
+    # pt.set_trace()
     r = [e.to_reference() for e in patientResourceList]
     result = r
     return result

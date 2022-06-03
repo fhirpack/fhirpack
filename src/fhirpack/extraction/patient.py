@@ -42,7 +42,7 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
             result = self.getResources(input, resourceType="Patient", raw=True)
 
         elif self.isFrame and not ignoreFrame:
-            
+
             utils.validateFrame(self)
 
             input = self.data
@@ -196,7 +196,8 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
 
             patients = input.data.apply(
                 lambda x: self.getResources(
-                    x, ignoreFrame=True, resourceType="Patient").data.values,
+                    x, ignoreFrame=True, resourceType="Patient"
+                ).data.values,
             )
 
             result = patients

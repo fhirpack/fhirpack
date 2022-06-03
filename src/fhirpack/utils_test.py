@@ -88,7 +88,7 @@ def test_validateFrame_NullValues(input, packDocker):
 
     d = packDocker
 
-    p = d.getPatients(["2648712"])
+    p = d.getPatients(["1"])
     nullValues = fp.base.Frame({"data": [input]})
     brokenFrame = p.append(nullValues)
 

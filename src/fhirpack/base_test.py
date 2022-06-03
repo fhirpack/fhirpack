@@ -1,7 +1,9 @@
 import pytest as pt
-import fhirpack as fp
+
 from fhirpy.lib import SyncFHIRResource, SyncFHIRReference
+
 import tests as ts
+import fhirpack as fp
 
 
 def test_guessOutputResourceType_resource(packUnconnected, patientResourceList):
