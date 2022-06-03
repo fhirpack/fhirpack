@@ -23,6 +23,9 @@ SEARCH_PARAMS = {
         "identifier",
         "patient",
         "subject",
+        "recordedDate__lt",
+        "recordedDate__gt",
+        "recordedDate__ge",
     ],
     "EpisodeOfCare": [
         "_id",
@@ -261,7 +264,10 @@ class BaseExtractorMixin:
                     resourceCount = search.count()
 
                 for element in tqdm(
-                    search, desc=f"SEARCH[{resourceType}]> ", total=resourceCount, leave=False
+                    search,
+                    desc=f"SEARCH[{resourceType}]> ",
+                    total=resourceCount,
+                    leave=False,
                 ):
                     result.append(element)
             except:

@@ -1,7 +1,8 @@
-import fhirpack
 import os
 import inspect
 import pathlib
+
+import fhirpack
 
 PACKAGE_INSTALLATION_DIR = os.path.dirname(fhirpack.__file__)
 

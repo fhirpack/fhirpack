@@ -9,6 +9,7 @@ from enum import Enum
 from pathlib import Path
 import sys
 
+
 class Config:
     __CONFIG = dict()
     __DOTENVPATH = None
@@ -29,11 +30,10 @@ class Config:
         self.__CONFIG = config
         self.__DOTENVPATH = dotenvPath
 
-    def globalExceptionHandler(self,exctype, value, tb):
+    def globalExceptionHandler(self, exctype, value, tb):
         logger.error(exctype)
         logger.error(value)
         logger.error(traceback.extract_tb(tb))
-
 
     @property
     def data(self):
@@ -55,7 +55,7 @@ class Config:
             datefmt="%H:%M:%S",
             level=logging.INFO,
         )
-        sys.excepthook = globalExceptionHandler
+        sys.excepthook = Config.globalExceptionHandler
 
     def set(self, key, value, saveToEnv=False):
         if saveToEnv:

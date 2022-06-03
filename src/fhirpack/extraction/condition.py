@@ -6,8 +6,6 @@ import fhirpack.utils as utils
 import fhirpack.extraction.base as base
 
 
-
-
 class ExtractorConditionMixin(base.BaseExtractorMixin):
     def getConditions(
         self,

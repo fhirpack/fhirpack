@@ -47,6 +47,7 @@ python-magic = "*"
 fhirpack = {editable = true, path = "."}
 dicomweb-client = "*"
 markupsafe = "==2.0.1"
+loguru = "*"
 
 [requires]
 python_version = "3.9.6"
