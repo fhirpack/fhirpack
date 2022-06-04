@@ -26,6 +26,7 @@ markupsafe = "==2.0.1"
 myst-parser = "*"
 build = "*"
 pytest-docker-compose = "*"
+twine = "*"
 
 [packages]
 fhirpy = "*"
