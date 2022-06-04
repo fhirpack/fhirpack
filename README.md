@@ -4,13 +4,13 @@ FHIRPACK (FHIR Python Analysis Conversion Kit) is a general purpose package that
 
 ## About this Project
 
-FHIR represents a promising framework for interacting with healthcare data. However, tools for lightweight and efficient server communcation are lacking. To fill this gap, FHIRPACK provides an easy-to-use and intuitive API that enables effortless access to FHIR data.
+FHIR is a promising framework for interacting with healthcare data. However, tools for lightweight and efficient server communcation are lacking. To fill this gap, FHIRPACK provides an easy-to-use and intuitive API that enables effortless access to FHIR data.
 
 ## Installation
 
-We strongly recommend using a virtual environment such as venv, conda or pipenv. If you need help with this take a look at the "Setting up a virtual environment" section.
+We strongly recommend using a virtual environment such as venv, conda or pipenv. If you need help with this take a look at the [Setting up a virtual environment](#Setting-up-a-virtual-environment) section.
 
-Inside the environment run the following command to install the package:
+To install the package, run:
 
 ```shell
 pip install fhirpack
@@ -18,7 +18,7 @@ pip install fhirpack
 
 ### Setting up a virtual environment
 
-
+## Usage
 
 ## Contributing
 
