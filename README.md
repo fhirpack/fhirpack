@@ -2,52 +2,23 @@
 
 FHIRPACK (FHIR Python Analysis Conversion Kit) is a general purpose package that simplifies the access, crawling, analysis and representation of FHIR and EHR data. FHIRPACK was designed and developed at Institute for Artificial Intelligence in Medicine ([IKIM](https://mml.ikim.nrw/)) and the Database Systems Research Group of the University of Heidelberg ([HDDBS](https://dbs.ifi.uni-heidelberg.de/)). 
 
-# About this Project
+## About this Project
 
-A brief description of this repository and the background of this project.
+FHIR represents a promising framework for interacting with healthcare data. However, tools for lightweight and efficient server communcation are lacking. To fill this gap, FHIRPACK provides an easy-to-use and intuitive API that enables effortless access to FHIR data.
 
-## Philosophy
+## Installation
 
-- Minimalistic yet feature rich
-- CLI and API feature parity
-- Workflow friendliness 
-- Extensible and flexible yet sane by default
-- Every data-manipulation step is an ETL step
-- Pandas DataFrames as primary user-facing data format
+We strongly recommend using a virtual environment such as venv, conda or pipenv. If you need help with this take a look at the "Setting up a virtual environment" section.
 
-## Structure
+Inside the environment run the following command to install the package:
 
-`putup lib-fhirpack -p fhirpack -n 'fhirpack' -d 'A minimalistic Python package that simplifies crawling, correlating and representing FHIR resources related to individual patients or cohorts thereof.' --markdown --gitlab`
-
+```shell
+pip install fhirpack
 ```
-.
-├── AUTHORS.md
-├── CHANGELOG.md
-├── CONTRIBUTING.rst
-├── dist (generated during build time)
-├── docs (generated during build time)
-├── execution.log
-├── LICENSE.txt
-├── logo.png
-├── MANIFEST.in
-├── Pipfile
-├── Pipfile.lock
-├── pyproject.toml
-├── README.md
-├── setup.cfg
-├── setup.py
-├── src
-│   ├── fhirpack
-│   └── fhirpack.egg-info
-├── tests
-│   ├── conftest.py
-│   ├── __init__.py
-│   ├── __pycache__
-│   ├── test_cli.py
-│   ├── test_pack.py
-│   └── test_utils.py
-└── tox.ini
-```
+
+### Setting up a virtual environment
+
+
 
 ## Contributing
 
@@ -83,30 +54,30 @@ For more information, see our [Pipfile](Pipfile)
 
 Clone this repository
 
-```
+```shell
 git clone ssh://git@git-dbs.ifi.uni-heidelberg.de:2222/main/lib-fhirpack.git
 ```
 
 Install your virtual environment
 
-```
+```shell
 pip install pipenv python-dotenv tox pipenv-setup
 pipenv install --dev
 ```
 
 Verify you can run the tests and build FHIR PACK via `tox`
 
-```
+```shell
 tox -e; tox -e build; tox -e clean
 ```
 
 Verify you can run the tests and execute FHIR PACK via your virtual environment
 
-```
+```shell
 pipenv run pytest --mypkg fhirpack
 ```
 
-```
+```shell
 pipenv run ptw --runner "pytest --testmon"
 ```
 
