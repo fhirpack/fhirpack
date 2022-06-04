@@ -14,7 +14,6 @@ import fhirpack.custom.extraction.ship as ship
 class PluginExtractorMixin(
     # TODO add your other extraction plugin classes here
     sample.PluginSampleExtractorMixin,
-    ship.PluginSHIPExtractorMixin,
 ):
 
     # def __init__(self, client):
