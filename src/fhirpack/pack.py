@@ -104,7 +104,11 @@ class PACK(
         # TODO write function in utils to retrieve current installation path
         # TODO move path with others to common location, CONFIG?
         with open(f"{utils.getInstallationPath()}/data/supported.list") as f:
-            while resource := f.readline().strip():
+            while True:
+                resource = f.readline().strip()
+                if not resource:
+                    break
+
                 count = self.client.execute(
                     # TODO handle and test when slash at the end of APIBASE in .env and without
                     # WARNING path must either:

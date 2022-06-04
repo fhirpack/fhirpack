@@ -1,6 +1,6 @@
-# FHIR PACK
+# FHIR Python Analysis and Conversion Kit (PACK)
 
-A minimalistic Python package that simplifies crawling, correlating and representing FHIR resources related to individual patients or cohorts thereof.
+A general purpose Python package that simplifies accessing, crawling, correlating and representing FHIR resources related to individual patients or cohorts thereof.
 
 # About this Project
 
@@ -10,7 +10,7 @@ A brief description of this repository and the background of this project.
 
 - Minimalistic yet feature rich
 - CLI and API feature parity
-- Workflow friendliness (Snakemake et al)
+- Workflow friendliness 
 - Extensible and flexible yet sane by default
 - Every data-manipulation step is an ETL step
 - Pandas DataFrames as primary user-facing data format
