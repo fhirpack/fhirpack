@@ -1,3 +1,4 @@
 # Contributors
 
-* Jayson Salazar <jsalazar@gitlab.com>
+* Jayson Salazar <jayson.salazar@uk-essen.de, salazar@informatik.uni-heidelberg.de>
+* Till Rostalski 
