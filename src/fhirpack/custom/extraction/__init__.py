@@ -8,7 +8,6 @@ import fhirpack.custom.extraction.base as base
 
 # TODO add your other extraction plugin classes here
 import fhirpack.custom.extraction.sample as sample
-import fhirpack.custom.extraction.ship as ship
 
 
 class PluginExtractorMixin(
