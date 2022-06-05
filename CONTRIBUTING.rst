@@ -113,7 +113,7 @@ worklow follows the ETL principle. In general, methods that extract FHIR resourc
 references or FHIR-ID strings as input. Alternatively, the methods can operate on a ``Frame`` object
 according to the `mixin <https://www.pythontutorial.net/python-oop/python-mixin/>`_ pattern. In this
 case, no other input is expected. All extraction methods return ``Frame`` objects which can be
-used by the Transformer for data manipulation or loader for uploading.
+used by the Transformer for data manipulation or Loader for uploading.
 
 You can use Jupyter, JupyterLab or VSCode's Jupyter Plugin to use and improve ``usage.py`` and 
 ``samples.py``. However, keep in mind to not upload notebook outputs as they bloat the files and
