@@ -18,153 +18,49 @@ We strongly recommend using a virtual environment such as [venv](https://docs.py
 
 Install the latest version of FHIRPACK:
 
-Using pip:
-
 ```shell
 pip install fhirpack
-```
-
-Using pipenv:
-
-```shell
+# or
 pipenv install fhirpack
 ```
 
-## Simple Example
+To set your server configurtations, create a `.env` file in the root of the directory and specify settings as can be found in the example `.env.example` file. Alternatively, modify `.env.example` accorging to your needs.
+
+Note: By Default, FHIRPACK connects to the public [http://hapi.fhir.org/baseR4](http://hapi.fhir.org/baseR4). We recommend using this setup to get familiar with FHIRPACK.
+
+## Simple Examples
+
+### Get all conditions for a patient
 
 In this example we extract all the conditions for a patient with the ID: 43fb1577-3455-41cf-9a07-c45aa5c0219e from the public FHIR-server with the Base-URL: [http://hapi.fhir.org/baseR4](http://hapi.fhir.org/baseR4).
 
 ```python
 >>> import fhirpack as fp
 >>> pack = fp.PACK("http://hapi.fhir.org/baseR4")
->>> patient = pack.getPatients(["43fb1577-3455-41cf-9a07-c45aa5c0219e"])
->>> condition = patient.getConditions().explode()
->>>condition.gatherText(lookUps=["display", "onsetDateTime", "reference"])
+
+>>> patient = pack.getPatients(["43fb1577-3455-41cf-9a07-c45aa5c0219e"]) # get the Patient by ID
+>>> condition = patient.getConditions().explode() # extract all conditions for the patient
+>>> condition.gatherText(lookUps=["display", "onsetDateTime", "reference"]) # display the specified FHIR elements of the conditions
 ```
 
-## Contributing
+### Get all patients with sepsis.
 
-Describe how to contribute.
+```python 
+>>> import fhirpack as fp
+>>> pack = fp.PACK("http://hapi.fhir.org/baseR4")
 
-### Issues
-
-Describe how to open issues, who to assign them to, what goes where, etc.
-
-### Merge Requests
-
-Describe how to open MRs, who to assign them to, what goes where, etc.
-
----
-
-# Architecture
-
-Describe the architecture of the project and add an architecture diagram.
-
-## Stack
-
-Describe the stack components in detail
-
-### Dependencies
-
-For more information, see our [Pipfile](Pipfile)
-
----
-
-# Development
-
-## Setup
-
-Clone this repository
-
-```shell
-git clone ssh://git@git-dbs.ifi.uni-heidelberg.de:2222/main/lib-fhirpack.git
+>> conditions = pack.getConditions(searchParams={"_content": "sepsis"}) # extract all conditions containing the word sepsis
+>> patients = conditions.getPatients().explode() # get the respective patients
+>> patients.gatherText(lookUps=["name", "address", "telecom", "birthDate"]) # display the specified FHIR elements of the patients
 ```
 
-Install your virtual environment
+## CLI
 
-```shell
-pip install pipenv python-dotenv tox pipenv-setup
-pipenv install --dev
-```
-
-Verify you can run the tests and build FHIR PACK via `tox`
-
-```shell
-tox -e; tox -e build; tox -e clean
-```
-
-Verify you can run the tests and execute FHIR PACK via your virtual environment
-
-```shell
-pipenv run pytest --mypkg fhirpack
-```
-
-```shell
-pipenv run ptw --runner "pytest --testmon"
-```
-
-In some cases, tox can have problems installing dependencies, you can recreate the environment used by tox (under ./tox) by using `tox --recreate -e py3096`
-
-## Dependencies
-
-This project only relies on pyenv or asdf, pipenv, pipenv-setup, python-dotenv, pytest, pytest-watch, pytest-picked, pytest-testmon, bump2version and tox for development, testing, building and publishing
-
-| Tool                                                                   | Rationale                                                    |
-| ---------------------------------------------------------------------- | ------------------------------------------------------------ |
-| [pyenv](https://github.com/pyenv/pyenv) or [asdf](http://asdf-vm.com/) | managing multiple python versions                            |
-| [pipenv](https://github.com/pypa/pipenv)                               | managing virtual environments and seemless environment setup |
-| [tox](https://github.com/tox-dev/tox)                                  | one single tool for testing, packaging and publishing        |
-| [pytest](https://github.com/pytest-dev/pytest)                         | running unit tests                                           |
-| [pytest-picked](https://github.com/anapaulagomes/pytest-picked)        | running only unit tests of code that has been changed        |
-| [pytest-watch](https://github.com/joeyespo/pytest-watch)               | run unit tests continuously                                  |
-| [python-dotenv](https://pypi.org/project/python-dotenv/)               | use `.env` variables within `tox.ini` seemlesly              |
-| [pipenv-setup](https://github.com/Madoshakalaka/pipenv-setup)          | automatically populate Python's `setup.py` requirements      |
-| [bump2version](https://github.com/c4urself/bump2version/)              | simple version management                                    |
-
-## Jupyter Notebook
-
-You can use Jupyter, JupyterLab or VSCode's Jupyter Plugin to use and improve `usage.py` and `samples.py`.
-However, keep in mind to not upload notebook outputs as they bloat the files and are irrelevant to the reader.
-To prevent that, execute `echo -e '[filter "strip-notebook-output"]\n\tclean = jupyter nbconvert --ClearOutputPreprocessor.enabled=True --to=notebook --stdin --stdout --log-level=ERROR' >> .git/config` within the repository.
-That line defines a clean for Jupyter notebooks that git can then use for all `.ipynb` files as described in [.gitattributes](.gitattributes)
-
-## VS Code
-
-`tox -e clean`
-
----
-
-# Testing
-
-`pipenv run pytest tests`
-
-`ptw --runner "pytest --testmon"`
-
-`tox`
-
-`pipenv run pytest -s --use-running-containers --docker-compose-no-build --pyargs fhirpack tests`
-
-`ptw -- -s --use-running-containers --docker-compose-no-build --pyargs fhirpack tests -m 'not reqdocker'`
-
-# Releasing
-
-`bumpversion --allow-dirty patch ; cat VERSION`
-
-https://peps.python.org/pep-0440/#final-releases
-
-`tox -e build`
-
-`tox -e publish`
-
----
-
-# Usage
-
-### CLI
+FHIRPACK also provides a CLI for easy and quick data exploration.
 
 The CLI can be invoked by using `python -m fhirpack.cli` or `fp`.
 
-```
+```shell
 > fp --help                                
 Usage: fp [OPTIONS]
 
@@ -192,24 +88,6 @@ CLI usage is analogous to the general `fhirpack` dataflow.
 | `pack.getPatients(searchParams={"family":"Koepp"})` | `fp -o "getPatients" -p "family = Koepp"` |
 
 Of note, operations spanning mutliple spaces have to be quoted.
-
-### Python with .env File
-
-```
-client=fp.utils.clientFromEnv()
-pack= fp.pack.PACK(client)
-```
-
-### Python with Manual Client Definition
-
-```
-import fhirpy
-client = fhirpy.SyncFHIRClient("http://127.0.0.1:32112/hapi-fhir-jpaserver/fhir/")
-pack  = fp.pack.PACK(client)
-pack.getPatient('1').to_resource().serialize()
-```
-
----
 
 # References
 

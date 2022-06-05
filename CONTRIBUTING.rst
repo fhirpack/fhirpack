@@ -106,6 +106,27 @@ and use Python's built-in web server for a preview in your web browser
 Code Contributions
 ==================
 
+``fhirpack`` is build around the ``PACK`` class which uses a subclass of ``pandas`` ``DataFrame``,
+called ``Frame``, as the main underlying datastructure. Upon connecting to a server, the 
+worklow follows the ETL principle. In general, methods that extract FHIR resources can be found in inside the
+``extraction`` directory. These methods expect a list of either ``fhirpy`` resources, ``fhirpy`` 
+references or FHIR-ID strings as input. Alternatively, the methods can operate on a ``Frame`` object
+according to the `mixin <https://www.pythontutorial.net/python-oop/python-mixin/>`_ pattern. In this
+case, no other input is expected. All extraction methods return ``Frame`` objects which can be
+used by the Transformer for data manipulation or loader for uploading.
+
+You can use Jupyter, JupyterLab or VSCode's Jupyter Plugin to use and improve ``usage.py`` and 
+``samples.py``. However, keep in mind to not upload notebook outputs as they bloat the files and
+are irrelevant to the reader. To prevent that, execute::
+
+    echo -e '[filter "strip-notebook-output"]\n\tclean = jupyter nbconvert \
+    --ClearOutputPreprocessor.enabled=True --to=notebook --stdin --stdout --log-level=ERROR' \
+    >> .git/config
+    
+within the repository. That line defines a clean for Jupyter notebooks that git can then use for all
+``*.ipynb``.
+
+
 .. todo:: Please include a reference or explanation about the internals of the project.
 
    An architecture description, design principles or at least a summary of the
@@ -131,8 +152,13 @@ This can easily be done via either |virtualenv|_::
 
 or Miniconda_::
 
-    conda create -n fhirpack python=3 six virtualenv pytest pytest-cov
+    conda create -n fhirpack python=3.9.6 six virtualenv pytest pytest-cov
     conda activate fhirpack
+
+or Pipenv_::
+
+   pipenv install fhirpack
+   pipenv shell
 
 Clone the repository
 --------------------
@@ -142,7 +168,7 @@ Clone the repository
    page. This creates a copy of the code under your account on |the repository service|.
 #. Clone this copy to your local disk::
 
-    git clone git@github.com:YourLogin/fhirpack.git
+    git clone ssh://git@git-dbs.ifi.uni-heidelberg.de:2222/main/lib-fhirpack.git
     cd fhirpack
 
 #. You should run::
@@ -151,15 +177,15 @@ Clone the repository
 
    to be able to import the package under development in the Python REPL.
 
-   .. todo:: if you are not using pre-commit, please remove the following item:
+#. Verify you can run tests and build ``fhirpack``::
 
-#. Install |pre-commit|_::
+    tox -e; tox -e build; tox -e clean
 
-    pip install pre-commit
-    pre-commit install
+Dependencies
+------------
 
-   ``fhirpack`` comes with a lot of hooks configured to automatically help the
-   developer to check the code being written.
+This projetc relies on the followin python packages.
+
 
 Implement your changes
 ----------------------
@@ -172,6 +198,11 @@ Implement your changes
 
 #. Start your work on this branch. Don't forget to add docstrings_ to new
    functions, modules and classes, especially if they are part of public APIs.
+
+#. Test your Improvements::
+
+    pytest -s --use-running-containers --docker-compose-no-build --pyargs fhirpack tests 
+    tox
 
 #. Add yourself to the list of contributors in ``AUTHORS.rst``.
 
