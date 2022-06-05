@@ -39,6 +39,7 @@ if __name__ == "__main__":
     try:
         setup(
             install_requires=[
+                "pytest",
                 "fhirpy",
                 "requests",
                 "pandas",
@@ -57,7 +58,6 @@ if __name__ == "__main__":
                 "python-magic",
                 "dicomweb-client",
                 "markupsafe==2.0.1",
-                "loguru",
             ],
             #                install_requires = get_install_requirements(),
             #                use_scm_version={

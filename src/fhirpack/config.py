@@ -1,6 +1,5 @@
 import traceback
 import sys
-from loguru import logger
 import logging
 import dotenv
 import requests
@@ -31,6 +30,7 @@ class Config:
         self.__DOTENVPATH = dotenvPath
 
     def globalExceptionHandler(self, exctype, value, tb):
+        logger = logging.getLogger(__name__)
         logger.error(exctype)
         logger.error(value)
         logger.error(traceback.extract_tb(tb))
