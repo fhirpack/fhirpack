@@ -7,7 +7,6 @@ verify_ssl = true
 ipykernel = "*"
 autopep8 = "*"
 pylint = "*"
-pytest = "*"
 bandit = "*"
 flake8 = "*"
 pytest-cov = "*"
@@ -29,6 +28,7 @@ pytest-docker-compose = "*"
 twine = "*"
 
 [packages]
+pytest = "*"
 fhirpy = "*"
 requests = "*"
 pandas = "*"
@@ -48,7 +48,6 @@ python-magic = "*"
 fhirpack = {editable = true, path = "."}
 dicomweb-client = "*"
 markupsafe = "==2.0.1"
-loguru = "*"
 
 [requires]
 python_version = "3.9.6"

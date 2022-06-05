@@ -21,4 +21,5 @@ typeguard
 pipenv
 python-magic
 dicomweb-client
+pytest
 
