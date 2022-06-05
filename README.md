@@ -8,9 +8,10 @@ FHIR is a promising framework for interacting with healthcare data. However, too
 
 - **Website: read the docs**
 - **Contact: email**
-- **Tutorial:**
+- **Tutorial: [usage.py](examples/usage.ipynb)**
 - **Slack:**
 - **Bug reports:**
+- **Contributing: [CONTRIBUTING.rst](CONTRIBUTING.rst)**
 
 ## Installation
 
@@ -38,7 +39,7 @@ To set your server configurtations, create a `.env` file in the root of the dire
 
 ### Get all conditions for a patient
 
-In this example we extract all the conditions for a patient with the ID: 43fb1577-3455-41cf-9a07-c45aa5c0219e from the public FHIR-server with the Base-URL: [http://hapi.fhir.org/baseR4](http://hapi.fhir.org/baseR4).
+In this example we extract all the conditions for a patient with the ID: `43fb1577-3455-41cf-9a07-c45aa5c0219e` from the public FHIR-server with the Base-URL: [http://hapi.fhir.org/baseR4](http://hapi.fhir.org/baseR4).
 
 ```python
 >>> import fhirpack as fp
