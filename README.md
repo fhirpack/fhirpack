@@ -20,13 +20,19 @@ Install the latest version of FHIRPACK:
 
 ```shell
 pip install fhirpack
-# or
+```
+
+alternatively use pipenv:
+
+```shell
 pipenv install fhirpack
 ```
 
+### Server configurations
+
 To set your server configurtations, create a `.env` file in the root of the directory and specify settings as can be found in the example `.env.example` file. Alternatively, modify `.env.example` accorging to your needs.
 
-Note: By Default, FHIRPACK connects to the public [http://hapi.fhir.org/baseR4](http://hapi.fhir.org/baseR4). We recommend using this setup to get familiar with FHIRPACK.
+**Note:** By Default, FHIRPACK connects to the public [http://hapi.fhir.org/baseR4](http://hapi.fhir.org/baseR4). We recommend using this setup to get familiar with the library.
 
 ## Simple Examples
 
