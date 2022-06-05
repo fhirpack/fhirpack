@@ -6,19 +6,41 @@ FHIRPACK (FHIR Python Analysis Conversion Kit) is a general purpose package that
 
 FHIR is a promising framework for interacting with healthcare data. However, tools for lightweight and efficient server communcation are lacking. To fill this gap, FHIRPACK provides an easy-to-use and intuitive API that enables effortless access to FHIR data.
 
+- Website: read the docs
+- Contact: email
+- Tutorial:
+- Slack:
+- Bug reports:
+
 ## Installation
 
-We strongly recommend using a virtual environment such as venv, conda or pipenv. If you need help with this take a look at the [Setting up a virtual environment](#Setting-up-a-virtual-environment) section.
+We strongly recommend using a virtual environment such as [venv](https://docs.python.org/3/library/venv.html#creating-virtual-environments), [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation) or [pipenv](https://pipenv.pypa.io/en/latest/#install-pipenv-today).
 
-To install the package, run:
+Install the latest version of FHIRPACK:
+
+Using pip:
 
 ```shell
 pip install fhirpack
 ```
 
-### Setting up a virtual environment
+Using pipenv:
 
-## Usage
+```shell
+pipenv install fhirpack
+```
+
+## Simple Example
+
+In this example we extract all the conditions for a patient with the ID: 43fb1577-3455-41cf-9a07-c45aa5c0219e from the public FHIR-server with the Base-URL: [http://hapi.fhir.org/baseR4](http://hapi.fhir.org/baseR4).
+
+```python
+>>> import fhirpack as fp
+>>> pack = fp.PACK("http://hapi.fhir.org/baseR4")
+>>> patient = pack.getPatients(["43fb1577-3455-41cf-9a07-c45aa5c0219e"])
+>>> condition = patient.getConditions().explode()
+>>>condition.gatherText(lookUps=["display", "onsetDateTime", "reference"])
+```
 
 ## Contributing
 
