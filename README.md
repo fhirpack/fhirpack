@@ -4,11 +4,11 @@ FHIRPACK (FHIR Python Analysis Conversion Kit) is a general purpose package that
 
 ## About this Project
 
-FHIR is a promising framework for interacting with healthcare data. However, tools for lightweight and efficient server communcation are lacking. To fill this gap, FHIRPACK provides an easy-to-use and intuitive API that enables effortless access to FHIR data.
+The [FHIR](https://www.hl7.org/fhir/resourcelist.html) standard is a promising framework for interacting with healthcare data. However, tools for lightweight and efficient server communcation are lacking. FHIRPACK provides an easy-to-use and intuitive API that enables effortless access to FHIR data.
 
 - **Website: read the docs**
 - **Contact: email**
-- **Tutorial: [usage.py](examples/usage.ipynb)**
+- **Tutorial: [notebooks](examples)**
 - **Slack:**
 - **Bug reports:**
 - **Contributing: [CONTRIBUTING.rst](CONTRIBUTING.rst)**
@@ -31,7 +31,7 @@ pipenv install fhirpack
 
 ### Server configurations
 
-To set your server configurtations, create a `.env` file in the root of the directory and specify settings as can be found in the example `.env.example` file. Alternatively, modify `.env.example` accorging to your needs.
+To set your server configurtations, create an `.env` file in the root of the directory and specify settings as can be found in the example `.env.example` file. Alternatively, modify `.env.example` accorging to your needs.
 
 **Note:** By Default, FHIRPACK connects to the public [http://hapi.fhir.org/baseR4](http://hapi.fhir.org/baseR4). We recommend using this setup to get familiar with the library.
 
@@ -60,6 +60,8 @@ In this example we extract all the conditions for a patient with the ID: `43fb15
 >> patients = conditions.getPatients().explode() # get the respective patients
 >> patients.gatherText(lookUps=["name", "address", "telecom", "birthDate"]) # display the specified FHIR elements of the patients
 ```
+
+**Note:** For more examples and a deep-dive into FHIRPACK, please take a look at the [example jupyter notebooks](examples).
 
 ## CLI
 
@@ -94,14 +96,13 @@ CLI usage is analogous to the general `fhirpack` dataflow.
 | `pack.getPatients(searchParams={}).gatherSimplePaths(["name.family"])` | `fp -o "getPatients" -p all -o "gatherSimplePaths name.family"` |
 | `pack.getPatients(searchParams={"family":"Koepp"})` | `fp -o "getPatients" -p "family = Koepp"` |
 
-Of note, operations spanning mutliple spaces have to be quoted.
+**Note:** Operations spanning mutliple spaces have to be quoted.
 
-# References
+# Bugs
 
-List any important or related reading material
+Please report any bugs that you find here or create a pull request accoring to the [contribution guidelines](CONTRIBUTING.rst).
 
 ---
 
-# Acknowledgements
+# License
 
-Acknowledge contributors
