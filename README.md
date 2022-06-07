@@ -9,12 +9,12 @@ FHIRPACK provides an easy-to-use and intuitive API that enables effortless acces
 
 || :link: |
 |:---|:---|
-|:books: **documentation**| read our [documentation on Read the Docs](https://fhirpack.readthedocs.io)|
 |:rocket: **tutorial**| learn about FHIR, FHIRPACK and PANDAS with our [example Jupyter Notebooks](examples)|
-|:envelope:**contact**| [jayson.salazar@uk-essen.de](mailto:jayson.salazar@uk-essen.de) or [salazar@informatik.uni-heidelberg.de](mailto:salazar@informatik.uni-heidelberg.de) |
-|:loudspeaker:**discussion**| join our [Slack](https://join.slack.com/t/fhirpack/shared_invite/zt-16f0dt3rr-76L6OKQIMOFbG2IKYnVLqA) for the latest updates and discussions around FHIR, FHIRPACK and EHR in general|
-|:bug:	**issues**| submit bugs or feature requests preferrably on [our main GitLab tracker](https://gitlab.ume.de/fhirpack/main) or here on GitHub |
+|:envelope: **contact**| [jayson.salazar@uk-essen.de](mailto:jayson.salazar@uk-essen.de) or [salazar@informatik.uni-heidelberg.de](mailto:salazar@informatik.uni-heidelberg.de) |
+|:loudspeaker: **conversation**| join our [Slack](https://join.slack.com/t/fhirpack/shared_invite/zt-16f0dt3rr-76L6OKQIMOFbG2IKYnVLqA) for the latest updates and discussions around FHIR, FHIRPACK and EHR in general|
+|:bug: **issues**| submit bugs or feature requests preferrably on [our main GitLab tracker](https://gitlab.ume.de/fhirpack/main) or here on GitHub |
 |:wrench: **development**| [learn more about contributing to FHIRPACK or extending its functionality](CONTRIBUTING.rst) |
+|:books: **reference**| read our [documentation on Read the Docs](https://fhirpack.readthedocs.io)|
 
 ## Installation
 
@@ -38,7 +38,7 @@ pipenv install fhirpack
 To set up a server configurtation, create an `.env` file in the directory where you'll work with FHIRPACK and specify the settings as can be seen in [.env.example](.env.example). 
 Alternatively, copy, rename and modify `.env.example` according to your needs.
 
-:warning: **Note:** By Default, FHIRPACK connects to the public R4 FHIR test server from HAPIFHIR [http://hapi.fhir.org/baseR4](http://hapi.fhir.org/baseR4). We recommend using this setup to get familiar with the library.
+:warning: By Default, FHIRPACK connects to the public R4 FHIR test server from HAPIFHIR [http://hapi.fhir.org/baseR4](http://hapi.fhir.org/baseR4). We recommend using this setup to get familiar with the library.
 
 ## Simple Examples
 
@@ -68,7 +68,7 @@ condition.gatherSimplePaths(["id", "code.coding.code", "code.coding.display", "o
 |0	|`2a65f2a4-1a8d-46d9-a5f9-3af95a5d99bd`	|`[267036007]`	|`[Dyspnea (finding)]	`|`2020-02-23T12:07:58-06:00`|
 |1	|`c9f11f99-796c-4c34-9a8e-246f1faa0039`	|`[840544004]`	|`[Suspected COVID-19]	`|`2020-02-23T12:07:58-06:00`|
 |2	|`d5c30da3-546c-486c-bdb4-ff8f1b62a553`	|`[386661006]`	|`[Fever (finding)]	`|`2020-02-23T12:07:58-06:00`|
-|3	|`a9c2b72d-b6de-4544-95d8-16246786fb5b`	|`[49727002] `  |`|[Cough (finding)]	`|`2020-02-23T12:07:58-06:00`|
+|3	|`a9c2b72d-b6de-4544-95d8-16246786fb5b`	|`[49727002] `  |`[Cough (finding)]	`|`2020-02-23T12:07:58-06:00`|
 |4	|`dd0b2c03-75fe-4d2e-9d49-45c543f5c825`	|`[840539006]`	|`[COVID-19]		`|`2020-02-23T13:26:58-06:00`|
 
 ### Get all patients with sepsis.
@@ -109,7 +109,7 @@ patients.gatherSimplePaths(
 |7	|`[[Hiram237]]	`|`[Kertzmann286]	`|`[555-171-6182]	`|`[US]	`|`[Fall River]	`|`1999-06-07`|
 |11	|`[[Tim]]	`|`[Shabad]		`|`None			`|`None	`|`None		`|`1980-01-01`|
 
-:information_source: **Note:** For more examples and a deep-dive into FHIRPACK, please take a look at the [example jupyter notebooks](examples).
+:information_source: For more examples and a deep-dive into FHIRPACK, please take a look at the [example jupyter notebooks](examples).
 
 ## CLI
 
@@ -144,7 +144,7 @@ CLI usage is analogous to the general `fhirpack` dataflow.
 | `pack.getPatients(searchParams={}).gatherSimplePaths(["name.family"])` | `fp -o "getPatients" -p all -o "gatherSimplePaths name.family"` |
 | `pack.getPatients(searchParams={"family":"Koepp"})` | `fp -o "getPatients" -p "family = Koepp"` |
 
-:warning: **Note:** Operations spanning mutliple spaces have to be quoted.
+:warning: Operations spanning mutliple spaces have to be quoted.
 
 # Bugs and Feature Requests
 
