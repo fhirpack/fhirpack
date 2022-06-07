@@ -1,177 +1,75 @@
-# FHIR Python Analysis and Conversion Kit (PACK)
+# FHIR Python Analysis and Conversion Kit (FHIRPACK)
 
 FHIRPACK (FHIR Python Analysis Conversion Kit) is a general purpose package that simplifies the access, analysis and representation of FHIR and EHR data. FHIRPACK was designed and developed at Institute for Artificial Intelligence in Medicine ([IKIM](https://mml.ikim.nrw/)) and the Database Systems Research Group of the University of Heidelberg ([HDDBS](https://dbs.ifi.uni-heidelberg.de/)). 
 
-# About this Project
+## About FHIRPACK
 
-A brief description of this repository and the background of this project.
+The [FHIR](https://www.hl7.org/fhir/resourcelist.html) standard is a promising framework for interacting with healthcare data. However, tools for lightweight and efficient server communcation are lacking. FHIRPACK provides an easy-to-use and intuitive API that enables effortless access to FHIR data.
 
-## Philosophy
+- **Documentation and Reference: https://fhirpack.readthedocs.io**
+- **Contact: jayson.salazar@uk-essen.de**
+- **Tutorial: [notebooks](examples)**
+- **Slack:** https://join.slack.com/t/fhirpack/shared_invite/zt-16f0dt3rr-76L6OKQIMOFbG2IKYnVLqA
+- **Bug reports:**
+- **Contributing: [CONTRIBUTING.rst](CONTRIBUTING.rst)**
 
-- Minimalistic yet feature rich
-- CLI and API feature parity
-- Workflow friendliness 
-- Extensible and flexible yet sane by default
-- Every data-manipulation step is an ETL step
-- Pandas DataFrames as primary user-facing data format
+## Installation
 
-## Structure
+We strongly recommend using a virtual environment such as [venv](https://docs.python.org/3/library/venv.html#creating-virtual-environments), [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation) or [pipenv](https://pipenv.pypa.io/en/latest/#install-pipenv-today).
 
-`putup lib-fhirpack -p fhirpack -n 'fhirpack' -d 'A minimalistic Python package that simplifies crawling, correlating and representing FHIR resources related to individual patients or cohorts thereof.' --markdown --gitlab`
+Install the latest version of FHIRPACK:
 
-```
-.
-├── AUTHORS.md
-├── CHANGELOG.md
-├── CONTRIBUTING.rst
-├── dist (generated during build time)
-├── docs (generated during build time)
-├── execution.log
-├── LICENSE.txt
-├── logo.png
-├── MANIFEST.in
-├── Pipfile
-├── Pipfile.lock
-├── pyproject.toml
-├── README.md
-├── setup.cfg
-├── setup.py
-├── src
-│   ├── fhirpack
-│   └── fhirpack.egg-info
-├── tests
-│   ├── conftest.py
-│   ├── __init__.py
-│   ├── __pycache__
-│   ├── test_cli.py
-│   ├── test_pack.py
-│   └── test_utils.py
-└── tox.ini
+```shell
+pip install fhirpack
 ```
 
-## Contributing
+alternatively use pipenv:
 
-Describe how to contribute.
-
-### Issues
-
-Describe how to open issues, who to assign them to, what goes where, etc.
-
-### Merge Requests
-
-Describe how to open MRs, who to assign them to, what goes where, etc.
-
----
-
-# Architecture
-
-Describe the architecture of the project and add an architecture diagram.
-
-## Stack
-
-Describe the stack components in detail
-
-### Dependencies
-
-For more information, see our [Pipfile](Pipfile)
-
----
-
-# Development
-
-## Setup
-
-Clone this repository
-
-```
-git clone ssh://git@git-dbs.ifi.uni-heidelberg.de:2222/main/lib-fhirpack.git
+```shell
+pipenv install fhirpack
 ```
 
-Install your virtual environment
+### Server configurations
 
-```
-pip install pipenv python-dotenv tox pipenv-setup
-pipenv install --dev
-```
+To set your server configurtations, create an `.env` file in the root of the directory and specify settings as can be seen in [.env.example](.env.example). Alternatively, copy, rename and modify `.env.example` according to your needs.
 
-Verify you can run the tests and build FHIR PACK via `tox`
+**Note:** By Default, FHIRPACK connects to the public [http://hapi.fhir.org/baseR4](http://hapi.fhir.org/baseR4). We recommend using this setup to get familiar with the library.
 
-```
-tox -e; tox -e build; tox -e clean
-```
+## Simple Examples
 
-Verify you can run the tests and execute FHIR PACK via your virtual environment
+### Get all conditions for a patient
 
-```
-pipenv run pytest --mypkg fhirpack
-```
+In this example we extract all the conditions for a patient with the ID: `43fb1577-3455-41cf-9a07-c45aa5c0219e` from the public FHIR-server with the Base-URL: [http://hapi.fhir.org/baseR4](http://hapi.fhir.org/baseR4).
 
-```
-pipenv run ptw --runner "pytest --testmon"
+```python
+>>> import fhirpack as fp
+>>> pack = fp.PACK("http://hapi.fhir.org/baseR4")
+
+>>> patient = pack.getPatients(["43fb1577-3455-41cf-9a07-c45aa5c0219e"]) # get the Patient by ID
+>>> condition = patient.getConditions().explode() # extract all conditions for the patient
+>>> condition.gatherText(lookUps=["display", "onsetDateTime", "reference"]) # display the specified FHIR elements of the conditions
 ```
 
-In some cases, tox can have problems installing dependencies, you can recreate the environment used by tox (under ./tox) by using `tox --recreate -e py3096`
+### Get all patients with sepsis.
 
-## Dependencies
+```python 
+>>> import fhirpack as fp
+>>> pack = fp.PACK("http://hapi.fhir.org/baseR4")
 
-This project only relies on pyenv or asdf, pipenv, pipenv-setup, python-dotenv, pytest, pytest-watch, pytest-picked, pytest-testmon, bump2version and tox for development, testing, building and publishing
+>> conditions = pack.getConditions(searchParams={"_content": "sepsis"}) # extract all conditions containing the word sepsis
+>> patients = conditions.getPatients().explode() # get the respective patients
+>> patients.gatherText(lookUps=["name", "address", "telecom", "birthDate"]) # display the specified FHIR elements of the patients
+```
 
-| Tool                                                                   | Rationale                                                    |
-| ---------------------------------------------------------------------- | ------------------------------------------------------------ |
-| [pyenv](https://github.com/pyenv/pyenv) or [asdf](http://asdf-vm.com/) | managing multiple python versions                            |
-| [pipenv](https://github.com/pypa/pipenv)                               | managing virtual environments and seemless environment setup |
-| [tox](https://github.com/tox-dev/tox)                                  | one single tool for testing, packaging and publishing        |
-| [pytest](https://github.com/pytest-dev/pytest)                         | running unit tests                                           |
-| [pytest-picked](https://github.com/anapaulagomes/pytest-picked)        | running only unit tests of code that has been changed        |
-| [pytest-watch](https://github.com/joeyespo/pytest-watch)               | run unit tests continuously                                  |
-| [python-dotenv](https://pypi.org/project/python-dotenv/)               | use `.env` variables within `tox.ini` seemlesly              |
-| [pipenv-setup](https://github.com/Madoshakalaka/pipenv-setup)          | automatically populate Python's `setup.py` requirements      |
-| [bump2version](https://github.com/c4urself/bump2version/)              | simple version management                                    |
+**Note:** For more examples and a deep-dive into FHIRPACK, please take a look at the [example jupyter notebooks](examples).
 
-## Jupyter Notebook
+## CLI
 
-You can use Jupyter, JupyterLab or VSCode's Jupyter Plugin to use and improve `usage.py` and `samples.py`.
-However, keep in mind to not upload notebook outputs as they bloat the files and are irrelevant to the reader.
-To prevent that, execute `echo -e '[filter "strip-notebook-output"]\n\tclean = jupyter nbconvert --ClearOutputPreprocessor.enabled=True --to=notebook --stdin --stdout --log-level=ERROR' >> .git/config` within the repository.
-That line defines a clean for Jupyter notebooks that git can then use for all `.ipynb` files as described in [.gitattributes](.gitattributes)
-
-## VS Code
-
-`tox -e clean`
-
----
-
-# Testing
-
-`pipenv run pytest tests`
-
-`ptw --runner "pytest --testmon"`
-
-`tox`
-
-`pipenv run pytest -s --use-running-containers --docker-compose-no-build --pyargs fhirpack tests`
-
-`ptw -- -s --use-running-containers --docker-compose-no-build --pyargs fhirpack tests -m 'not reqdocker'`
-
-# Releasing
-
-`bumpversion --allow-dirty patch ; cat VERSION`
-
-https://peps.python.org/pep-0440/#final-releases
-
-`tox -e build`
-
-`tox -e publish`
-
----
-
-# Usage
-
-### CLI
+FHIRPACK also provides a CLI for easy and quick data exploration.
 
 The CLI can be invoked by using `python -m fhirpack.cli` or `fp`.
 
-```
+```shell
 > fp --help                                
 Usage: fp [OPTIONS]
 
@@ -190,7 +88,7 @@ Options:
 
 CLI usage is analogous to the general `fhirpack` dataflow.
 
-| python | shell |
+| Python | CLI |
 | ------ | ------ |
 | `pack.getPatients(["1"])` | `fp -o "getPatients 1"` |
 | `pack.getPatients(["1", "181", "525"])` | `fp -o "getPatients 1, 181, 525"` |
@@ -198,32 +96,16 @@ CLI usage is analogous to the general `fhirpack` dataflow.
 | `pack.getPatients(searchParams={}).gatherSimplePaths(["name.family"])` | `fp -o "getPatients" -p all -o "gatherSimplePaths name.family"` |
 | `pack.getPatients(searchParams={"family":"Koepp"})` | `fp -o "getPatients" -p "family = Koepp"` |
 
-Of note, operations spanning mutliple spaces have to be quoted.
+**Note:** Operations spanning mutliple spaces have to be quoted.
 
-### Python with .env File
+# Bugs
 
-```
-client=fp.utils.clientFromEnv()
-pack= fp.pack.PACK(client)
-```
-
-### Python with Manual Client Definition
-
-```
-import fhirpy
-client = fhirpy.SyncFHIRClient("http://127.0.0.1:32112/hapi-fhir-jpaserver/fhir/")
-pack  = fp.pack.PACK(client)
-pack.getPatient('1').to_resource().serialize()
-```
+Please report any bugs that you find here or create a pull request according to the [contribution guidelines](CONTRIBUTING.rst).
 
 ---
 
-# References
+# License
 
-List any important or related reading material
+Copyright (c) 2022 Jayson Salazar
 
----
 
-# Acknowledgements
-
-Acknowledge contributors
