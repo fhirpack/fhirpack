@@ -7,14 +7,14 @@ FHIRPACK (FHIR Python Analysis Conversion Kit) is a general purpose library that
 The [FHIR](https://www.hl7.org/fhir/resourcelist.html) standard is a promising framework for interacting with healthcare data. However, tools for lightweight and efficient server interaction are lacking. 
 FHIRPACK provides an easy-to-use and intuitive API that enables effortless access to FHIR data.
 
-|:link:| Find us Around the Web |
+|| :link: |
 |:---|:---|
-|:books:| read our [documentation on Read the Docs](https://fhirpack.readthedocs.io)|
-|:rocket:| learn about FHIR, FHIRPACK and PANDAS with our [example Jupyter Notebooks](examples)|
-|:envelope:| [jayson.salazar@uk-essen.de](mailto:jayson.salazar@uk-essen.de) or [salazar@informatik.uni-heidelberg.de](mailto:salazar@informatik.uni-heidelberg.de) |
-|:loudspeaker:| [join our Slack for the latest updates and discussions around FHIR, FHIRPACK and EHR in general](https://join.slack.com/t/fhirpack/shared_invite/zt-16f0dt3rr-76L6OKQIMOFbG2IKYnVLqA)|
-|:bug:	| submit bugs or feature requests preferrably on [our main GitLab tracker](https://gitlab.ume.de/fhirpack/main) or here on GitHub |
-|:wrench: | [learn more about contributing to FHIRPACK or extending its functionality](CONTRIBUTING.rst) |
+|:books: **documentation**| read our [documentation on Read the Docs](https://fhirpack.readthedocs.io)|
+|:rocket: **tutorial**| learn about FHIR, FHIRPACK and PANDAS with our [example Jupyter Notebooks](examples)|
+|:envelope:**contact**| [jayson.salazar@uk-essen.de](mailto:jayson.salazar@uk-essen.de) or [salazar@informatik.uni-heidelberg.de](mailto:salazar@informatik.uni-heidelberg.de) |
+|:loudspeaker:**discussion**| join our [Slack](https://join.slack.com/t/fhirpack/shared_invite/zt-16f0dt3rr-76L6OKQIMOFbG2IKYnVLqA) for the latest updates and discussions around FHIR, FHIRPACK and EHR in general|
+|:bug:	**issues**| submit bugs or feature requests preferrably on [our main GitLab tracker](https://gitlab.ume.de/fhirpack/main) or here on GitHub |
+|:wrench: **development**| [learn more about contributing to FHIRPACK or extending its functionality](CONTRIBUTING.rst) |
 
 ## Installation
 
