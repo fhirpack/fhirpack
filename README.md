@@ -88,7 +88,7 @@ Options:
 
 CLI usage is analogous to the general `fhirpack` dataflow.
 
-| python | shell |
+| Python | CLI |
 | ------ | ------ |
 | `pack.getPatients(["1"])` | `fp -o "getPatients 1"` |
 | `pack.getPatients(["1", "181", "525"])` | `fp -o "getPatients 1, 181, 525"` |
