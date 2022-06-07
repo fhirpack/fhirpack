@@ -166,9 +166,13 @@ Clone the repository
 #. Create an user account on |the repository service| if you do not already have one.
 #. Fork the project repository_: click on the *Fork* button near the top of the
    page. This creates a copy of the code under your account on |the repository service|.
-#. Clone this copy to your local disk::
+#. Clone this repository to your local disk from GitHub with::
 
-    git clone ssh://git@git-dbs.ifi.uni-heidelberg.de:2222/main/lib-fhirpack.git
+    git clone https://github.com/fhirpack/main.git
+
+or from GitLab with: 
+
+    git clone https://gitlab.com/fhirpack/main.git
     cd fhirpack
 
 #. You should run::
