@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to FHIR PACK's documentation!
+Welcome to FHIRPACK's documentation!
 ======================================
 
 .. toctree::
