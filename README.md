@@ -16,14 +16,18 @@ FHIRPACK provides an easy-to-use and intuitive API that enables effortless acces
 |:wrench: **dev**| [learn more about contributing to FHIRPACK or extending its functionality](CONTRIBUTING.rst) |
 |:books: **docs**| read our [documentation on Read the Docs](https://fhirpack.readthedocs.io)|
 
-## Usage
+# Usage
 
-### Installation
+## Installation
 
 You can easily install the latest FHIRPACK release from [PyPI](https://pypi.org/project/fhirpack/) or the most current version by cloning this repository. 
-We strongly recommend using a virtual environment such as [pipenv](https://pipenv.pypa.io/en/latest/#install-pipenv-today), [venv](https://docs.python.org/3/library/venv.html#creating-virtual-environments) or [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation).
+As usual with Python, we strongly recommend using virtual environments such as [pipenv](https://pipenv.pypa.io/en/latest/#install-pipenv-today), [venv](https://docs.python.org/3/library/venv.html#creating-virtual-environments) or [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation).
 
-#### Latest Release from PyPI
+### Requirements
+
+FHIRPACK requires Python 3.9 or greater as well as `libmagic` to work without problems. In case you're using an older Python version, you can use [asdf](https://asdf-vm.com/), [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation) or [pyenv](https://github.com/pyenv/pyenv) to have several Python versions coexist on your system. `libmagic` can be installed with `apt-get install libmagic-dev` on Ubuntu or `brew install libmagic` on MacOS.
+
+### Using the Latest Release from PyPI
 
 
 ```shell
@@ -33,33 +37,37 @@ pip install fhirpack
 alternatively use pipenv:
 
 ```shell
-pipenv install fhirpack
+pipenv --python 3.9 install fhirpack
 ```
 
-#### Latest Version from Local Clone
+### Using the Latest Version a from Local Clone
 
 ```shell
 git clone https://gitlab.com/fhirpack/main.git
-pip install -e . 
+mv main fhirpack
+pip install -e fhirpack 
 ```
 
 alternatively use pipenv:
 
 ```shell
 git clone https://gitlab.com/fhirpack/main.git
+mv main fhirpack
 pipenv install -e fhirpack
 ```
 
-### Configuration 
+## Configuration 
 
 To set up a server configuration, create an `.env` file in the directory where you'll work with FHIRPACK and specify the settings as can be seen in [.env.example](.env.example). 
 Alternatively, copy, rename and modify `.env.example` according to your needs.
 
 :warning: By Default, FHIRPACK connects to the public R4 FHIR test server from HAPIFHIR [http://hapi.fhir.org/baseR4](http://hapi.fhir.org/baseR4). We recommend using this setup to get familiar with the library.
 
-### Simple Examples
+## Simple Examples
 
-#### 1. Get All Conditions for a Patient
+FHIRPACK is based on the [ETL paradigm](https://en.wikipedia.org/wiki/Extract,_transform,_load), and as all functions available to you can be classified as [Extractors](src/fhirpack/extraction), [Transformers](src/fhirpack/transformation) or [Loaders](src/fhirpack/load). In the following examples we quickly show how this works, but remember to have a look at our [examplary Jupyter Notebooks](examples/usage.py) and the [API reference](https://fhirpack.readthedocs.io/en/latest/)
+
+### 1. Get All Conditions for a Patient
 
 In this example we extract all the conditions for a patient with the ID: `43fb1577-3455-41cf-9a07-c45aa5c0219e` from the public FHIR-server with the Base-URL: [http://hapi.fhir.org/baseR4](http://hapi.fhir.org/baseR4).
 
@@ -88,7 +96,7 @@ condition.gatherSimplePaths(["id", "code.coding.code", "code.coding.display", "o
 |3	|`a9c2b72d-b6de-4544-95d8-16246786fb5b`	|`[49727002] `  |`[Cough (finding)]`|`2020-02-23T12:07:58-06:00`|
 |4	|`dd0b2c03-75fe-4d2e-9d49-45c543f5c825`	|`[840539006]`	|`[COVID-19]`|`2020-02-23T13:26:58-06:00`|
 
-#### 2. Get All Patients with Sepsis 
+### 2. Get All Patients with Sepsis 
 
 ```python 
 # import FHIRPACK
@@ -128,7 +136,7 @@ patients.gatherSimplePaths([
 
 :information_source: For more examples and a deep-dive into FHIRPACK, please take a look at the [example jupyter notebooks](examples).
 
-### CLI
+## CLI
 
 FHIRPACK also provides a CLI for easy and quick data exploration.
 
@@ -163,12 +171,12 @@ CLI usage is analogous to the general `fhirpack` dataflow.
 
 :warning: Operations spanning mutliple spaces have to be quoted.
 
-## Bugs and Feature Requests
+# Bugs and Feature Requests
 
 Please report any bugs you find on [our main GitLab Tracker](https://gitlab.com/fhirpack/main/-/issues) or here as well.
 If you want to contribute a fix or feature, you're welcomed to create a pull request from your fork/branch or create a merge request on [our main GitLab repository](https://gitlab.com/fhirpack/main) according to our [contribution guidelines](CONTRIBUTING.rst).
 
-## License
+# License
 
 Copyright (c) 2022 Jayson Salazar
 
