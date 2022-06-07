@@ -65,11 +65,11 @@ condition.gatherSimplePaths(["id", "code.coding.code", "code.coding.display", "o
 
 |	|id					|code.coding.code|code.coding.display	 |onsetDateTime|	
 |:--|:--|:--|:--|:--|
-|0	|`2a65f2a4-1a8d-46d9-a5f9-3af95a5d99bd`	|`[267036007]`	|`[Dyspnea (finding)]	`|`2020-02-23T12:07:58-06:00`|
-|1	|`c9f11f99-796c-4c34-9a8e-246f1faa0039`	|`[840544004]`	|`[Suspected COVID-19]	`|`2020-02-23T12:07:58-06:00`|
-|2	|`d5c30da3-546c-486c-bdb4-ff8f1b62a553`	|`[386661006]`	|`[Fever (finding)]	`|`2020-02-23T12:07:58-06:00`|
-|3	|`a9c2b72d-b6de-4544-95d8-16246786fb5b`	|`[49727002] `  |`[Cough (finding)]	`|`2020-02-23T12:07:58-06:00`|
-|4	|`dd0b2c03-75fe-4d2e-9d49-45c543f5c825`	|`[840539006]`	|`[COVID-19]		`|`2020-02-23T13:26:58-06:00`|
+|0	|`2a65f2a4-1a8d-46d9-a5f9-3af95a5d99bd`	|`[267036007]`	|`[Dyspnea (finding)]`|`2020-02-23T12:07:58-06:00`|
+|1	|`c9f11f99-796c-4c34-9a8e-246f1faa0039`	|`[840544004]`	|`[Suspected COVID-19]`|`2020-02-23T12:07:58-06:00`|
+|2	|`d5c30da3-546c-486c-bdb4-ff8f1b62a553`	|`[386661006]`	|`[Fever (finding)]`|`2020-02-23T12:07:58-06:00`|
+|3	|`a9c2b72d-b6de-4544-95d8-16246786fb5b`	|`[49727002] `  |`[Cough (finding)]`|`2020-02-23T12:07:58-06:00`|
+|4	|`dd0b2c03-75fe-4d2e-9d49-45c543f5c825`	|`[840539006]`	|`[COVID-19]`|`2020-02-23T13:26:58-06:00`|
 
 ### 2. Get All Patients with Sepsis 
 
@@ -99,15 +99,15 @@ patients.gatherSimplePaths(
 
 |	|name.given	 |name.family		 |address.country	 |address.city	|birthDate|
 |:--|:--|:--|:--|:--|:--|
-|0	|`[[Herbert]]	`|`[Hoover]		`|`None	`|`[Everytown	`|` 1990-07-04`|
-|1	|`[[Aaron697]]	`|`[Stiedemann542]	`|`[US]	`|`[Westford]	`|` 1946-03-29`|
-|2	|`[[Aaron697]]	`|`[Stiedemann542]	`|`[US]	`|`[Westford]	`|` 1946-03-29`|
-|3	|`[[Aaron697]]	`|`[Stiedemann542]	`|`[US]	`|`[Westford]	`|` 1946-03-29`|
-|4	|`[[Aaron697]]	`|`[Stiedemann542]	`|`[US]	`|`[Westford]	`|` 1946-03-29`|
-|5	|`[[Aaron697]]	`|`[Stiedemann542]	`|`[US]	`|`[Westford]	`|` 1946-03-29`|
-|6	|`[[Charlesetta336], [Charlesetta336]]	`|`[555-242-2559]	`|`[US]	`|`[Falmouth]`|`1943-12-17`|
-|7	|`[[Hiram237]]	`|`[Kertzmann286]	`|`[US]	`|`[Fall River]	`|`1999-06-07`|
-|11	|`[[Tim]]	`|`[Shabad]		`|`None	`|`None		`|`1980-01-01`|
+|0	|`[[Herbert]]`	|`[Hoover]`		|`None`	|`[Everytown`	|`1990-07-04`|
+|1	|`[[Aaron697]]`	|`[Stiedemann542]`	|`[US]`	|`[Westford]`	|`1946-03-29`|
+|2	|`[[Aaron697]]`	|`[Stiedemann542]`	|`[US]`	|`[Westford]`	|`1946-03-29`|
+|3	|`[[Aaron697]]`	|`[Stiedemann542]`	|`[US]`	|`[Westford]`	|`1946-03-29`|
+|4	|`[[Aaron697]]`	|`[Stiedemann542]`	|`[US]`	|`[Westford]`	|`1946-03-29`|
+|5	|`[[Aaron697]]`	|`[Stiedemann542]`	|`[US]`	|`[Westford]`	|`1946-03-29`|
+|6	|`[[Charlesetta336], [Charlesetta336]]`	|`[Kihn564, Pouros728]`	|`[US]`|`[Falmouth]`	|`1943-12-17`|
+|7	|`[[Hiram237]]`	|`[Kertzmann286]`	|`[US]`	|`[Fall River]`	|`1999-06-07`|
+|11	|`[[Tim]]`	|`[Shabad]`		|`None`	|`None`		|`1980-01-01`|
 
 :information_source: For more examples and a deep-dive into FHIRPACK, please take a look at the [example jupyter notebooks](examples).
 
