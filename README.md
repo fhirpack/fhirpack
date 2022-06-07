@@ -7,7 +7,7 @@ FHIRPACK (FHIR Python Analysis Conversion Kit) is a general purpose package that
 The [FHIR](https://www.hl7.org/fhir/resourcelist.html) standard is a promising framework for interacting with healthcare data. However, tools for lightweight and efficient server communcation are lacking. FHIRPACK provides an easy-to-use and intuitive API that enables effortless access to FHIR data.
 
 - **Website: read the docs**
-- **Contact: email**
+- **Contact: jayson.salazar@uk-essen.de**
 - **Tutorial: [notebooks](examples)**
 - **Slack:** https://join.slack.com/t/fhirpack/shared_invite/zt-16f0dt3rr-76L6OKQIMOFbG2IKYnVLqA
 - **Bug reports:**
