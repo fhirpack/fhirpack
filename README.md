@@ -23,9 +23,8 @@ FHIRPACK provides an easy-to-use and intuitive API that enables effortless acces
 You can easily install the latest FHIRPACK release from [PyPI](https://pypi.org/project/fhirpack/) or the most current version by cloning this repository. 
 We strongly recommend using a virtual environment such as [venv](https://docs.python.org/3/library/venv.html#creating-virtual-environments), [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation) or [pipenv](https://pipenv.pypa.io/en/latest/#install-pipenv-today).
 
-#### From PyPI
+#### Latest Release from PyPI
 
-Install the latest release of FHIRPACK:
 
 ```shell
 pip install fhirpack
@@ -37,9 +36,7 @@ alternatively use pipenv:
 pipenv install fhirpack
 ```
 
-### From Local Clone
-
-Install the latest version of FHIRPACK:
+### Latest Version from Local Clone
 
 ```shell
 git clone https://gitlab.com/fhirpack/main.git
