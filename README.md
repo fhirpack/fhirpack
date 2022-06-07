@@ -14,7 +14,7 @@ FHIRPACK provides an easy-to-use and intuitive API that enables effortless acces
 |:loudspeaker: **talk**| join our [Slack channel](https://join.slack.com/t/fhirpack/shared_invite/zt-16f0dt3rr-76L6OKQIMOFbG2IKYnVLqA) for the latest updates and discussions around FHIR, FHIRPACK and EHR in general|
 |:bug: **issues**| bugs and feature requests go preferrably on [our main GitLab tracker](https://gitlab.ume.de/fhirpack/main) or here on GitHub |
 |:wrench: **dev**| [learn more about contributing to FHIRPACK or extending its functionality](CONTRIBUTING.rst) |
-|:books: **reference**| read our [documentation on Read the Docs](https://fhirpack.readthedocs.io)|
+|:books: **docs**| read our [documentation on Read the Docs](https://fhirpack.readthedocs.io)|
 
 ## Usage
 
