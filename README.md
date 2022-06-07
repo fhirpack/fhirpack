@@ -2,7 +2,7 @@
 
 FHIRPACK (FHIR Python Analysis Conversion Kit) is a general purpose library that simplifies the access, analysis and representation of FHIR and EHR data. FHIRPACK was designed and developed at Institute for Artificial Intelligence in Medicine ([IKIM](https://mml.ikim.nrw/)) and the Database Systems Research Group of the University of Heidelberg ([HDDBS](https://dbs.ifi.uni-heidelberg.de/)). 
 
-## About FHIRPACK
+# About FHIRPACK
 
 The [FHIR](https://www.hl7.org/fhir/resourcelist.html) standard is a promising framework for interacting with healthcare data. However, tools for lightweight and efficient server interaction are lacking. 
 FHIRPACK provides an easy-to-use and intuitive API that enables effortless access to FHIR data.
@@ -16,7 +16,9 @@ FHIRPACK provides an easy-to-use and intuitive API that enables effortless acces
 |:wrench: **development**| [learn more about contributing to FHIRPACK or extending its functionality](CONTRIBUTING.rst) |
 |:books: **reference**| read our [documentation on Read the Docs](https://fhirpack.readthedocs.io)|
 
-## Installation
+## Usage
+
+### Installation
 
 You can easily install the latest FHIRPACK release from [PyPI](https://pypi.org/project/fhirpack/) or the most current version by cloning this repository. 
 We strongly recommend using a virtual environment such as [venv](https://docs.python.org/3/library/venv.html#creating-virtual-environments), [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation) or [pipenv](https://pipenv.pypa.io/en/latest/#install-pipenv-today).
@@ -40,9 +42,9 @@ Alternatively, copy, rename and modify `.env.example` according to your needs.
 
 :warning: By Default, FHIRPACK connects to the public R4 FHIR test server from HAPIFHIR [http://hapi.fhir.org/baseR4](http://hapi.fhir.org/baseR4). We recommend using this setup to get familiar with the library.
 
-## Simple Examples
+### Simple Examples
 
-### 1. Get All Conditions for a Patient
+#### 1. Get All Conditions for a Patient
 
 In this example we extract all the conditions for a patient with the ID: `43fb1577-3455-41cf-9a07-c45aa5c0219e` from the public FHIR-server with the Base-URL: [http://hapi.fhir.org/baseR4](http://hapi.fhir.org/baseR4).
 
@@ -71,7 +73,7 @@ condition.gatherSimplePaths(["id", "code.coding.code", "code.coding.display", "o
 |3	|`a9c2b72d-b6de-4544-95d8-16246786fb5b`	|`[49727002] `  |`[Cough (finding)]`|`2020-02-23T12:07:58-06:00`|
 |4	|`dd0b2c03-75fe-4d2e-9d49-45c543f5c825`	|`[840539006]`	|`[COVID-19]`|`2020-02-23T13:26:58-06:00`|
 
-### 2. Get All Patients with Sepsis 
+#### 2. Get All Patients with Sepsis 
 
 ```python 
 # import FHIRPACK
@@ -111,7 +113,7 @@ patients.gatherSimplePaths(
 
 :information_source: For more examples and a deep-dive into FHIRPACK, please take a look at the [example jupyter notebooks](examples).
 
-## CLI
+### CLI
 
 FHIRPACK also provides a CLI for easy and quick data exploration.
 
@@ -146,13 +148,13 @@ CLI usage is analogous to the general `fhirpack` dataflow.
 
 :warning: Operations spanning mutliple spaces have to be quoted.
 
-# Bugs and Feature Requests
+## Bugs and Feature Requests
 
 Please report any bugs you find on [our main GitLab Tracker](https://gitlab.com/fhirpack/main/-/issues), here or create a pull request in [our main repository according](https://gitlab.com/fhirpack/main) to our [contribution guidelines](CONTRIBUTING.rst).
 
 ---
 
-# License
+## License
 
 Copyright (c) 2022 Jayson Salazar
 
