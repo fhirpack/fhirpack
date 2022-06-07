@@ -33,7 +33,7 @@ alternatively use pipenv:
 pipenv install fhirpack
 ```
 
-### Server configurations
+### Configuration 
 
 To set up a server configurtation, create an `.env` file in the directory where you'll work with FHIRPACK and specify the settings as can be seen in [.env.example](.env.example). 
 Alternatively, copy, rename and modify `.env.example` according to your needs.
@@ -42,7 +42,7 @@ Alternatively, copy, rename and modify `.env.example` according to your needs.
 
 ## Simple Examples
 
-### Get all conditions for a patient
+### 1. Get All Conditions for a Patient
 
 In this example we extract all the conditions for a patient with the ID: `43fb1577-3455-41cf-9a07-c45aa5c0219e` from the public FHIR-server with the Base-URL: [http://hapi.fhir.org/baseR4](http://hapi.fhir.org/baseR4).
 
@@ -71,7 +71,7 @@ condition.gatherSimplePaths(["id", "code.coding.code", "code.coding.display", "o
 |3	|`a9c2b72d-b6de-4544-95d8-16246786fb5b`	|`[49727002] `  |`[Cough (finding)]	`|`2020-02-23T12:07:58-06:00`|
 |4	|`dd0b2c03-75fe-4d2e-9d49-45c543f5c825`	|`[840539006]`	|`[COVID-19]		`|`2020-02-23T13:26:58-06:00`|
 
-### Get all patients with sepsis.
+### 2. Get All Patients with Sepsis 
 
 ```python 
 # import FHIRPACK
