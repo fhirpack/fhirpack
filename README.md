@@ -11,8 +11,8 @@ FHIRPACK provides an easy-to-use and intuitive API that enables effortless acces
 |:---|:---|
 |:rocket: **tutorial**| learn about FHIR, FHIRPACK and PANDAS with our [example Jupyter Notebooks](examples)|
 |:envelope: **contact**| [jayson.salazar@uk-essen.de](mailto:jayson.salazar@uk-essen.de) or [salazar@informatik.uni-heidelberg.de](mailto:salazar@informatik.uni-heidelberg.de) |
-|:loudspeaker: **conversation**| join our [Slack](https://join.slack.com/t/fhirpack/shared_invite/zt-16f0dt3rr-76L6OKQIMOFbG2IKYnVLqA) for the latest updates and discussions around FHIR, FHIRPACK and EHR in general|
-|:bug: **issues**| submit bugs or feature requests preferrably on [our main GitLab tracker](https://gitlab.ume.de/fhirpack/main) or here on GitHub |
+|:loudspeaker: **conversation**| join our [Slack channel](https://join.slack.com/t/fhirpack/shared_invite/zt-16f0dt3rr-76L6OKQIMOFbG2IKYnVLqA) for the latest updates and discussions around FHIR, FHIRPACK and EHR in general|
+|:bug: **issues**| bugs and feature requests go preferrably on [our main GitLab tracker](https://gitlab.ume.de/fhirpack/main) or here on GitHub |
 |:wrench: **development**| [learn more about contributing to FHIRPACK or extending its functionality](CONTRIBUTING.rst) |
 |:books: **reference**| read our [documentation on Read the Docs](https://fhirpack.readthedocs.io)|
 
@@ -23,7 +23,9 @@ FHIRPACK provides an easy-to-use and intuitive API that enables effortless acces
 You can easily install the latest FHIRPACK release from [PyPI](https://pypi.org/project/fhirpack/) or the most current version by cloning this repository. 
 We strongly recommend using a virtual environment such as [venv](https://docs.python.org/3/library/venv.html#creating-virtual-environments), [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation) or [pipenv](https://pipenv.pypa.io/en/latest/#install-pipenv-today).
 
-Install the latest version of FHIRPACK:
+#### From PyPI
+
+Install the latest release of FHIRPACK:
 
 ```shell
 pip install fhirpack
@@ -33,6 +35,22 @@ alternatively use pipenv:
 
 ```shell
 pipenv install fhirpack
+```
+
+### From Local Clone
+
+Install the latest version of FHIRPACK:
+
+```shell
+git clone https://gitlab.com/fhirpack/main.git
+pip install -e . 
+```
+
+alternatively use pipenv:
+
+```shell
+git clone https://gitlab.com/fhirpack/main.git
+pipenv install -e fhirpack
 ```
 
 ### Configuration 
