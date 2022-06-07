@@ -4,8 +4,8 @@ FHIRPACK (FHIR Python Analysis Conversion Kit) is a general purpose library that
 
 # About FHIRPACK
 
-The [FHIR](https://www.hl7.org/fhir/resourcelist.html) standard is a promising framework for interacting with healthcare data. However, tools for lightweight and efficient server interaction are lacking. 
-FHIRPACK provides an easy-to-use and intuitive API that enables effortless access to FHIR data.
+The [FHIR](https://www.hl7.org/fhir/resourcelist.html) standard is a promising framework for interacting with healthcare data. However, expressive tools for efficient FHIR server interaction are few and are either too low level, and powerful, or too abstract, and lack features. 
+FHIRPACK provides an easy-to-use and intuitive API that enables effortless access to FHIR data. We strive for a balance between flexibility, usability and feature richness in order to make interacting with FHIR data less painful.
 
 || :link: |
 |:---|:---|
@@ -36,7 +36,7 @@ alternatively use pipenv:
 pipenv install fhirpack
 ```
 
-### Latest Version from Local Clone
+#### Latest Version from Local Clone
 
 ```shell
 git clone https://gitlab.com/fhirpack/main.git
@@ -165,9 +165,8 @@ CLI usage is analogous to the general `fhirpack` dataflow.
 
 ## Bugs and Feature Requests
 
-Please report any bugs you find on [our main GitLab Tracker](https://gitlab.com/fhirpack/main/-/issues), here or create a pull request in [our main repository according](https://gitlab.com/fhirpack/main) to our [contribution guidelines](CONTRIBUTING.rst).
-
----
+Please report any bugs you find on [our main GitLab Tracker](https://gitlab.com/fhirpack/main/-/issues) or here as well.
+If you want to contribute a fix or feature, you're welcomed to create a pull request from your fork/branch or create a merge request on [our main GitLab repository](https://gitlab.com/fhirpack/main) according to our [contribution guidelines](CONTRIBUTING.rst).
 
 ## License
 
