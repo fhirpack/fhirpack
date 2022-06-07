@@ -31,7 +31,7 @@ pipenv install fhirpack
 
 ### Server configurations
 
-To set your server configurtations, create an `.env` file in the root of the directory and specify settings as can be found in the example `.env.example` file. Alternatively, modify `.env.example` accorging to your needs.
+To set your server configurtations, create an `.env` file in the root of the directory and specify settings as can be seen in [.env.example](.env.example). Alternatively, copy, rename and modify `.env.example` according to your needs.
 
 **Note:** By Default, FHIRPACK connects to the public [http://hapi.fhir.org/baseR4](http://hapi.fhir.org/baseR4). We recommend using this setup to get familiar with the library.
 
