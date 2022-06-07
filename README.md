@@ -106,3 +106,6 @@ Please report any bugs that you find here or create a pull request according to 
 
 # License
 
+Copyright (c) 2022 Jayson Salazar
+
+
