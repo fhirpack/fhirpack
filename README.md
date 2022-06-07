@@ -100,7 +100,7 @@ CLI usage is analogous to the general `fhirpack` dataflow.
 
 # Bugs
 
-Please report any bugs that you find here or create a pull request accoring to the [contribution guidelines](CONTRIBUTING.rst).
+Please report any bugs that you find here or create a pull request according to the [contribution guidelines](CONTRIBUTING.rst).
 
 ---
 
