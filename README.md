@@ -42,12 +42,20 @@ To set your server configurtations, create an `.env` file in the root of the dir
 In this example we extract all the conditions for a patient with the ID: `43fb1577-3455-41cf-9a07-c45aa5c0219e` from the public FHIR-server with the Base-URL: [http://hapi.fhir.org/baseR4](http://hapi.fhir.org/baseR4).
 
 ```python
-import fhirpack as fp # import FHIRPACK
-pack = fp.PACK("http://hapi.fhir.org/baseR5") # instantiate a connected PACK for the specified FHIR API base 
+# import FHIRPACK
+import fhirpack as fp 
 
-patient = pack.getPatients(["43fb1577-3455-41cf-9a07-c45aa5c0219e"]) # retrieve a list of Patients of length one by ID
-condition = patient.getConditions().explode() # retrieve all respective conditions for said patients
-condition.gatherSimplePaths(["id", "code.coding.code", "code.coding.display", "onsetDateTime" ]) # gather and display the FHIR elements with the specified paths from the conditions
+# instantiate a connected PACK for the specified FHIR API base 
+pack = fp.PACK("http://hapi.fhir.org/baseR5") 
+
+# retrieve a list of Patients of length one by ID
+patient = pack.getPatients(["43fb1577-3455-41cf-9a07-c45aa5c0219e"]) 
+
+# retrieve all respective conditions for said patients
+condition = patient.getConditions().explode() 
+
+# gather and display the FHIR elements with the specified paths from the conditions
+condition.gatherSimplePaths(["id", "code.coding.code", "code.coding.display", "onsetDateTime" ]) 
 ```
 
 |	id	|code.coding.code	|code.coding.display	|onsetDateTime|	
@@ -55,18 +63,26 @@ condition.gatherSimplePaths(["id", "code.coding.code", "code.coding.display", "o
 |0	|`2a65f2a4-1a8d-46d9-a5f9-3af95a5d99bd`	|`[267036007]`	|`[Dyspnea (finding)]	`|`2020-02-23T12:07:58-06:00`|
 |1	|`c9f11f99-796c-4c34-9a8e-246f1faa0039`	|`[840544004]`	|`[Suspected COVID-19]	`|`2020-02-23T12:07:58-06:00`|
 |2	|`d5c30da3-546c-486c-bdb4-ff8f1b62a553`	|`[386661006]`	|`[Fever (finding)]	`|`2020-02-23T12:07:58-06:00`|
-|3	|`a9c2b72d-b6de-4544-95d8-16246786fb5b`	|`[49727002] `   `|[Cough (finding)]	`|`2020-02-23T12:07:58-06:00`|
+|3	|`a9c2b72d-b6de-4544-95d8-16246786fb5b`	|`[49727002] `  |`|[Cough (finding)]	`|`2020-02-23T12:07:58-06:00`|
 |4	|`dd0b2c03-75fe-4d2e-9d49-45c543f5c825`	|`[840539006]`	|`[COVID-19]		`|`2020-02-23T13:26:58-06:00`|
 
 ### Get all patients with sepsis.
 
 ```python 
-import fhirpack as fp # import FHIRPACK
-pack = fp.PACK("http://hapi.fhir.org/baseR5") # instantiate a connected PACK for the specified FHIR API base 
+# import FHIRPACK
+import fhirpack as fp 
 
-conditions = pack.getConditions(searchParams={"_content": "sepsis"}) # extract all conditions containing the word sepsis
-patients = conditions.getPatients().explode() # get the respective patients
-patients.gatherSimplePaths(["name.given", "name.family", "telecom.value", "address.country", "address.city", "birthDate"]) # display the specified FHIR elements of the patients
+# instantiate a connected PACK for the specified FHIR API base 
+pack = fp.PACK("http://hapi.fhir.org/baseR5") 
+
+# retrieve  all conditions containing the term sepsis
+conditions = pack.getConditions(searchParams={"_content": "sepsis"}) 
+
+# get the respective patients
+patients = conditions.getPatients().explode() 
+
+# display the specified FHIR elements of the patients
+patients.gatherSimplePaths(["name.given", "name.family", "telecom.value", "address.country", "address.city", "birthDate"]) 
 ```
 
 |	name.given	|name.family	|telecom.value	|address.country	|address.city	|birthDate|
