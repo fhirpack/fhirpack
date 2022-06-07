@@ -9,7 +9,7 @@ The [FHIR](https://www.hl7.org/fhir/resourcelist.html) standard is a promising f
 - **Website: read the docs**
 - **Contact: email**
 - **Tutorial: [notebooks](examples)**
-- **Slack:**
+- **Slack:** https://join.slack.com/t/fhirpack/shared_invite/zt-16f0dt3rr-76L6OKQIMOFbG2IKYnVLqA
 - **Bug reports:**
 - **Contributing: [CONTRIBUTING.rst](CONTRIBUTING.rst)**
 
