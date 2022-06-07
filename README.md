@@ -64,7 +64,7 @@ condition.gatherSimplePaths(["id", "code.coding.code", "code.coding.display", "o
 ```
 
 |	|id	|code.coding.code	|code.coding.display	|onsetDateTime|	
-|:--|:--|:--|:--|
+|:--|:--|:--|:--|:--|
 |0	|`2a65f2a4-1a8d-46d9-a5f9-3af95a5d99bd`	|`[267036007]`	|`[Dyspnea (finding)]	`|`2020-02-23T12:07:58-06:00`|
 |1	|`c9f11f99-796c-4c34-9a8e-246f1faa0039`	|`[840544004]`	|`[Suspected COVID-19]	`|`2020-02-23T12:07:58-06:00`|
 |2	|`d5c30da3-546c-486c-bdb4-ff8f1b62a553`	|`[386661006]`	|`[Fever (finding)]	`|`2020-02-23T12:07:58-06:00`|
@@ -98,7 +98,7 @@ patients.gatherSimplePaths(
 ```
 
 |	|name.given	|name.family	|telecom.value	|address.country	|address.city	|birthDate|
-|:--|:--|:--|:--|:--|:--|
+|:--|:--|:--|:--|:--|:--|:--|
 |0	|`[[Herbert]]	`|`[Hoover]		`|`[8885551234]		`|`None	`|`[Everytown	`|` 1990-07-04`|
 |1	|`[[Aaron697]]	`|`[Stiedemann542]	`|`[555-213-2064]	`|`[US]	`|`[Westford]	`|` 1946-03-29`|
 |2	|`[[Aaron697]]	`|`[Stiedemann542]	`|`[555-213-2064]	`|`[US]	`|`[Westford]	`|` 1946-03-29`|
