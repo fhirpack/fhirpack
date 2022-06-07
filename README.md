@@ -11,9 +11,9 @@ FHIRPACK provides an easy-to-use and intuitive API that enables effortless acces
 |:---|:---|
 |:rocket: **tutorial**| learn about FHIR, FHIRPACK and PANDAS with our [example Jupyter Notebooks](examples)|
 |:envelope: **contact**| [jayson.salazar@uk-essen.de](mailto:jayson.salazar@uk-essen.de) or [salazar@informatik.uni-heidelberg.de](mailto:salazar@informatik.uni-heidelberg.de) |
-|:loudspeaker: **conversation**| join our [Slack channel](https://join.slack.com/t/fhirpack/shared_invite/zt-16f0dt3rr-76L6OKQIMOFbG2IKYnVLqA) for the latest updates and discussions around FHIR, FHIRPACK and EHR in general|
+|:loudspeaker: **talk**| join our [Slack channel](https://join.slack.com/t/fhirpack/shared_invite/zt-16f0dt3rr-76L6OKQIMOFbG2IKYnVLqA) for the latest updates and discussions around FHIR, FHIRPACK and EHR in general|
 |:bug: **issues**| bugs and feature requests go preferrably on [our main GitLab tracker](https://gitlab.ume.de/fhirpack/main) or here on GitHub |
-|:wrench: **development**| [learn more about contributing to FHIRPACK or extending its functionality](CONTRIBUTING.rst) |
+|:wrench: **dev**| [learn more about contributing to FHIRPACK or extending its functionality](CONTRIBUTING.rst) |
 |:books: **reference**| read our [documentation on Read the Docs](https://fhirpack.readthedocs.io)|
 
 ## Usage
@@ -157,7 +157,7 @@ CLI usage is analogous to the general `fhirpack` dataflow.
 | ------ | ------ |
 | `pack.getPatients(["1"])` | `fp -o "getPatients 1"` |
 | `pack.getPatients(["1", "181", "525"])` | `fp -o "getPatients 1, 181, 525"` |
-| `PACK(envFile=".../env.example").getPatients(["1"])` | `fp -e .env.example -o "getPatients 1"` |
+| `PACK(envFile=".env.example").getPatients(["1"])` | `fp -e .env.example -o "getPatients 1"` |
 | `pack.getPatients(searchParams={}).gatherSimplePaths(["name.family"])` | `fp -o "getPatients" -p all -o "gatherSimplePaths name.family"` |
 | `pack.getPatients(searchParams={"family":"Koepp"})` | `fp -o "getPatients" -p "family = Koepp"` |
 
