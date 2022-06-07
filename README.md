@@ -89,14 +89,14 @@ conditions = pack.getConditions(searchParams={"_content": "sepsis"})
 patients = conditions.getPatients().explode() 
 
 # display the specified FHIR elements of the patients
-patients.gatherSimplePaths(
-				["name.given", 
-				"name.family",
-				"telecom.value", 
-				"address.country",
-				"address.city",
-				"birthDate"]
-) 
+patients.gatherSimplePaths([
+	"name.given", 
+	"name.family",
+	"telecom.value", 
+	"address.country",
+	"address.city",
+	"birthDate"
+]) 
 ```
 
 |	|name.given	 |name.family		 |address.country	 |address.city	|birthDate|
