@@ -21,7 +21,7 @@ FHIRPACK provides an easy-to-use and intuitive API that enables effortless acces
 ### Installation
 
 You can easily install the latest FHIRPACK release from [PyPI](https://pypi.org/project/fhirpack/) or the most current version by cloning this repository. 
-We strongly recommend using a virtual environment such as [venv](https://docs.python.org/3/library/venv.html#creating-virtual-environments), [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation) or [pipenv](https://pipenv.pypa.io/en/latest/#install-pipenv-today).
+We strongly recommend using a virtual environment such as [pipenv](https://pipenv.pypa.io/en/latest/#install-pipenv-today), [venv](https://docs.python.org/3/library/venv.html#creating-virtual-environments) or [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation).
 
 #### Latest Release from PyPI
 
@@ -52,7 +52,7 @@ pipenv install -e fhirpack
 
 ### Configuration 
 
-To set up a server configurtation, create an `.env` file in the directory where you'll work with FHIRPACK and specify the settings as can be seen in [.env.example](.env.example). 
+To set up a server configuration, create an `.env` file in the directory where you'll work with FHIRPACK and specify the settings as can be seen in [.env.example](.env.example). 
 Alternatively, copy, rename and modify `.env.example` according to your needs.
 
 :warning: By Default, FHIRPACK connects to the public R4 FHIR test server from HAPIFHIR [http://hapi.fhir.org/baseR4](http://hapi.fhir.org/baseR4). We recommend using this setup to get familiar with the library.
