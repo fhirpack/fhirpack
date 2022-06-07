@@ -1,20 +1,24 @@
 # FHIR Python Analysis and Conversion Kit (FHIRPACK)
 
-FHIRPACK (FHIR Python Analysis Conversion Kit) is a general purpose package that simplifies the access, analysis and representation of FHIR and EHR data. FHIRPACK was designed and developed at Institute for Artificial Intelligence in Medicine ([IKIM](https://mml.ikim.nrw/)) and the Database Systems Research Group of the University of Heidelberg ([HDDBS](https://dbs.ifi.uni-heidelberg.de/)). 
+FHIRPACK (FHIR Python Analysis Conversion Kit) is a general purpose library that simplifies the access, analysis and representation of FHIR and EHR data. FHIRPACK was designed and developed at Institute for Artificial Intelligence in Medicine ([IKIM](https://mml.ikim.nrw/)) and the Database Systems Research Group of the University of Heidelberg ([HDDBS](https://dbs.ifi.uni-heidelberg.de/)). 
 
 ## About FHIRPACK
 
-The [FHIR](https://www.hl7.org/fhir/resourcelist.html) standard is a promising framework for interacting with healthcare data. However, tools for lightweight and efficient server communcation are lacking. FHIRPACK provides an easy-to-use and intuitive API that enables effortless access to FHIR data.
+The [FHIR](https://www.hl7.org/fhir/resourcelist.html) standard is a promising framework for interacting with healthcare data. However, tools for lightweight and efficient server interaction are lacking. 
+FHIRPACK provides an easy-to-use and intuitive API that enables effortless access to FHIR data.
 
-- **Tutorial: [Sample Jupyter Notebooks](examples)**
-- **Documentation and Reference: [Read the Docs](https://fhirpack.readthedocs.io)**
-- **Contact: jayson.salazar@uk-essen.de**
-- **Questions, Discussions and Collaboration:** [Slack](https://join.slack.com/t/fhirpack/shared_invite/zt-16f0dt3rr-76L6OKQIMOFbG2IKYnVLqA)
-- **Bug reports and Feature Requests:** preferrably on [our main GitLab tracker](https://gitlab.ume.de/fhirpack/main) or here on GitHub 
-- **Contributing and Extending FHIRPACK: See [CONTRIBUTING.rst](CONTRIBUTING.rst)**
+|:link:| Find us Around the Web |
+|:---|:---|
+|:books:| read our [documentation on Read the Docs](https://fhirpack.readthedocs.io)|
+|:rocket:| learn about FHIR, FHIRPACK and PANDAS with our [example Jupyter Notebooks](examples)|
+|:envelope:| [jayson.salazar@uk-essen.de](mailto:jayson.salazar@uk-essen.de) or [salazar@informatik.uni-heidelberg.de](mailto:salazar@informatik.uni-heidelberg.de) |
+|:loudspeaker:| [join our Slack for the latest updates and discussions around FHIR, FHIRPACK and EHR in general](https://join.slack.com/t/fhirpack/shared_invite/zt-16f0dt3rr-76L6OKQIMOFbG2IKYnVLqA)|
+|:bug:	| submit bugs or feature requests preferrably on [our main GitLab tracker](https://gitlab.ume.de/fhirpack/main) or here on GitHub |
+|:wrench: | [learn more about contributing to FHIRPACK or extending its functionality](CONTRIBUTING.rst) |
 
 ## Installation
 
+You can easily install the latest FHIRPACK release from [PyPI](https://pypi.org/project/fhirpack/) or the most current version by cloning this repository. 
 We strongly recommend using a virtual environment such as [venv](https://docs.python.org/3/library/venv.html#creating-virtual-environments), [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation) or [pipenv](https://pipenv.pypa.io/en/latest/#install-pipenv-today).
 
 Install the latest version of FHIRPACK:
@@ -31,9 +35,10 @@ pipenv install fhirpack
 
 ### Server configurations
 
-To set your server configurtations, create an `.env` file in the root of the directory and specify settings as can be seen in [.env.example](.env.example). Alternatively, copy, rename and modify `.env.example` according to your needs.
+To set up a server configurtation, create an `.env` file in the directory where you'll work with FHIRPACK and specify the settings as can be seen in [.env.example](.env.example). 
+Alternatively, copy, rename and modify `.env.example` according to your needs.
 
-**Note:** By Default, FHIRPACK connects to the public [http://hapi.fhir.org/baseR4](http://hapi.fhir.org/baseR4). We recommend using this setup to get familiar with the library.
+:warning: **Note:** By Default, FHIRPACK connects to the public R4 FHIR test server from HAPIFHIR [http://hapi.fhir.org/baseR4](http://hapi.fhir.org/baseR4). We recommend using this setup to get familiar with the library.
 
 ## Simple Examples
 
@@ -58,7 +63,7 @@ condition = patient.getConditions().explode()
 condition.gatherSimplePaths(["id", "code.coding.code", "code.coding.display", "onsetDateTime" ]) 
 ```
 
-|	id	|code.coding.code	|code.coding.display	|onsetDateTime|	
+|	|id	|code.coding.code	|code.coding.display	|onsetDateTime|	
 |:--|:--|:--|:--|
 |0	|`2a65f2a4-1a8d-46d9-a5f9-3af95a5d99bd`	|`[267036007]`	|`[Dyspnea (finding)]	`|`2020-02-23T12:07:58-06:00`|
 |1	|`c9f11f99-796c-4c34-9a8e-246f1faa0039`	|`[840544004]`	|`[Suspected COVID-19]	`|`2020-02-23T12:07:58-06:00`|
@@ -82,10 +87,17 @@ conditions = pack.getConditions(searchParams={"_content": "sepsis"})
 patients = conditions.getPatients().explode() 
 
 # display the specified FHIR elements of the patients
-patients.gatherSimplePaths(["name.given", "name.family", "telecom.value", "address.country", "address.city", "birthDate"]) 
+patients.gatherSimplePaths(
+				["name.given", 
+				"name.family",
+				"telecom.value", 
+				"address.country",
+				"address.city",
+				"birthDate"]
+) 
 ```
 
-|	name.given	|name.family	|telecom.value	|address.country	|address.city	|birthDate|
+|	|name.given	|name.family	|telecom.value	|address.country	|address.city	|birthDate|
 |:--|:--|:--|:--|:--|:--|
 |0	|`[[Herbert]]	`|`[Hoover]		`|`[8885551234]		`|`None	`|`[Everytown	`|` 1990-07-04`|
 |1	|`[[Aaron697]]	`|`[Stiedemann542]	`|`[555-213-2064]	`|`[US]	`|`[Westford]	`|` 1946-03-29`|
@@ -97,13 +109,13 @@ patients.gatherSimplePaths(["name.given", "name.family", "telecom.value", "addre
 |7	|`[[Hiram237]]	`|`[Kertzmann286]	`|`[555-171-6182]	`|`[US]	`|`[Fall River]	`|`1999-06-07`|
 |11	|`[[Tim]]	`|`[Shabad]		`|`None			`|`None	`|`None		`|`1980-01-01`|
 
-**Note:** For more examples and a deep-dive into FHIRPACK, please take a look at the [example jupyter notebooks](examples).
+:information_source: **Note:** For more examples and a deep-dive into FHIRPACK, please take a look at the [example jupyter notebooks](examples).
 
 ## CLI
 
 FHIRPACK also provides a CLI for easy and quick data exploration.
 
-The CLI can be invoked by using `python -m fhirpack.cli` or `fp`.
+The CLI can be invoked by using `python -m fhirpack.cli` or `fp` once FHIRPACK has been installed.
 
 ```shell
 > fp --help                                
@@ -132,11 +144,11 @@ CLI usage is analogous to the general `fhirpack` dataflow.
 | `pack.getPatients(searchParams={}).gatherSimplePaths(["name.family"])` | `fp -o "getPatients" -p all -o "gatherSimplePaths name.family"` |
 | `pack.getPatients(searchParams={"family":"Koepp"})` | `fp -o "getPatients" -p "family = Koepp"` |
 
-**Note:** Operations spanning mutliple spaces have to be quoted.
+:warning: **Note:** Operations spanning mutliple spaces have to be quoted.
 
-# Bugs
+# Bugs and Feature Requests
 
-Please report any bugs that you find here or create a pull request according to the [contribution guidelines](CONTRIBUTING.rst).
+Please report any bugs you find on [our main GitLab Tracker](https://gitlab.com/fhirpack/main/-/issues), here or create a pull request in [our main repository according](https://gitlab.com/fhirpack/main) to our [contribution guidelines](CONTRIBUTING.rst).
 
 ---
 
