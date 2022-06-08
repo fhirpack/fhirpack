@@ -138,6 +138,8 @@ patients.gatherSimplePaths([
 
 ## CLI
 
+<img src="assets/fp_gif.gif" alt="CLI demo"  width="800" />
+
 FHIRPACK also provides a CLI for easy and quick data exploration.
 
 The CLI can be invoked by using `python -m fhirpack.cli` or `fp` once FHIRPACK has been installed.
