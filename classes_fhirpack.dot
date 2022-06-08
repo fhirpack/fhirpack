@@ -14,11 +14,11 @@ charset="utf-8"
 "fhirpack.config.Config" [color="black", fontcolor="black", label="Config", shape="record", style="solid"];
 "pandas.core.frame.DataFrame" [color="black", fontcolor="black", label="DataFrame", shape="record", style="solid"];
 "pandas.core.accessor.DirNamesMixin" [color="black", fontcolor="black", label="DirNamesMixin", shape="record", style="solid"];
-"fhirpack.pack.PACK" [color="black", fontcolor="black", label="PACK", shape="record", style="solid"];
 "enum.Enum" [color="black", fontcolor="black", label="Enum", shape="record", style="solid"];
 "fhirpack.exceptions.ErrorSeverity" [color="black", fontcolor="black", label="ErrorSeverity", shape="record", style="solid"];
 "fhirpack.extraction.condition.ExtractorConditionMixin" [color="black", fontcolor="black", label="ExtractorConditionMixin", shape="record", style="solid"];
 "fhirpack.extraction.diagnosticreport.ExtractorDiagnosticReportMixin" [color="black", fontcolor="black", label="ExtractorDiagnosticReportMixin", shape="record", style="solid"];
+"fhirpack.extraction.endpoint.ExtractorEndpointMixin" [color="black", fontcolor="black", label="ExtractorEndpointMixin", shape="record", style="solid"];
 "fhirpack.extraction.episodeofcare.ExtractorEpisodeOfCareMixin" [color="black", fontcolor="black", label="ExtractorEpisodeOfCareMixin", shape="record", style="solid"];
 "fhirpack.extraction.familymemberhistory.ExtractorFamilyMemberHistoryMixin" [color="black", fontcolor="black", label="ExtractorFamilyMemberHistoryMixin", shape="record", style="solid"];
 "fhirpack.extraction.imagingstudy.ExtractorImagingStudyMixin" [color="black", fontcolor="black", label="ExtractorImagingStudyMixin", shape="record", style="solid"];
@@ -34,6 +34,10 @@ charset="utf-8"
 "pandas.core.indexes.base.Index" [color="black", fontcolor="black", label="Index", shape="record", style="solid"];
 "pandas.core.base.IndexOpsMixin" [color="black", fontcolor="black", label="IndexOpsMixin", shape="record", style="solid"];
 "pandas.core.indexing.IndexingMixin" [color="black", fontcolor="black", label="IndexingMixin", shape="record", style="solid"];
+"fhirpack.exceptions.InvalidConfigurationException" [color="black", fontcolor="red", label="InvalidConfigurationException", shape="record", style="solid"];
+"fhirpack.exceptions.InvalidInputDataException" [color="black", fontcolor="red", label="InvalidInputDataException", shape="record", style="solid"];
+"fhirpack.exceptions.InvalidOperationException" [color="black", fontcolor="red", label="InvalidOperationException", shape="record", style="solid"];
+"fhirpack.exceptions.InvalidSearchParams" [color="black", fontcolor="red", label="InvalidSearchParams", shape="record", style="solid"];
 "fhirpack.load.condition.LoaderConditionMixin" [color="black", fontcolor="black", label="LoaderConditionMixin", shape="record", style="solid"];
 "fhirpack.load.LoaderMixin" [color="black", fontcolor="black", label="LoaderMixin", shape="record", style="solid"];
 "fhirpack.load.LoaderMixin" [color="black", fontcolor="black", label="LoaderMixin", shape="record", style="solid"];
@@ -45,6 +49,7 @@ charset="utf-8"
 "pandas.core.indexes.numeric.NumericIndex" [color="black", fontcolor="black", label="NumericIndex", shape="record", style="solid"];
 "pandas.core.arraylike.OpsMixin" [color="black", fontcolor="black", label="OpsMixin", shape="record", style="solid"];
 "collections.OrderedDict" [color="black", fontcolor="black", label="OrderedDict", shape="record", style="solid"];
+"fhirpack.pack.PACK" [color="black", fontcolor="black", label="PACK", shape="record", style="solid"];
 "pandas.core.base.PandasObject" [color="black", fontcolor="black", label="PandasObject", shape="record", style="solid"];
 "fhirpack.custom.extraction.base.PluginBaseExtractorMixin" [color="black", fontcolor="black", label="PluginBaseExtractorMixin", shape="record", style="solid"];
 "fhirpack.custom.load.base.PluginBaseLoaderMixin" [color="black", fontcolor="black", label="PluginBaseLoaderMixin", shape="record", style="solid"];
@@ -56,7 +61,6 @@ charset="utf-8"
 "fhirpack.custom.load.PluginLoaderMixin" [color="black", fontcolor="black", label="PluginLoaderMixin", shape="record", style="solid"];
 "fhirpack.custom.PluginMixin" [color="black", fontcolor="black", label="PluginMixin", shape="record", style="solid"];
 "fhirpack.custom.PluginMixin" [color="black", fontcolor="black", label="PluginMixin", shape="record", style="solid"];
-"fhirpack.custom.extraction.ship.PluginSHIPExtractorMixin" [color="black", fontcolor="black", label="PluginSHIPExtractorMixin", shape="record", style="solid"];
 "fhirpack.custom.extraction.sample.PluginSampleExtractorMixin" [color="black", fontcolor="black", label="PluginSampleExtractorMixin", shape="record", style="solid"];
 "fhirpack.custom.load.sample.PluginSampleLoaderMixin" [color="black", fontcolor="black", label="PluginSampleLoaderMixin", shape="record", style="solid"];
 "fhirpack.custom.transformation.sample.PluginSampleTransformerMixin" [color="black", fontcolor="black", label="PluginSampleTransformerMixin", shape="record", style="solid"];
@@ -65,7 +69,8 @@ charset="utf-8"
 "pandas.core.indexes.range.RangeIndex" [color="black", fontcolor="black", label="RangeIndex", shape="record", style="solid"];
 "logging.RootLogger" [color="black", fontcolor="black", label="RootLogger", shape="record", style="solid"];
 "fhirpack.constants.SampleEnum" [color="black", fontcolor="black", label="SampleEnum", shape="record", style="solid"];
-"fhirpack.exceptions.SampleError" [color="black", fontcolor="black", label="SampleError", shape="record", style="solid"];
+"fhirpack.exceptions.SampleError" [color="black", fontcolor="red", label="SampleError", shape="record", style="solid"];
+"fhirpack.exceptions.ServerConnectionException" [color="black", fontcolor="red", label="ServerConnectionException", shape="record", style="solid"];
 "fhirpy.base.lib.SyncClient" [color="black", fontcolor="black", label="SyncClient", shape="record", style="solid"];
 "fhirpy.lib.SyncFHIRClient" [color="black", fontcolor="black", label="SyncFHIRClient", shape="record", style="solid"];
 "fhirpack.transformation.condition.TransformerConditionMixin" [color="black", fontcolor="black", label="TransformerConditionMixin", shape="record", style="solid"];
@@ -89,10 +94,7 @@ charset="utf-8"
 "fhirpack.custom.PluginMixin" -> "fhirpack.custom.transformation.PluginTransformerMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.custom.extraction.PluginExtractorMixin" -> "fhirpack.custom.extraction.sample.PluginSampleExtractorMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.custom.extraction.PluginExtractorMixin" -> "fhirpack.custom.extraction.sample.PluginSampleExtractorMixin" [arrowhead="empty", arrowtail="none"];
-"fhirpack.custom.extraction.PluginExtractorMixin" -> "fhirpack.custom.extraction.ship.PluginSHIPExtractorMixin" [arrowhead="empty", arrowtail="none"];
-"fhirpack.custom.extraction.PluginExtractorMixin" -> "fhirpack.custom.extraction.ship.PluginSHIPExtractorMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.custom.extraction.sample.PluginSampleExtractorMixin" -> "fhirpack.custom.extraction.base.PluginBaseExtractorMixin" [arrowhead="empty", arrowtail="none"];
-"fhirpack.custom.extraction.ship.PluginSHIPExtractorMixin" -> "fhirpack.custom.extraction.base.PluginBaseExtractorMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.custom.load.PluginLoaderMixin" -> "fhirpack.custom.load.base.PluginBaseLoaderMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.custom.load.PluginLoaderMixin" -> "fhirpack.custom.load.base.PluginBaseLoaderMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.custom.load.PluginLoaderMixin" -> "fhirpack.custom.load.sample.PluginSampleLoaderMixin" [arrowhead="empty", arrowtail="none"];
@@ -101,16 +103,14 @@ charset="utf-8"
 "fhirpack.custom.transformation.PluginTransformerMixin" -> "fhirpack.custom.transformation.base.PluginBaseTransformerMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.custom.transformation.PluginTransformerMixin" -> "fhirpack.custom.transformation.sample.PluginSampleTransformerMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.custom.transformation.PluginTransformerMixin" -> "fhirpack.custom.transformation.sample.PluginSampleTransformerMixin" [arrowhead="empty", arrowtail="none"];
-"fhirpack.pack.PACK" -> "fhirpack.base.BaseMixin" [arrowhead="empty", arrowtail="none"];
-"fhirpack.pack.PACK" -> "fhirpack.custom.PluginMixin" [arrowhead="empty", arrowtail="none"];
-"fhirpack.pack.PACK" -> "fhirpack.extraction.ExtractorMixin" [arrowhead="empty", arrowtail="none"];
-"fhirpack.pack.PACK" -> "fhirpack.load.LoaderMixin" [arrowhead="empty", arrowtail="none"];
-"fhirpack.pack.PACK" -> "fhirpack.transformation.TransformerMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.exceptions.ErrorSeverity" -> "enum.Enum" [arrowhead="empty", arrowtail="none"];
+"fhirpack.exceptions.SampleError" -> "fhirpack.exceptions.BaseError" [arrowhead="empty", arrowtail="none"];
 "fhirpack.extraction.ExtractorMixin" -> "fhirpack.extraction.condition.ExtractorConditionMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.extraction.ExtractorMixin" -> "fhirpack.extraction.condition.ExtractorConditionMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.extraction.ExtractorMixin" -> "fhirpack.extraction.diagnosticreport.ExtractorDiagnosticReportMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.extraction.ExtractorMixin" -> "fhirpack.extraction.diagnosticreport.ExtractorDiagnosticReportMixin" [arrowhead="empty", arrowtail="none"];
+"fhirpack.extraction.ExtractorMixin" -> "fhirpack.extraction.endpoint.ExtractorEndpointMixin" [arrowhead="empty", arrowtail="none"];
+"fhirpack.extraction.ExtractorMixin" -> "fhirpack.extraction.endpoint.ExtractorEndpointMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.extraction.ExtractorMixin" -> "fhirpack.extraction.episodeofcare.ExtractorEpisodeOfCareMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.extraction.ExtractorMixin" -> "fhirpack.extraction.episodeofcare.ExtractorEpisodeOfCareMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.extraction.ExtractorMixin" -> "fhirpack.extraction.familymemberhistory.ExtractorFamilyMemberHistoryMixin" [arrowhead="empty", arrowtail="none"];
@@ -129,6 +129,7 @@ charset="utf-8"
 "fhirpack.extraction.ExtractorMixin" -> "fhirpack.extraction.patient.ExtractorPatientMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.extraction.condition.ExtractorConditionMixin" -> "fhirpack.extraction.base.BaseExtractorMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.extraction.diagnosticreport.ExtractorDiagnosticReportMixin" -> "fhirpack.extraction.base.BaseExtractorMixin" [arrowhead="empty", arrowtail="none"];
+"fhirpack.extraction.endpoint.ExtractorEndpointMixin" -> "fhirpack.extraction.base.BaseExtractorMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.extraction.episodeofcare.ExtractorEpisodeOfCareMixin" -> "fhirpack.extraction.base.BaseExtractorMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.extraction.familymemberhistory.ExtractorFamilyMemberHistoryMixin" -> "fhirpack.extraction.base.BaseExtractorMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.extraction.imagingstudy.ExtractorImagingStudyMixin" -> "fhirpack.extraction.base.BaseExtractorMixin" [arrowhead="empty", arrowtail="none"];
@@ -146,6 +147,11 @@ charset="utf-8"
 "fhirpack.load.condition.LoaderConditionMixin" -> "fhirpack.load.base.BaseLoaderMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.load.observation.LoaderObservationMixin" -> "fhirpack.load.base.BaseLoaderMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.load.patient.LoaderPatientMixin" -> "fhirpack.load.base.BaseLoaderMixin" [arrowhead="empty", arrowtail="none"];
+"fhirpack.pack.PACK" -> "fhirpack.base.BaseMixin" [arrowhead="empty", arrowtail="none"];
+"fhirpack.pack.PACK" -> "fhirpack.custom.PluginMixin" [arrowhead="empty", arrowtail="none"];
+"fhirpack.pack.PACK" -> "fhirpack.extraction.ExtractorMixin" [arrowhead="empty", arrowtail="none"];
+"fhirpack.pack.PACK" -> "fhirpack.load.LoaderMixin" [arrowhead="empty", arrowtail="none"];
+"fhirpack.pack.PACK" -> "fhirpack.transformation.TransformerMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.transformation.TransformerMixin" -> "fhirpack.transformation.condition.TransformerConditionMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.transformation.TransformerMixin" -> "fhirpack.transformation.condition.TransformerConditionMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.transformation.TransformerMixin" -> "fhirpack.transformation.observation.TransformerObservationMixin" [arrowhead="empty", arrowtail="none"];
@@ -174,6 +180,7 @@ charset="utf-8"
 "pandas.core.indexes.range.RangeIndex" -> "pandas.core.indexes.numeric.NumericIndex" [arrowhead="empty", arrowtail="none"];
 ".Union" -> "pandas.core.generic.NDFrame" [arrowhead="diamond", arrowtail="none", fontcolor="green", label="_mgr", style="solid"];
 "collections.OrderedDict" -> "fhirpack.config.Config" [arrowhead="diamond", arrowtail="none", fontcolor="green", label="__CONFIG", style="solid"];
+"fhirpy.lib.SyncFHIRClient" -> "fhirpack.pack.PACK" [arrowhead="diamond", arrowtail="none", fontcolor="green", label="client", style="solid"];
 "fhirpy.lib.SyncFHIRClient" -> "fhirpack.pack.PACK" [arrowhead="diamond", arrowtail="none", fontcolor="green", label="client", style="solid"];
 "logging.Logger" -> "fhirpack.pack.PACK" [arrowhead="diamond", arrowtail="none", fontcolor="green", label="logger", style="solid"];
 "logging.RootLogger" -> "fhirpack.pack.PACK" [arrowhead="diamond", arrowtail="none", fontcolor="green", label="logger", style="solid"];
