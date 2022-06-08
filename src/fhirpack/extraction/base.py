@@ -26,6 +26,7 @@ SEARCH_PARAMS = {
         "recordedDate__lt",
         "recordedDate__gt",
         "recordedDate__ge",
+        "redorded-date".  #https://www.hl7.org/fhir/condition.html
     ],
     "EpisodeOfCare": [
         "_id",
