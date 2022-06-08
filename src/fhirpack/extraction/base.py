@@ -55,6 +55,7 @@ SEARCH_PARAMS = {
         "subject",
         "issued",
         "category",
+        "encounter",
         "issued__lt",
         "issued__gt",
         "issued__ge",

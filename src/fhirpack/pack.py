@@ -5,10 +5,10 @@ import base64
 import importlib
 from typing import Union
 import requests
+import warnings
 
 from pandas import DataFrame
 from fhirpy import SyncFHIRClient
-import warnings
 
 from fhirpack.auth import AUTH_PARAMS_PRESETS
 from fhirpack.auth import Auth
