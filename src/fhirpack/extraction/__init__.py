@@ -3,6 +3,7 @@ from fhirpack.extraction.observation import ExtractorObservationMixin
 from fhirpack.extraction.condition import ExtractorConditionMixin
 from fhirpack.extraction.diagnosticreport import ExtractorDiagnosticReportMixin
 from fhirpack.extraction.episodeofcare import ExtractorEpisodeOfCareMixin
+from fhirpack.extraction.encounter import ExtractorEncounterMixin
 from fhirpack.extraction.familymemberhistory import ExtractorFamilyMemberHistoryMixin
 from fhirpack.extraction.imagingstudy import ExtractorImagingStudyMixin
 from fhirpack.extraction.medicationadministration import (
@@ -21,6 +22,7 @@ class ExtractorMixin(
     ExtractorPatientMixin,
     ExtractorConditionMixin,
     ExtractorDiagnosticReportMixin,
+    ExtractorEncounterMixin,
     ExtractorEpisodeOfCareMixin,
     ExtractorFamilyMemberHistoryMixin,
     ExtractorMedicationRequestMixin,
