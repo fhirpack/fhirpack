@@ -14,7 +14,7 @@ from fhirpack.constants import CONFIG
 
 # TODO build dinamically from metadata/capability statement
 SEARCH_PARAMS = {
-    "Condition": [
+    "Condition": [ #https://www.hl7.org/fhir/condition.html
         "_content",
         "_id",
         "_sort",
@@ -23,10 +23,10 @@ SEARCH_PARAMS = {
         "identifier",
         "patient",
         "subject",
-        "recordedDate__lt",
-        "recordedDate__gt",
-        "recordedDate__ge",
-        "redorded-date".  #https://www.hl7.org/fhir/condition.html
+        "recorded-date__eq",
+        "recorded-date__lt",
+        "recorded-date__gt",
+        "recorded-date__ge",
     ],
     "EpisodeOfCare": [
         "_id",
