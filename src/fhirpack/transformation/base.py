@@ -1,5 +1,6 @@
 from cgitb import lookup
 import json
+import json
 import importlib
 from typing import Union
 
@@ -9,11 +10,9 @@ from fhirpy.lib import SyncFHIRResource
 from fhirpy.lib import SyncFHIRReference
 import numpy as np
 import fhirpack.utils as utils
-import json
 import fhirpack.base
 
 # LOGGER = CONFIG.getLogger(__name__)
-
 
 class BaseTransformerMixin:
     def validate(

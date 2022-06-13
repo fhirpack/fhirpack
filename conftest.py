@@ -4,16 +4,19 @@
     - https://docs.pytest.org/en/stable/writing_plugins.html
 """
 
-from requests.adapters import HTTPAdapter
-from urllib3.util.retry import Retry
-import fhirpy
-import fhirpack as fp
-import tests as ts
-import pytest as pt
 import requests
 from pathlib import Path
 import os
 import re
+
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+
+import pytest as pt
+
+import fhirpy
+import fhirpack as fp
+import tests as ts
 
 pytest_plugins = ["docker_compose"]
 
@@ -21,7 +24,6 @@ pytest_plugins = ["docker_compose"]
 # this is an example fixture with session scope,
 # for all packages, with autouse enabled and a finalizer
 # this fixture can be used by any test in the repository
-
 
 @pt.fixture(scope="session", autouse=True)
 def globalSessionFixture(request):
@@ -109,10 +111,10 @@ def functionData(request):
     installationPath = str(Path(installationPath).parent.absolute())
 
     testSessionPath = str(request.session.path)
-    # /home/jsalazar/git/projects/lib-fhirpack
+    # ./fhirpack
 
     testPath = str(request.fspath)
-    # /home/jsalazar/git/projects/lib-fhirpack/src/fhirpack/utils_test.p
+    # ./fhirpack/src/fhirpack/utils_test.py
 
     testPath = testPath.split(f"{installationPath}/")
     # ['', '/src/fhirpack/utils_test.py']
