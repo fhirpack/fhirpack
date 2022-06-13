@@ -1,12 +1,14 @@
-import traceback
-import sys
-import logging
-import dotenv
-import requests
-import os
 from enum import Enum
 from pathlib import Path
+import os
 import sys
+
+import sys
+import traceback
+import logging
+
+import requests
+import dotenv
 
 
 class Config:
@@ -76,6 +78,6 @@ class Config:
     #     {
     #       'preprocessTokenEndpointResponse':True,
     #       'tokenEndpointResponsePreprocessor': Auth.parseSHIPTokenEndpointResponse,
-    #       'headers':{'Acept':'*/*'}
+    #       'headers':{'Accept':'*/*'}
     #     }
     #   )
