@@ -4,6 +4,7 @@ CarePlan
 ClinicalImpression
 Condition
 DiagnosticReport
+DocumentReference
 Encounter
 Endpoint
 EpisodeOfCare
