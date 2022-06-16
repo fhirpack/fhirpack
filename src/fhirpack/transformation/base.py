@@ -14,6 +14,7 @@ import fhirpack.base
 
 # LOGGER = CONFIG.getLogger(__name__)
 
+
 class BaseTransformerMixin:
     def validate(
         self,
@@ -65,6 +66,16 @@ class BaseTransformerMixin:
         ] = None,
         params: dict = {},
     ):
+        """Returns the resource elements specified by the path.
+
+        Args:
+            paths: Resource path to the desired elemnts.
+            input: Contains the resources to operate on. Defaults to None.
+            params: Additional parameters. Defaults to {}.
+
+        Returns:
+            Frame: FHIRPACK Frame storing the resource elemnts in the respective rows.
+        """
         if not params:
             params = {}
 
