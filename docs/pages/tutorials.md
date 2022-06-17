@@ -5,4 +5,5 @@
 
 ../notebooks/usage
 ../notebooks/minimal
+cli
 ```
