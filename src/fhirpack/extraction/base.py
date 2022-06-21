@@ -14,7 +14,7 @@ from fhirpack.constants import CONFIG
 
 # TODO build dinamically from metadata/capability statement
 SEARCH_PARAMS = {
-    "Condition": [ #https://www.hl7.org/fhir/condition.html
+    "Condition": [  # https://www.hl7.org/fhir/condition.html
         "_content",
         "_id",
         "_sort",
@@ -63,6 +63,17 @@ SEARCH_PARAMS = {
         "date__lt",
         "date__gt",
         "date__ge",
+    ],
+    "DocumentReference": [
+        "_id",
+        "_content",
+        "_sort",
+        "_include",
+        "code",
+        "identifier",
+        "subject",
+        "category",
+        "date",
     ],
     "FamilyMemberHistory": [
         "_content",
@@ -331,6 +342,7 @@ class BaseExtractorMixin:
             "ClinicalImpression": [],
             "Condition": [],
             "DiagnosticReport": [],
+            "DocumentReference": [],
             "Encounter": [],
             "EpisodeOfCare": [],
             "ImagingStudy": [],

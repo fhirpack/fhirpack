@@ -2,6 +2,7 @@ from fhirpack.extraction.patient import ExtractorPatientMixin
 from fhirpack.extraction.observation import ExtractorObservationMixin
 from fhirpack.extraction.condition import ExtractorConditionMixin
 from fhirpack.extraction.diagnosticreport import ExtractorDiagnosticReportMixin
+from fhirpack.extraction.documentreference import ExtractorDocumentReferenceMixin
 from fhirpack.extraction.episodeofcare import ExtractorEpisodeOfCareMixin
 from fhirpack.extraction.encounter import ExtractorEncounterMixin
 from fhirpack.extraction.familymemberhistory import ExtractorFamilyMemberHistoryMixin
@@ -22,6 +23,7 @@ class ExtractorMixin(
     ExtractorPatientMixin,
     ExtractorConditionMixin,
     ExtractorDiagnosticReportMixin,
+    ExtractorDocumentReferenceMixin,
     ExtractorEncounterMixin,
     ExtractorEpisodeOfCareMixin,
     ExtractorFamilyMemberHistoryMixin,

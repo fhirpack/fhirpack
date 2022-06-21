@@ -14,6 +14,7 @@ import fhirpack.base
 
 # LOGGER = CONFIG.getLogger(__name__)
 
+
 class BaseTransformerMixin:
     def validate(
         self,
