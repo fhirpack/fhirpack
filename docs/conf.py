@@ -80,6 +80,8 @@ extensions = [
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
+# Configurations for nb_sphinx
+nbsphinx_allow_errors = True
 
 # Configure AutoStructify
 # https://recommonmark.readthedocs.io/en/latest/auto_structify.html
