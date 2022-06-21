@@ -56,6 +56,10 @@ mv main fhirpack
 pipenv install -e fhirpack
 ```
 
+### Upgrading your Version of FHIRPACK
+
+You can use `pip install --upgrade fhirpack` or if you're using pipenv `pipenv update fhirpack` to upgrade to the latest release of FHIRPACK once you've already installed it.
+
 ## Configuration 
 
 To set up a server configuration, create an `.env` file in the directory where you'll work with FHIRPACK and specify the settings as can be seen in [.env.example](.env.example). 
