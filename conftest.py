@@ -25,6 +25,7 @@ pytest_plugins = ["docker_compose"]
 # for all packages, with autouse enabled and a finalizer
 # this fixture can be used by any test in the repository
 
+
 @pt.fixture(scope="session", autouse=True)
 def globalSessionFixture(request):
 

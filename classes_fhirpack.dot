@@ -18,6 +18,7 @@ charset="utf-8"
 "fhirpack.exceptions.ErrorSeverity" [color="black", fontcolor="black", label="ErrorSeverity", shape="record", style="solid"];
 "fhirpack.extraction.condition.ExtractorConditionMixin" [color="black", fontcolor="black", label="ExtractorConditionMixin", shape="record", style="solid"];
 "fhirpack.extraction.diagnosticreport.ExtractorDiagnosticReportMixin" [color="black", fontcolor="black", label="ExtractorDiagnosticReportMixin", shape="record", style="solid"];
+"fhirpack.extraction.encounter.ExtractorEncounterMixin" [color="black", fontcolor="black", label="ExtractorEncounterMixin", shape="record", style="solid"];
 "fhirpack.extraction.endpoint.ExtractorEndpointMixin" [color="black", fontcolor="black", label="ExtractorEndpointMixin", shape="record", style="solid"];
 "fhirpack.extraction.episodeofcare.ExtractorEpisodeOfCareMixin" [color="black", fontcolor="black", label="ExtractorEpisodeOfCareMixin", shape="record", style="solid"];
 "fhirpack.extraction.familymemberhistory.ExtractorFamilyMemberHistoryMixin" [color="black", fontcolor="black", label="ExtractorFamilyMemberHistoryMixin", shape="record", style="solid"];
@@ -109,6 +110,8 @@ charset="utf-8"
 "fhirpack.extraction.ExtractorMixin" -> "fhirpack.extraction.condition.ExtractorConditionMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.extraction.ExtractorMixin" -> "fhirpack.extraction.diagnosticreport.ExtractorDiagnosticReportMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.extraction.ExtractorMixin" -> "fhirpack.extraction.diagnosticreport.ExtractorDiagnosticReportMixin" [arrowhead="empty", arrowtail="none"];
+"fhirpack.extraction.ExtractorMixin" -> "fhirpack.extraction.encounter.ExtractorEncounterMixin" [arrowhead="empty", arrowtail="none"];
+"fhirpack.extraction.ExtractorMixin" -> "fhirpack.extraction.encounter.ExtractorEncounterMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.extraction.ExtractorMixin" -> "fhirpack.extraction.endpoint.ExtractorEndpointMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.extraction.ExtractorMixin" -> "fhirpack.extraction.endpoint.ExtractorEndpointMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.extraction.ExtractorMixin" -> "fhirpack.extraction.episodeofcare.ExtractorEpisodeOfCareMixin" [arrowhead="empty", arrowtail="none"];
@@ -129,6 +132,7 @@ charset="utf-8"
 "fhirpack.extraction.ExtractorMixin" -> "fhirpack.extraction.patient.ExtractorPatientMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.extraction.condition.ExtractorConditionMixin" -> "fhirpack.extraction.base.BaseExtractorMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.extraction.diagnosticreport.ExtractorDiagnosticReportMixin" -> "fhirpack.extraction.base.BaseExtractorMixin" [arrowhead="empty", arrowtail="none"];
+"fhirpack.extraction.encounter.ExtractorEncounterMixin" -> "fhirpack.extraction.base.BaseExtractorMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.extraction.endpoint.ExtractorEndpointMixin" -> "fhirpack.extraction.base.BaseExtractorMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.extraction.episodeofcare.ExtractorEpisodeOfCareMixin" -> "fhirpack.extraction.base.BaseExtractorMixin" [arrowhead="empty", arrowtail="none"];
 "fhirpack.extraction.familymemberhistory.ExtractorFamilyMemberHistoryMixin" -> "fhirpack.extraction.base.BaseExtractorMixin" [arrowhead="empty", arrowtail="none"];

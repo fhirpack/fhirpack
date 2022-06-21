@@ -5,6 +5,7 @@
 *.py[cod]
 *.so
 *.cfg
+!.bumpversion.cfg
 !.isort.cfg
 !setup.cfg
 *.orig
@@ -68,7 +69,7 @@ __pycache__/
 # files
 
 .DS_Store
-.env
+.env*
 .coverage
 .testmondata
 *.ignore
