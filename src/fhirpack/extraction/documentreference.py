@@ -29,7 +29,9 @@ class ExtractorDocumentReferenceMixin(base.BaseExtractorMixin):
 
         if len(input):
             input = self.castOperand(input, SyncFHIRReference, "DocumentReference")
-            result = self.getResources(input, resourceType="DocumentReference", raw=True)
+            result = self.getResources(
+                input, resourceType="DocumentReference", raw=True
+            )
 
         elif self.isFrame and not ignoreFrame:
 

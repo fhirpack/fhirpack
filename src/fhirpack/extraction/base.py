@@ -14,7 +14,7 @@ from fhirpack.constants import CONFIG
 
 # TODO build dinamically from metadata/capability statement
 SEARCH_PARAMS = {
-    "Condition": [ #https://www.hl7.org/fhir/condition.html
+    "Condition": [  # https://www.hl7.org/fhir/condition.html
         "_content",
         "_id",
         "_sort",
