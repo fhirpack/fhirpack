@@ -1,7 +1,6 @@
 # Changelog
 
-## Version 0.1.0-beta (development)
+## Version 0.0.*b0
 
-- Feature A added
-- FIX: nasty bug #1729 fixed
-- add your changes here!
+- CHANGELOG.md is for future use, once FHIRPACK leaves its beta phase and there's need to keep track of possible breaking changes and additions to the library.
+
