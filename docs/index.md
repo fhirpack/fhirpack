@@ -11,6 +11,7 @@ FHIRPACK (FHIR Python Analysis Conversion Kit) is a general purpose library that
 pages/installation
 pages/tutorials
 pages/api
+pages/contributing
 ```
 
 
