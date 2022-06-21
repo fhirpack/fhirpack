@@ -411,6 +411,20 @@ graph [
   ]
   node [
     id 29
+    name "fhirpack.extraction.encounter"
+    label "fhirpack.extraction.encounter"
+    graphics [
+      type "box"
+      fill "black"
+      outline "black"
+      outlineStyle "line"
+    ]
+    LabelGraphics [
+      text "fhirpack.extraction.encounter"
+    ]
+  ]
+  node [
+    id 30
     name "fhirpack.extraction.endpoint"
     label "fhirpack.extraction.endpoint"
     graphics [
@@ -424,7 +438,7 @@ graph [
     ]
   ]
   node [
-    id 30
+    id 31
     name "fhirpack.extraction.episodeofcare"
     label "fhirpack.extraction.episodeofcare"
     graphics [
@@ -438,7 +452,7 @@ graph [
     ]
   ]
   node [
-    id 31
+    id 32
     name "fhirpack.extraction.familymemberhistory"
     label "fhirpack.extraction.familymemberhistory"
     graphics [
@@ -452,7 +466,7 @@ graph [
     ]
   ]
   node [
-    id 32
+    id 33
     name "fhirpack.extraction.imagingstudy"
     label "fhirpack.extraction.imagingstudy"
     graphics [
@@ -466,7 +480,7 @@ graph [
     ]
   ]
   node [
-    id 33
+    id 34
     name "fhirpack.extraction.list"
     label "fhirpack.extraction.list"
     graphics [
@@ -480,7 +494,7 @@ graph [
     ]
   ]
   node [
-    id 34
+    id 35
     name "fhirpack.extraction.medicationadministration"
     label "fhirpack.extraction.medicationadministration"
     graphics [
@@ -494,7 +508,7 @@ graph [
     ]
   ]
   node [
-    id 35
+    id 36
     name "fhirpack.extraction.medicationrequest"
     label "fhirpack.extraction.medicationrequest"
     graphics [
@@ -508,7 +522,7 @@ graph [
     ]
   ]
   node [
-    id 36
+    id 37
     name "fhirpack.extraction.observation"
     label "fhirpack.extraction.observation"
     graphics [
@@ -522,7 +536,7 @@ graph [
     ]
   ]
   node [
-    id 37
+    id 38
     name "fhirpack.extraction.patient"
     label "fhirpack.extraction.patient"
     graphics [
@@ -536,7 +550,7 @@ graph [
     ]
   ]
   node [
-    id 38
+    id 39
     name "fhirpack.extraction.patient_test"
     label "fhirpack.extraction.patient_test"
     graphics [
@@ -550,7 +564,7 @@ graph [
     ]
   ]
   node [
-    id 39
+    id 40
     name "fhirpack.extraction.sample"
     label "fhirpack.extraction.sample"
     graphics [
@@ -564,7 +578,7 @@ graph [
     ]
   ]
   node [
-    id 40
+    id 41
     name "fhirpack.load"
     label "fhirpack.load"
     graphics [
@@ -578,7 +592,7 @@ graph [
     ]
   ]
   node [
-    id 41
+    id 42
     name "fhirpack.load.base"
     label "fhirpack.load.base"
     graphics [
@@ -592,7 +606,7 @@ graph [
     ]
   ]
   node [
-    id 42
+    id 43
     name "fhirpack.load.condition"
     label "fhirpack.load.condition"
     graphics [
@@ -606,7 +620,7 @@ graph [
     ]
   ]
   node [
-    id 43
+    id 44
     name "fhirpack.load.observation"
     label "fhirpack.load.observation"
     graphics [
@@ -620,7 +634,7 @@ graph [
     ]
   ]
   node [
-    id 44
+    id 45
     name "fhirpack.load.patient"
     label "fhirpack.load.patient"
     graphics [
@@ -634,7 +648,7 @@ graph [
     ]
   ]
   node [
-    id 45
+    id 46
     name "fhirpack.pack"
     label "fhirpack.pack"
     graphics [
@@ -648,7 +662,7 @@ graph [
     ]
   ]
   node [
-    id 46
+    id 47
     name "fhirpack.transformation"
     label "fhirpack.transformation"
     graphics [
@@ -662,7 +676,7 @@ graph [
     ]
   ]
   node [
-    id 47
+    id 48
     name "fhirpack.transformation.base"
     label "fhirpack.transformation.base"
     graphics [
@@ -676,7 +690,7 @@ graph [
     ]
   ]
   node [
-    id 48
+    id 49
     name "fhirpack.transformation.base_test"
     label "fhirpack.transformation.base_test"
     graphics [
@@ -690,7 +704,7 @@ graph [
     ]
   ]
   node [
-    id 49
+    id 50
     name "fhirpack.transformation.condition"
     label "fhirpack.transformation.condition"
     graphics [
@@ -704,7 +718,7 @@ graph [
     ]
   ]
   node [
-    id 50
+    id 51
     name "fhirpack.transformation.observation"
     label "fhirpack.transformation.observation"
     graphics [
@@ -718,7 +732,7 @@ graph [
     ]
   ]
   node [
-    id 51
+    id 52
     name "fhirpack.transformation.patient"
     label "fhirpack.transformation.patient"
     graphics [
@@ -732,7 +746,7 @@ graph [
     ]
   ]
   node [
-    id 52
+    id 53
     name "fhirpack.utils"
     label "fhirpack.utils"
     graphics [
@@ -746,7 +760,7 @@ graph [
     ]
   ]
   node [
-    id 53
+    id 54
     name "fhirpack.utils_test"
     label "fhirpack.utils_test"
     graphics [
@@ -762,7 +776,7 @@ graph [
   edge [
     id 1
     source 0
-    target 45
+    target 46
     graphics [
       targetArrow "open"
       sourceArrow "none"
@@ -923,6 +937,15 @@ graph [
   ]
   edge [
     id 19
+    source 23
+    target 38
+    graphics [
+      targetArrow "open"
+      sourceArrow "none"
+    ]
+  ]
+  edge [
+    id 20
     source 24
     target 9
     graphics [
@@ -931,17 +954,8 @@ graph [
     ]
   ]
   edge [
-    id 20
-    source 40
-    target 42
-    graphics [
-      targetArrow "open"
-      sourceArrow "none"
-    ]
-  ]
-  edge [
     id 21
-    source 40
+    source 41
     target 43
     graphics [
       targetArrow "open"
@@ -950,7 +964,7 @@ graph [
   ]
   edge [
     id 22
-    source 40
+    source 41
     target 44
     graphics [
       targetArrow "open"
@@ -959,8 +973,8 @@ graph [
   ]
   edge [
     id 23
-    source 45
-    target 1
+    source 41
+    target 45
     graphics [
       targetArrow "open"
       sourceArrow "none"
@@ -968,8 +982,8 @@ graph [
   ]
   edge [
     id 24
-    source 45
-    target 9
+    source 46
+    target 1
     graphics [
       targetArrow "open"
       sourceArrow "none"
@@ -978,7 +992,7 @@ graph [
   edge [
     id 25
     source 46
-    target 49
+    target 9
     graphics [
       targetArrow "open"
       sourceArrow "none"
@@ -986,7 +1000,7 @@ graph [
   ]
   edge [
     id 26
-    source 46
+    source 47
     target 50
     graphics [
       targetArrow "open"
@@ -995,8 +1009,17 @@ graph [
   ]
   edge [
     id 27
-    source 46
+    source 47
     target 51
+    graphics [
+      targetArrow "open"
+      sourceArrow "none"
+    ]
+  ]
+  edge [
+    id 28
+    source 47
+    target 52
     graphics [
       targetArrow "open"
       sourceArrow "none"
