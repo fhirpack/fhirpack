@@ -26,3 +26,4 @@ pytest
 nbsphinx
 sphinx-book-theme
 ipython
+ipykernel
