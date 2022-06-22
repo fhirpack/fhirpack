@@ -70,8 +70,6 @@ lint:
 documentation:
   stage: docs
   script:
-    - apt-get update 
-    - apt-get install -y graphviz
     - tox -e docs
     - tox -e visualize
 
