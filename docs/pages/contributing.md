@@ -132,7 +132,7 @@ or [Miniconda](https://docs.conda.io/en/latest/miniconda.html):
     conda create -n fhirpack python=3.9.6 six virtualenv pytest pytest-cov
     conda activate fhirpack
 
-or [Pipenv]():
+or [Pipenv](https://pipenv.pypa.io/en/latest/):
 
     pipenv install fhirpack
     pipenv shell
