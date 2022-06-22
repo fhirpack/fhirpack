@@ -184,6 +184,6 @@ If you want to contribute a fix or feature, you're welcomed to create a pull req
 
 If you're using FHIRPACK, feel free to reach out over [Twitter](https://twitter.com/jdsalaro), [Slack](https://join.slack.com/t/fhirpack/shared_invite/zt-16f0dt3rr-76L6OKQIMOFbG2IKYnVLqA) or [e-mail](mailto:jayson.salazar@uk-essen.de)
 
-FHIRPACK is released under the [MIT](), see [LICENSE.txt](LICENSE.txt) for more information.
+FHIRPACK is released under the [MIT](https://opensource.org/licenses/MIT), see [LICENSE.txt](LICENSE.txt) for more information.
 
 
