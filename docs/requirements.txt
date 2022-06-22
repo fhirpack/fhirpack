@@ -23,4 +23,6 @@ pipenv
 python-magic
 dicomweb-client
 pytest
-
+nbsphinx
+sphinx-book-theme
+ipython
