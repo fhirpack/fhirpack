@@ -74,17 +74,20 @@ extensions = [
     "sphinx.ext.mathjax",
     "sphinx.ext.napoleon",
     "myst_parser",
+    "nbsphinx"
 ]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
+# Configurations for nb_sphinx
+nbsphinx_allow_errors = True
 
 # Configure AutoStructify
 # https://recommonmark.readthedocs.io/en/latest/auto_structify.html
 # def setup(app):
 #    from recommonmark.transform import AutoStructify
-#
+
 #    params = {
 #        "enable_auto_toc_tree": True,
 #        "auto_toc_tree_section": "Contents",
@@ -143,7 +146,7 @@ release = version
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", ".venv", "_test", "test_"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", ".venv", "_test", "test_", "api/modules.rst", "api/fhirpack.rst", "api/fhirpack.custom*"]
 
 # The reST default role (used for this markup: `text`) to use for all documents.
 # default_role = None
@@ -176,12 +179,12 @@ todo_emit_warnings = True
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = "alabaster"
+html_theme = "sphinx_book_theme"
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-html_theme_options = {"sidebar_width": "300px", "page_width": "1200px"}
+#html_theme_options = {"sidebar_width": "300px", "page_width": "1200px"}
 
 # Add any paths that contain custom themes here, relative to this directory.
 # html_theme_path = []
@@ -205,7 +208,7 @@ html_theme_options = {"sidebar_width": "300px", "page_width": "1200px"}
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ["_static"]
+#html_static_path = ["_static"]
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
