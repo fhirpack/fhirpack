@@ -2,7 +2,8 @@
 # To build the module reference correctly, make sure every external package
 # under `install_requires` in `setup.cfg` is also listed here!
 # sphinx_rtd_theme
-recommonmark
+#recommonmark
+
 myst-parser
 sphinx>=3.2.1
 fhirpy
@@ -24,3 +25,9 @@ python-magic
 dicomweb-client
 pytest
 
+# necessary for the Jupyter Book Sphinx theme
+nbsphinx
+sphinx-book-theme
+ipython
+ipykernel
+pandoc
