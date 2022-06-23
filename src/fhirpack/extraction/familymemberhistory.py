@@ -9,66 +9,75 @@ import fhirpack.extraction.base as base
 
 
 class ExtractorFamilyMemberHistoryMixin(base.BaseExtractorMixin):
-    def getFamilyMemberHistories(
+    
+    def getFamilyMemberHistory(
         self,
-        input: Union[
-            list[str],
-            list[SyncFHIRReference],
-            list[SyncFHIRResource],
-        ] = None,
-        searchParams: dict = None,
-        params: dict = None,
-        ignoreFrame: bool = False,
-    ):
+        *args,
+        **kwargs
+        ):
 
-        searchActive = False if searchParams is None else True
-        searchParams = {} if searchParams is None else searchParams
-        params = {} if params is None else params
-        input = [] if input is None else input
-        result = []
+        return self.getResources(*args, resourceType="FamilyMemberHistory", **kwargs)
+        
+    # def getFamilyMemberHistories(
+    #     self,
+    #     input: Union[
+    #         list[str],
+    #         list[SyncFHIRReference],
+    #         list[SyncFHIRResource],
+    #     ] = None,
+    #     searchParams: dict = None,
+    #     params: dict = None,
+    #     ignoreFrame: bool = False,
+    # ):
 
-        if len(input):
-            input = self.castOperand(input, SyncFHIRReference, "FamilyMemberHistory")
-            result = self.getResources(
-                input, resourceType="FamilyMemberHistory", raw=True
-            )
+    #     searchActive = False if searchParams is None else True
+    #     searchParams = {} if searchParams is None else searchParams
+    #     params = {} if params is None else params
+    #     input = [] if input is None else input
+    #     result = []
 
-        elif self.isFrame and not ignoreFrame:
+    #     if len(input):
+    #         input = self.castOperand(input, SyncFHIRReference, "FamilyMemberHistory")
+    #         result = self.getResources(
+    #             input, resourceType="FamilyMemberHistory", raw=True
+    #         )
 
-            utils.validateFrame(self)
+    #     elif self.isFrame and not ignoreFrame:
 
-            if self.resourceTypeIs("Patient"):
-                input = self.data
+    #         utils.validateFrame(self)
 
-                result = input.apply(
-                    lambda x: self.searchResources(
-                        # TODO allow parametrizable join parameter matrix
-                        # for example, in this case patient is unsupported by the server
-                        # so _content is used
-                        searchParams=dict(searchParams, **{"_content": x.id}),
-                        resourceType="FamilyMemberHistory",
-                        raw=True,
-                    )
-                )
-                result = result.values
+    #         if self.resourceTypeIs("Patient"):
+    #             input = self.data
 
-            elif self.resourceTypeIs("FamilyMemberHistory"):
-                input = self.data.values
-                result = self.getResources(
-                    input, resourceType="FamilyMemberHistory", raw=True
-                )
+    #             result = input.apply(
+    #                 lambda x: self.searchResources(
+    #                     # TODO allow parametrizable join parameter matrix
+    #                     # for example, in this case patient is unsupported by the server
+    #                     # so _content is used
+    #                     searchParams=dict(searchParams, **{"_content": x.id}),
+    #                     resourceType="FamilyMemberHistory",
+    #                     raw=True,
+    #                 )
+    #             )
+    #             result = result.values
 
-            else:
-                raise NotImplementedError
+    #         elif self.resourceTypeIs("FamilyMemberHistory"):
+    #             input = self.data.values
+    #             result = self.getResources(
+    #                 input, resourceType="FamilyMemberHistory", raw=True
+    #             )
 
-        elif searchActive:
-            result = self.searchResources(
-                searchParams=searchParams, resourceType="FamilyMemberHistory", raw=True
-            )
+    #         else:
+    #             raise NotImplementedError
 
-        else:
-            raise NotImplementedError
+    #     elif searchActive:
+    #         result = self.searchResources(
+    #             searchParams=searchParams, resourceType="FamilyMemberHistory", raw=True
+    #         )
 
-        result = self.prepareOutput(result, "FamilyMemberHistory")
+    #     else:
+    #         raise NotImplementedError
 
-        return result
+    #     result = self.prepareOutput(result, "FamilyMemberHistory")
+
+    #     return result

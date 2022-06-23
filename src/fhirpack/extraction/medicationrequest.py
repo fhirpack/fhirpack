@@ -9,63 +9,72 @@ import fhirpack.extraction.base as base
 
 
 class ExtractorMedicationRequestMixin(base.BaseExtractorMixin):
+
     def getMedicationRequests(
         self,
-        input: Union[
-            list[str],
-            list[SyncFHIRReference],
-            list[SyncFHIRResource],
-        ] = None,
-        searchParams: dict = None,
-        params: dict = None,
-        ignoreFrame: bool = False,
+        *args,
+        **kwargs
     ):
 
-        searchActive = False if searchParams is None else True
-        searchParams = {} if searchParams is None else searchParams
-        params = {} if params is None else params
-        input = [] if input is None else input
-        result = []
+        return self.getResources(*args, resourceType="MedicationRequest", **kwargs)
 
-        if len(input):
-            input = self.castOperand(input, SyncFHIRReference, "MedicationRequest")
-            result = self.getResources(
-                input, resourceType="MedicationRequest", raw=True
-            )
+    # def getMedicationRequests(
+    #     self,
+    #     input: Union[
+    #         list[str],
+    #         list[SyncFHIRReference],
+    #         list[SyncFHIRResource],
+    #     ] = None,
+    #     searchParams: dict = None,
+    #     params: dict = None,
+    #     ignoreFrame: bool = False,
+    # ):
 
-        elif self.isFrame and not ignoreFrame:
+    #     searchActive = False if searchParams is None else True
+    #     searchParams = {} if searchParams is None else searchParams
+    #     params = {} if params is None else params
+    #     input = [] if input is None else input
+    #     result = []
 
-            utils.validateFrame(self)
+    #     if len(input):
+    #         input = self.castOperand(input, SyncFHIRReference, "MedicationRequest")
+    #         result = self.getResources(
+    #             input, resourceType="MedicationRequest", raw=True
+    #         )
 
-            if self.resourceTypeIs("Patient"):
-                input = self.data
+    #     elif self.isFrame and not ignoreFrame:
 
-                result = input.apply(
-                    lambda x: self.searchResources(
-                        searchParams=dict(searchParams, **{"subject": x.id}),
-                        resourceType="MedicationRequest",
-                        raw=True,
-                    )
-                )
-                result = result.values
+    #         utils.validateFrame(self)
 
-            elif self.resourceTypeIs("MedicationRequest"):
-                input = self.data.values
-                result = self.getResources(
-                    input, resourceType="MedicationRequest", raw=True
-                )
+    #         if self.resourceTypeIs("Patient"):
+    #             input = self.data
 
-            else:
-                raise NotImplementedError
+    #             result = input.apply(
+    #                 lambda x: self.searchResources(
+    #                     searchParams=dict(searchParams, **{"subject": x.id}),
+    #                     resourceType="MedicationRequest",
+    #                     raw=True,
+    #                 )
+    #             )
+    #             result = result.values
 
-        elif searchActive:
-            result = self.searchResources(
-                searchParams=searchParams, resourceType="MedicationRequest", raw=True
-            )
+    #         elif self.resourceTypeIs("MedicationRequest"):
+    #             input = self.data.values
+    #             result = self.getResources(
+    #                 input, resourceType="MedicationRequest", raw=True
+    #             )
 
-        else:
-            raise NotImplementedError
+    #         else:
+    #             raise NotImplementedError
 
-        result = self.prepareOutput(result, "MedicationRequest")
+    #     elif searchActive:
+    #         result = self.searchResources(
+    #             searchParams=searchParams, resourceType="MedicationRequest", raw=True
+    #         )
 
-        return result
+    #     else:
+    #         raise NotImplementedError
+
+    #     result = self.prepareOutput(result, "MedicationRequest")
+
+    #     return result
