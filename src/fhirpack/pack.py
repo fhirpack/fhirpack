@@ -69,32 +69,30 @@ class PACK(
 
     def __setupClient(self, apiBase=None, authMethod=None, authParams=None):
 
-        if authMethod:
-            CONFIG.set("AUTH_METHOD", authMethod)
-
-        if isinstance(authParams, dict) and authParams:
-            pass
-        elif isinstance(authParams, str) and authParams:
-            authParams = AUTH_PARAMS_PRESETS[authParams]
-        elif CONFIG.get("AUTH_PARAMS_PRESET"):
-            authParams = AUTH_PARAMS_PRESETS[CONFIG.get("AUTH_PARAMS_PRESET")]
-
         authorization = None
-
-        if CONFIG.get("AUTH_METHOD") == "oauth_password":
-            token = Auth.getToken("password", authParams)
-            CONFIG.set("OAUTH_TOKEN", token["access_token"]),
-            authorization = f"Bearer {token['access_token']}"
-        elif CONFIG.get("AUTH_METHOD") == "oauth_token":
-            token = CONFIG.get("OAUTH_TOKEN")
-            authorization = f"Bearer {token}"
-        elif authMethod is None:
-            authorization = None
-        else:
-            raise NotImplementedError
-
+        
         if apiBase:
             CONFIG.set("APIBASE", apiBase)
+            if authMethod:
+                CONFIG.set("AUTH_METHOD", authMethod)
+            if isinstance(authParams, dict) and authParams:
+                pass
+            elif isinstance(authParams, str) and authParams:
+                authParams = AUTH_PARAMS_PRESETS[authParams]
+        else:
+            if CONFIG.get("AUTH_PARAMS_PRESET"):
+                authParams = AUTH_PARAMS_PRESETS[CONFIG.get("AUTH_PARAMS_PRESET")]
+            if CONFIG.get("AUTH_METHOD") == "oauth_password":
+                token = Auth.getToken("password", authParams)
+                CONFIG.set("OAUTH_TOKEN", token["access_token"]),
+                authorization = f"Bearer {token['access_token']}"
+            elif CONFIG.get("AUTH_METHOD") == "oauth_token":
+                token = CONFIG.get("OAUTH_TOKEN")
+                authorization = f"Bearer {token}"
+            elif authMethod is None:
+                authorization = None
+            else:
+                raise NotImplementedError
 
         self.client = SyncFHIRClient(CONFIG.get("APIBASE"), authorization=authorization)
 

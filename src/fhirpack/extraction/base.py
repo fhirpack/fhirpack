@@ -385,7 +385,7 @@ class BaseExtractorMixin:
             if not relpaths:
                 continue
 
-            result = fhirpack.PACK().searchResources(
+            result = self.searchResources(
                 resourceType=resourceType, searchParams=searchParams
             )
             n = len(result)
