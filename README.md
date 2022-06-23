@@ -9,7 +9,7 @@ FHIRPACK provides an easy-to-use and intuitive API that enables effortless acces
 
 || :link: |
 |:---|:---|
-|:rocket: **tutorial**| learn about FHIR, FHIRPACK and PANDAS with our [example Jupyter Notebooks](examples)|
+|:rocket: **tutorial**| learn about FHIR, FHIRPACK and PANDAS with our [example Jupyter Notebooks](docs/examples)|
 |:envelope: **email**| [jayson.salazar@uk-essen.de](mailto:jayson.salazar@uk-essen.de) or [salazar@informatik.uni-heidelberg.de](mailto:salazar@informatik.uni-heidelberg.de) |
 |:loudspeaker: **talk**| join our [Slack channel](https://join.slack.com/t/fhirpack/shared_invite/zt-16f0dt3rr-76L6OKQIMOFbG2IKYnVLqA) for the latest updates and discussions around FHIR, FHIRPACK and EHR in general|
 |:bug: **issues**| bugs and feature requests go preferrably on [our main GitLab tracker](https://gitlab.ume.de/fhirpack/main) or here on GitHub |
@@ -69,7 +69,7 @@ Alternatively, copy, rename and modify `.env.example` according to your needs.
 
 ## Simple Examples
 
-FHIRPACK is based on the [ETL paradigm](https://en.wikipedia.org/wiki/Extract,_transform,_load), and as all functions available to you can be classified as [Extractors](src/fhirpack/extraction), [Transformers](src/fhirpack/transformation) or [Loaders](src/fhirpack/load). In the following examples we quickly show how this works, but remember to have a look at our [examplary Jupyter Notebooks](examples/usage.py) and the [API reference](https://fhirpack.readthedocs.io/en/latest/)
+FHIRPACK is based on the [ETL paradigm](https://en.wikipedia.org/wiki/Extract,_transform,_load), and as all functions available to you can be classified as [Extractors](src/fhirpack/extraction), [Transformers](src/fhirpack/transformation) or [Loaders](src/fhirpack/load). In the following examples we quickly show how this works, but remember to have a look at our [examplary Jupyter Notebooks](docs/examples/usage.py) and the [API reference](https://fhirpack.readthedocs.io/en/latest/)
 
 ### 1. Get All Conditions for a Patient
 
@@ -138,7 +138,7 @@ patients.gatherSimplePaths([
 |7	|`[[Hiram237]]`	|`[Kertzmann286]`	|`[US]`	|`[Fall River]`	|`1999-06-07`|
 |11	|`[[Tim]]`	|`[Shabad]`		|`None`	|`None`		|`1980-01-01`|
 
-:information_source: For more examples and a deep-dive into FHIRPACK, please take a look at the [example jupyter notebooks](examples).
+:information_source: For more examples and a deep-dive into FHIRPACK, please take a look at the [example jupyter notebooks](docs/examples).
 
 ## CLI
 
