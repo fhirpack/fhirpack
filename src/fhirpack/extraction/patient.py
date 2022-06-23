@@ -17,85 +17,93 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
 
     def getPatients(
         self,
-        input: Union[
-            list[str],
-            list[SyncFHIRReference],
-            # list[SyncFHIRResource],
-        ] = None,
-        searchParams: dict = None,
-        includeLinkedPatients=False,
-        params: dict = None,
-        ignoreFrame: bool = False,
-    ):
+        *args,
+        **kwargs
+        ):
 
-        if includeLinkedPatients:
-            return self.getLinkedPatients(input, searchParams)
+        return self.getResources(*args, resourceType="Patient", **kwargs)
 
-        searchActive = False if searchParams is None else True
-        searchParams = {} if searchParams is None else searchParams
-        params = {} if params is None else params
-        input = [] if input is None else input
-        result = []
+    # def getPatients(
+    #     self,
+    #     input: Union[
+    #         list[str],
+    #         list[SyncFHIRReference],
+    #         # list[SyncFHIRResource],
+    #     ] = None,
+    #     searchParams: dict = None,
+    #     includeLinkedPatients=False,
+    #     params: dict = None,
+    #     ignoreFrame: bool = False,
+    # ):
 
-        if len(input):
-            input = self.castOperand(input, SyncFHIRReference, "Patient")
-            result = self.getResources(input, resourceType="Patient", raw=True)
+    #     if includeLinkedPatients:
+    #         return self.getLinkedPatients(input, searchParams)
 
-        elif self.isFrame and not ignoreFrame:
+    #     searchActive = False if searchParams is None else True
+    #     searchParams = {} if searchParams is None else searchParams
+    #     params = {} if params is None else params
+    #     input = [] if input is None else input
+    #     result = []
 
-            utils.validateFrame(self)
+    #     if len(input):
+    #         input = self.castOperand(input, SyncFHIRReference, "Patient")
+    #         result = self.getResources(input, resourceType="Patient", raw=True)
 
-            input = self.data
+    #     elif self.isFrame and not ignoreFrame:
 
-            if self.resourceTypeIs("Condition"):
+    #         utils.validateFrame(self)
 
-                result = input.apply(
-                    lambda x: self.searchResources(
-                        searchParams=dict(searchParams, **{"_id": x.subject.id}),
-                        resourceType="Patient",
-                        raw=True,
-                    )
-                )
-            elif self.resourceTypeIs("Patient"):
-                result = input.apply(
-                    lambda x: self.searchResources(
-                        searchParams=dict(searchParams, **{"_id": x.id}),
-                        resourceType="Patient",
-                        raw=True,
-                    )
-                )
-            elif self.resourceTypeIs("DiagnosticReport"):
-                result = input.apply(
-                    lambda x: self.searchResources(
-                        searchParams=dict(searchParams, **{"_id": x.subject.id}),
-                        resourceType="Patient",
-                        raw=True,
-                    )
-                )
-            elif self.resourceTypeIs("ImagingStudy"):
-                result = input.apply(
-                    lambda x: self.searchResources(
-                        searchParams=dict(searchParams, **{"_id": x.subject.id}),
-                        resourceType="Patient",
-                        raw=True,
-                    )
-                )
-            else:
-                raise NotImplementedError
+    #         input = self.data
 
-            result = result.values
+    #         if self.resourceTypeIs("Condition"):
 
-        elif searchActive:
-            result = self.searchResources(
-                searchParams=searchParams, resourceType="Patient", raw=True
-            )
+    #             result = input.apply(
+    #                 lambda x: self.searchResources(
+    #                     searchParams=dict(searchParams, **{"_id": x.subject.id}),
+    #                     resourceType="Patient",
+    #                     raw=True,
+    #                 )
+    #             )
+    #         elif self.resourceTypeIs("Patient"):
+    #             result = input.apply(
+    #                 lambda x: self.searchResources(
+    #                     searchParams=dict(searchParams, **{"_id": x.id}),
+    #                     resourceType="Patient",
+    #                     raw=True,
+    #                 )
+    #             )
+    #         elif self.resourceTypeIs("DiagnosticReport"):
+    #             result = input.apply(
+    #                 lambda x: self.searchResources(
+    #                     searchParams=dict(searchParams, **{"_id": x.subject.id}),
+    #                     resourceType="Patient",
+    #                     raw=True,
+    #                 )
+    #             )
+    #         elif self.resourceTypeIs("ImagingStudy"):
+    #             result = input.apply(
+    #                 lambda x: self.searchResources(
+    #                     searchParams=dict(searchParams, **{"_id": x.subject.id}),
+    #                     resourceType="Patient",
+    #                     raw=True,
+    #                 )
+    #             )
+    #         else:
+    #             raise NotImplementedError
 
-        else:
-            raise NotImplementedError
+    #         result = result.values
 
-        result = self.prepareOutput(result)
+    #     elif searchActive:
+    #         result = self.searchResources(
+    #             searchParams=searchParams, resourceType="Patient", raw=True
+    #         )
 
-        return result
+    #     else:
+    #         raise NotImplementedError
+
+    #     result = self.prepareOutput(result)
+
+    #     return result
 
     # TODO test len(result) = 0
     # TODO test len(result) = 1

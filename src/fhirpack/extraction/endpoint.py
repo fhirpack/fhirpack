@@ -13,45 +13,54 @@ import fhirpack.utils as utils
 
 
 class ExtractorEndpointMixin(base.BaseExtractorMixin):
+    
     def getEndpoints(
         self,
-        input: Union[
-            list[str],
-            list[SyncFHIRReference],
-            list[SyncFHIRResource],
-        ] = None,
-        searchParams: dict = None,
-        params: dict = None,
-        ignoreFrame: bool = False,
-    ):
-        searchActive = False if searchParams is None else True
-        searchParams = {} if searchParams is None else searchParams
-        params = {} if params is None else params
-        input = [] if input is None else input
-        result = []
+        *args,
+        **kwargs
+        ):
 
-        if len(input):
-            raise NotImplementedError
+        return self.getResources(*args, resourceType="Endpoint", **kwargs)
+          
+    # def getEndpoints(
+    #     self,
+    #     input: Union[
+    #         list[str],
+    #         list[SyncFHIRReference],
+    #         list[SyncFHIRResource],
+    #     ] = None,
+    #     searchParams: dict = None,
+    #     params: dict = None,
+    #     ignoreFrame: bool = False,
+    # ):
+    #     searchActive = False if searchParams is None else True
+    #     searchParams = {} if searchParams is None else searchParams
+    #     params = {} if params is None else params
+    #     input = [] if input is None else input
+    #     result = []
 
-        elif self.isFrame and not ignoreFrame:
+    #     if len(input):
+    #         raise NotImplementedError
 
-            utils.validateFrame(self)
+    #     elif self.isFrame and not ignoreFrame:
 
-            if self.resourceTypeIs("ImagingStudy"):
-                input = self.data
-                input = self.castOperand(input, SyncFHIRReference, "Endpoint")
-                result = self.getResources(input, resourceType="Endpoint", raw=True)
-                result = result
+    #         utils.validateFrame(self)
 
-            else:
-                raise NotImplementedError
+    #         if self.resourceTypeIs("ImagingStudy"):
+    #             input = self.data
+    #             input = self.castOperand(input, SyncFHIRReference, "Endpoint")
+    #             result = self.getResources(input, resourceType="Endpoint", raw=True)
+    #             result = result
 
-        elif searchActive:
-            raise NotImplementedError
+    #         else:
+    #             raise NotImplementedError
 
-        else:
-            raise NotImplementedError
+    #     elif searchActive:
+    #         raise NotImplementedError
 
-        result = self.prepareOutput(result)
+    #     else:
+    #         raise NotImplementedError
 
-        return result
+    #     result = self.prepareOutput(result)
+
+    #     return result

@@ -59,6 +59,7 @@ class BaseTransformerMixin:
     def gatherSimplePaths(
         self,
         paths: list[str],
+        columns: list[str]=None,
         input: Union[
             list[str],
             list[SyncFHIRReference],
@@ -78,7 +79,9 @@ class BaseTransformerMixin:
         """
         if not params:
             params = {}
-
+        if not columns:
+            columns = paths
+            
         if not input and self.isFrame:
             input = self.data.values
         elif input and not self.isFrame:
@@ -87,8 +90,9 @@ class BaseTransformerMixin:
             # TODO your code for data coming in as arguments and frame
             raise NotImplementedError
 
-        result = {k: [] for k in paths}
-        for path in paths:
+        result = {k: [] for k in columns}
+        
+        for path,column in zip(paths,columns):
             # print(results)
             for element in input:
                 if isinstance(element, SyncFHIRReference) or isinstance(
@@ -98,16 +102,16 @@ class BaseTransformerMixin:
                 elementResult = self.__gatherSimplePath(element, path)
 
                 if elementResult.get(path, None):
-                    result[path].append(elementResult[path])
+                    result[column].append(elementResult[path])
                 else:
-                    result[path].append(None)
+                    result[column].append(None)
                 # print(f"\n\n\n\n\n\n\n\n ..........result ...........")
                 # print(json.dumps(results,indent=4,sort_keys=True))
         # return results
         # return pd.DataFrame(results)
 
         return self.prepareOutput(
-            result, resourceType=self.resourceType, columns=paths, wrap=False
+            result, resourceType=self.resourceType, columns=columns, wrap=False
         )
 
     # TODO test path one level (no dot)

@@ -9,70 +9,79 @@ import fhirpack.extraction.base as base
 
 
 class ExtractorEncounterMixin(base.BaseExtractorMixin):
-    def getEncounters(
+    
+    def getEncounter(
         self,
-        input: Union[
-            list[str],
-            list[SyncFHIRReference],
-            list[SyncFHIRResource],
-        ] = None,
-        searchParams: dict = None,
-        params: dict = None,
-        ignoreFrame: bool = False,
-    ):
+        *args,
+        **kwargs
+        ):
 
-        searchActive = False if searchParams is None else True
-        searchParams = {} if searchParams is None else searchParams
-        params = {} if params is None else params
-        input = [] if input is None else input
-        result = []
+        return self.getResources(*args, resourceType="Encounter", **kwargs)
+          
+    # def getEncounters(
+    #     self,
+    #     input: Union[
+    #         list[str],
+    #         list[SyncFHIRReference],
+    #         list[SyncFHIRResource],
+    #     ] = None,
+    #     searchParams: dict = None,
+    #     params: dict = None,
+    #     ignoreFrame: bool = False,
+    # ):
 
-        if len(input):
-            input = self.castOperand(input, SyncFHIRReference, "Encounter")
-            result = self.getResources(input, resourceType="Encounter", raw=True)
+    #     searchActive = False if searchParams is None else True
+    #     searchParams = {} if searchParams is None else searchParams
+    #     params = {} if params is None else params
+    #     input = [] if input is None else input
+    #     result = []
 
-        elif self.isFrame and not ignoreFrame:
+    #     if len(input):
+    #         input = self.castOperand(input, SyncFHIRReference, "Encounter")
+    #         result = self.getResources(input, resourceType="Encounter", raw=True)
 
-            utils.validateFrame(self)
+    #     elif self.isFrame and not ignoreFrame:
 
-            if self.resourceTypeIs("Patient"):
-                input = self.data
+    #         utils.validateFrame(self)
 
-                result = input.apply(
-                    lambda x: self.searchResources(
-                        searchParams=dict(searchParams, **{"patient": x.id}),
-                        resourceType="Encounter",
-                        raw=True,
-                    )
-                )
-                result = result.values
+    #         if self.resourceTypeIs("Patient"):
+    #             input = self.data
 
-            elif self.resourceTypeIs("Condition"):
-                input = self.data
-                result = input.apply(
-                    lambda x: self.searchResources(
-                        searchParams=dict(searchParams, **{"_id": x.encounter.id}),
-                        resourceType="Encounter",
-                        raw=True,
-                    )
-                )
-                result = result.values
+    #             result = input.apply(
+    #                 lambda x: self.searchResources(
+    #                     searchParams=dict(searchParams, **{"patient": x.id}),
+    #                     resourceType="Encounter",
+    #                     raw=True,
+    #                 )
+    #             )
+    #             result = result.values
 
-            elif self.resourceTypeIs("Encounter"):
-                input = self.data.values
-                result = self.getResources(input, resourceType="Encounter", raw=True)
+    #         elif self.resourceTypeIs("Condition"):
+    #             input = self.data
+    #             result = input.apply(
+    #                 lambda x: self.searchResources(
+    #                     searchParams=dict(searchParams, **{"_id": x.encounter.id}),
+    #                     resourceType="Encounter",
+    #                     raw=True,
+    #                 )
+    #             )
+    #             result = result.values
 
-            else:
-                raise NotImplementedError
+    #         elif self.resourceTypeIs("Encounter"):
+    #             input = self.data.values
+    #             result = self.getResources(input, resourceType="Encounter", raw=True)
 
-        elif searchActive:
-            result = self.searchResources(
-                searchParams=searchParams, resourceType="Encounter", raw=True
-            )
+    #         else:
+    #             raise NotImplementedError
 
-        else:
-            raise NotImplementedError
+    #     elif searchActive:
+    #         result = self.searchResources(
+    #             searchParams=searchParams, resourceType="Encounter", raw=True
+    #         )
 
-        result = self.prepareOutput(result, "Encounter")
+    #     else:
+    #         raise NotImplementedError
 
-        return result
+    #     result = self.prepareOutput(result, "Encounter")
+
+    #     return result

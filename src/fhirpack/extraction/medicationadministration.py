@@ -9,67 +9,76 @@ import fhirpack.extraction.base as base
 
 
 class ExtractorMedicationAdministrationMixin(base.BaseExtractorMixin):
+ 
     def getMedicationAdministrations(
         self,
-        input: Union[
-            list[str],
-            list[SyncFHIRReference],
-            list[SyncFHIRResource],
-        ] = None,
-        searchParams: dict = None,
-        params: dict = None,
-        ignoreFrame: bool = False,
+        *args,
+        **kwargs
     ):
 
-        searchActive = False if searchParams is None else True
-        searchParams = {} if searchParams is None else searchParams
-        params = {} if params is None else params
-        input = [] if input is None else input
-        result = []
+        return self.getResources(*args, resourceType="MedicationAdministration", **kwargs)
 
-        if len(input):
-            input = self.castOperand(
-                input, SyncFHIRReference, "MedicationAdministration"
-            )
-            result = self.getResources(
-                input, resourceType="MedicationAdministration", raw=True
-            )
+    # def getMedicationAdministrations(
+    #     self,
+    #     input: Union[
+    #         list[str],
+    #         list[SyncFHIRReference],
+    #         list[SyncFHIRResource],
+    #     ] = None,
+    #     searchParams: dict = None,
+    #     params: dict = None,
+    #     ignoreFrame: bool = False,
+    # ):
 
-        elif self.isFrame and not ignoreFrame:
+    #     searchActive = False if searchParams is None else True
+    #     searchParams = {} if searchParams is None else searchParams
+    #     params = {} if params is None else params
+    #     input = [] if input is None else input
+    #     result = []
 
-            utils.validateFrame(self)
+    #     if len(input):
+    #         input = self.castOperand(
+    #             input, SyncFHIRReference, "MedicationAdministration"
+    #         )
+    #         result = self.getResources(
+    #             input, resourceType="MedicationAdministration", raw=True
+    #         )
 
-            if self.resourceTypeIs("Patient"):
-                input = self.data
+    #     elif self.isFrame and not ignoreFrame:
 
-                result = input.apply(
-                    lambda x: self.searchResources(
-                        searchParams=dict(searchParams, **{"subject": x.id}),
-                        resourceType="MedicationAdministration",
-                        raw=True,
-                    )
-                )
-                result = result.values
+    #         utils.validateFrame(self)
 
-            elif self.resourceTypeIs("MedicationAdministration"):
-                input = self.data.values
-                result = self.getResources(
-                    input, resourceType="MedicationAdministration", raw=True
-                )
+    #         if self.resourceTypeIs("Patient"):
+    #             input = self.data
 
-            else:
-                raise NotImplementedError
+    #             result = input.apply(
+    #                 lambda x: self.searchResources(
+    #                     searchParams=dict(searchParams, **{"subject": x.id}),
+    #                     resourceType="MedicationAdministration",
+    #                     raw=True,
+    #                 )
+    #             )
+    #             result = result.values
 
-        elif searchActive:
-            result = self.searchResources(
-                searchParams=searchParams,
-                resourceType="MedicationAdministration",
-                raw=True,
-            )
+    #         elif self.resourceTypeIs("MedicationAdministration"):
+    #             input = self.data.values
+    #             result = self.getResources(
+    #                 input, resourceType="MedicationAdministration", raw=True
+    #             )
 
-        else:
-            raise NotImplementedError
+    #         else:
+    #             raise NotImplementedError
 
-        result = self.prepareOutput(result, "MedicationAdministration")
+    #     elif searchActive:
+    #         result = self.searchResources(
+    #             searchParams=searchParams,
+    #             resourceType="MedicationAdministration",
+    #             raw=True,
+    #         )
 
-        return result
+    #     else:
+    #         raise NotImplementedError
+
+    #     result = self.prepareOutput(result, "MedicationAdministration")
+
+    #     return result
