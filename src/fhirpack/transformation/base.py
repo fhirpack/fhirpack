@@ -59,7 +59,7 @@ class BaseTransformerMixin:
     def gatherSimplePaths(
         self,
         paths: list[str],
-        columns: list[str]=None,
+        columns: list[str] = None,
         input: Union[
             list[str],
             list[SyncFHIRReference],
@@ -81,7 +81,7 @@ class BaseTransformerMixin:
             params = {}
         if not columns:
             columns = paths
-            
+
         if not input and self.isFrame:
             input = self.data.values
         elif input and not self.isFrame:
@@ -91,8 +91,8 @@ class BaseTransformerMixin:
             raise NotImplementedError
 
         result = {k: [] for k in columns}
-        
-        for path,column in zip(paths,columns):
+
+        for path, column in zip(paths, columns):
             # print(results)
             for element in input:
                 if isinstance(element, SyncFHIRReference) or isinstance(

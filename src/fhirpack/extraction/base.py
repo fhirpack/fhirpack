@@ -174,11 +174,7 @@ SEARCH_ATTRIBUTES = {
         "Observation": {"field": "patient", "path": None},
     },
     "ImagingStudy": {"Patient": {"field": "_id", "path": "subject"}},
-
-    # try multiple paths and pick not None: reference or id
     "Condition": {"Patient": {"field": "_id", "path": "subject"}},
-    
-    # "Observation": {"Patient": {"field": "_id", "path": "subject.id"}},
     "Observation": {"Patient": {"field": "_id", "path": "subject"}},
     "MedicationAdministration": {"Patient": {"field": "_id", "path": "subject"}},
     "DiagnosticReport": {"Patient": {"field": "_id", "path": "subject"}},
@@ -221,7 +217,7 @@ class BaseExtractorMixin:
             raise NotImplementedError
 
         if not raw:
-            result = self.prepareOutput(input)
+            result = self.prepareOutput(input, resourceType="Reference")
         return result
 
     def getResources(
@@ -247,8 +243,7 @@ class BaseExtractorMixin:
         result = []
 
         if len(input):
-            # input = self.castOperand(input, SyncFHIRReference, resourceType)
-            for element in tqdm(input, desc=f"GET[{resourceType}]> ", leave=False):
+            for element in tqdm(input, desc=f"GET[{resourceType}]> ", leave=True):
                 element = self.castOperand(element, SyncFHIRResource, resourceType)
                 result.extend(element)
 
@@ -262,30 +257,33 @@ class BaseExtractorMixin:
             targetType = resourceType
             input = self.data
 
+            # handles
+            # pack.getReferences().getResources
+            # pack.getReferences().getResources
+            if targetType is None:
+                return self.getResources(self.data.values)
+
             field, path = self.getConversionPath(
-                sourceType=sourceType,
-                targetType=targetType
+                sourceType=sourceType, targetType=targetType
             )
 
-            pathId = 'id' if path is None else f"{path}.id"
-            
+            pathId = "id" if path is None else f"{path}.id"
+
             searchValues = self.gatherSimplePaths(
-                [pathId],
-                columns=['searchValue']
+                [pathId], columns=["searchValue"]
             ).dropna()
-            
+
             if not searchValues.size:
                 pathReference = f"{path}.reference"
                 searchValues = self.gatherSimplePaths(
-                    [pathReference],
-                    columns=['searchValue']
+                    [pathReference], columns=["searchValue"]
                 )
-                
-            searchValues=searchValues['searchValue'].values
-            searchValues = ','.join(searchValues)
+
+            searchValues = searchValues["searchValue"].values
+            searchValues = ",".join(searchValues)
 
             searchParams.update({field: searchValues})
-            
+
             result = self.searchResources(
                 searchParams=searchParams,
                 resourceType=resourceType,
@@ -361,7 +359,7 @@ class BaseExtractorMixin:
                     search,
                     desc=f"SEARCH[{resourceType}]> ",
                     total=resourceCount,
-                    leave=False,
+                    leave=True,
                 ):
                     result.append(element)
             except:
@@ -383,7 +381,7 @@ class BaseExtractorMixin:
 
         field, path = targetDict.get("field"), targetDict.get("path")
 
-        if field: # and path:
+        if field:  # and path:
             return field, path
         else:
             raise RuntimeError(

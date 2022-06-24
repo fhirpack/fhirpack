@@ -68,7 +68,7 @@ class BaseMixin:
             resourceType = self.guessOutputResourceType(data)
 
         # index=[e['id'] for e in data]
-        
+
         if wrap:
             data = [[e] for e in data]
         output = Frame(
