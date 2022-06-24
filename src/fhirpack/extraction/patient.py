@@ -15,9 +15,87 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
     # TODO test len(references) > 1
     # TODO raise len(references) = 0?
 
-    def getPatients(self, *args, **kwargs):
+    def getPatients(
+        self,
+        input: Union[
+            list[str],
+            list[SyncFHIRReference],
+            # list[SyncFHIRResource],
+        ] = None,
+        searchParams: dict = None,
+        includeLinkedPatients=False,
+        params: dict = None,
+        ignoreFrame: bool = False,
+    ):
 
-        return self.getResources(*args, resourceType="Patient", **kwargs)
+        if includeLinkedPatients:
+            return self.getLinkedPatients(input, searchParams)
+
+        searchActive = False if searchParams is None else True
+        searchParams = {} if searchParams is None else searchParams
+        params = {} if params is None else params
+        input = [] if input is None else input
+        result = []
+
+        if len(input):
+            input = self.castOperand(input, SyncFHIRReference, "Patient")
+            result = self.getResources(input, resourceType="Patient", raw=True)
+
+        elif self.isFrame and not ignoreFrame:
+
+            utils.validateFrame(self)
+
+            input = self.data
+
+            if self.resourceTypeIs("Condition"):
+
+                result = input.apply(
+                    lambda x: self.searchResources(
+                        searchParams=dict(searchParams, **{"_id": x.subject.id}),
+                        resourceType="Patient",
+                        raw=True,
+                    )
+                )
+            elif self.resourceTypeIs("Patient"):
+                result = input.apply(
+                    lambda x: self.searchResources(
+                        searchParams=dict(searchParams, **{"_id": x.id}),
+                        resourceType="Patient",
+                        raw=True,
+                    )
+                )
+            elif self.resourceTypeIs("DiagnosticReport"):
+                result = input.apply(
+                    lambda x: self.searchResources(
+                        searchParams=dict(searchParams, **{"_id": x.subject.id}),
+                        resourceType="Patient",
+                        raw=True,
+                    )
+                )
+            elif self.resourceTypeIs("ImagingStudy"):
+                result = input.apply(
+                    lambda x: self.searchResources(
+                        searchParams=dict(searchParams, **{"_id": x.subject.id}),
+                        resourceType="Patient",
+                        raw=True,
+                    )
+                )
+            else:
+                raise NotImplementedError
+
+            result = result.values
+
+        elif searchActive:
+            result = self.searchResources(
+                searchParams=searchParams, resourceType="Patient", raw=True
+            )
+
+        else:
+            raise NotImplementedError
+
+        result = self.prepareOutput(result)
+
+        return result
 
     # TODO test len(result) = 0
     # TODO test len(result) = 1
