@@ -1,6 +1,8 @@
 import json
 from typing import Union
 import time
+from operator import attrgetter
+
 import requests
 from tqdm import tqdm
 from dicomweb_client.api import DICOMwebClient
@@ -159,6 +161,34 @@ SEARCH_PARAMS = {
     "List": ["_id", "_content", "_sort", "_include", "code", "identifier"],
 }
 
+SEARCH_ATTRIBUTES = {
+    "Patient": {
+        "Condition": {"field": "subject", "path": None},
+        "DiagnosticReport": {"field": "subject", "path": None},
+        "EpisodeOfCare": {"field": "patient", "path": None},
+        "FamilyMemberHistory": {"field": "_content", "path": None},
+        "ImagingStudy": {"field": "subject", "path": None},
+        "List": {"field": "", "path": None},
+        "MedicationAdministration": {"field": "subject", "path": None},
+        "MedicationRequest": {"field": "subject", "path": None},
+        "Observation": {"field": "patient", "path": None},
+    },
+    "ImagingStudy": {"Patient": {"field": "_id", "path": "subject"}},
+    "Condition": {"Patient": {"field": "_id", "path": "subject"}},
+    "Observation": {"Patient": {"field": "_id", "path": "subject"}},
+    "MedicationAdministration": {"Patient": {"field": "_id", "path": "subject"}},
+    "DiagnosticReport": {"Patient": {"field": "_id", "path": "subject"}},
+    "AllergyIntolerance": {"Patient": {"field": "_id", "path": "patient"}},
+    "CarePlan": {"Patient": {"field": "_id", "path": "subject"}},
+    "CarePlan": {"Patient": {"field": "_id", "path": "subject"}},
+    "Claim": {"Patient": {"field": "_id", "path": "subject"}},
+    "Encounter": {"Patient": {"field": "_id", "path": "subject"}},
+    "EpisodeOfCare": {"Patient": {"field": "_id", "path": "subject"}},
+    "Goal": {"Patient": {"field": "_id", "path": "subject"}},
+    "Immunization": {"Patient": {"field": "_id", "path": "patient"}},
+    "Procedure": {"Patient": {"field": "_id", "path": "subject"}},
+}
+
 
 class BaseExtractorMixin:
     def getReferences(
@@ -187,7 +217,7 @@ class BaseExtractorMixin:
             raise NotImplementedError
 
         if not raw:
-            result = self.prepareOutput(input)
+            result = self.prepareOutput(input, resourceType="Reference")
         return result
 
     def getResources(
@@ -213,17 +243,57 @@ class BaseExtractorMixin:
         result = []
 
         if len(input):
-            pass
+            for element in tqdm(input, desc=f"GET[{resourceType}]> ", leave=True):
+                element = self.castOperand(element, SyncFHIRResource, resourceType)
+                result.extend(element)
 
         elif self.isFrame and not ignoreFrame:
-            input = self.data.values
+            # utils.validateFrame(self)
+            # source Type is the type of resources contained in a frame
+            sourceType = self.resourceType
+
+            # the target type is the desired resource type
+            # getPatients().getConditions() -> "Patient" source, "Condition" target
+            targetType = resourceType
+            input = self.data
+
+            # handles
+            # pack.getReferences().getResources
+            # pack.getReferences().getResources
+            if targetType is None:
+                return self.getResources(self.data.values)
+
+            field, path = self.getConversionPath(
+                sourceType=sourceType, targetType=targetType
+            )
+
+            pathId = "id" if path is None else f"{path}.id"
+
+            searchValues = self.gatherSimplePaths(
+                [pathId], columns=["searchValue"]
+            ).dropna()
+
+            if not searchValues.size:
+                pathReference = f"{path}.reference"
+                searchValues = self.gatherSimplePaths(
+                    [pathReference], columns=["searchValue"]
+                )
+
+            searchValues = searchValues["searchValue"].values
+            searchValues = ",".join(searchValues)
+
+            searchParams.update({field: searchValues})
+
+            result = self.searchResources(
+                searchParams=searchParams,
+                resourceType=resourceType,
+                raw=True,
+            )
 
         elif searchActive:
-            raise NotImplementedError
-
-        for element in tqdm(input, desc=f"GET[{resourceType}]> ", leave=False):
-            element = self.castOperand(element, SyncFHIRResource, resourceType)
-            result.extend(element)
+            result = self.searchResources(
+                searchParams=searchParams, resourceType=resourceType, raw=True
+            )
 
         if not raw:
             result = self.prepareOutput(result)
@@ -250,13 +320,13 @@ class BaseExtractorMixin:
         params = {} if params is None else params
         input = [] if input is None else input
 
-        if searchParams:
+        # if searchParams:
 
-            invalidsearchParams = set(searchParams.keys()) - set(
-                SEARCH_PARAMS[resourceType]
-            )
-            if invalidsearchParams:
-                raise Exception(f"non allowed search parameters {invalidsearchParams}")
+        #     invalidsearchParams = set(searchParams.keys()) - set(
+        #         SEARCH_PARAMS[resourceType]
+        #     )
+        #     if invalidsearchParams:
+        #         raise Exception(f"non allowed search parameters {invalidsearchParams}")
 
         if len(input):
             raise NotImplementedError
@@ -274,6 +344,7 @@ class BaseExtractorMixin:
             .search(**searchParams)
             .limit(resourcePageSize)
         )
+
         result = []
         resourceCount = 0
         nonEmptyBundle = bool(len(search.limit(1).fetch()))
@@ -288,7 +359,7 @@ class BaseExtractorMixin:
                     search,
                     desc=f"SEARCH[{resourceType}]> ",
                     total=resourceCount,
-                    leave=False,
+                    leave=True,
                 ):
                     result.append(element)
             except:
@@ -300,6 +371,22 @@ class BaseExtractorMixin:
             result = self.prepareOutput(result, resourceType)
 
         return result
+
+    def getConversionPath(self, sourceType: str, targetType: str):
+        """This method retrieves the needed fhir serach param (field) and the
+        respective path for a source-target pair from the handler ditcionary"""
+
+        sourceDict = SEARCH_ATTRIBUTES.get(sourceType, {})
+        targetDict = sourceDict.get(targetType, {})
+
+        field, path = targetDict.get("field"), targetDict.get("path")
+
+        if field:  # and path:
+            return field, path
+        else:
+            raise RuntimeError(
+                f"No handler for source {sourceType} and target {targetType}"
+            )
 
     def getAbsolutePaths(
         self,

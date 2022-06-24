@@ -67,11 +67,14 @@ class BaseMixin:
         if len(data) and not resourceType:
             resourceType = self.guessOutputResourceType(data)
 
+        # index=[e['id'] for e in data]
+
         if wrap:
             data = [[e] for e in data]
         output = Frame(
             data,
             columns=columns,
+            # index=index,
             resourceType=resourceType,
             client=self.client,
         )
