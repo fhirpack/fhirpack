@@ -63,15 +63,15 @@ class PACK(
             warnings.warn("PACK is not connected to server.")
             self.logger.info("PACK is not connected to server.")
             self.client = SyncFHIRClient("")
-            self.client = None
+            # self.client = None
 
         self.logger.info("pack initialization finished")
 
     def __setupClient(self, apiBase=None, authMethod=None, authParams=None):
 
         authorization = None
-        
-        if apiBase:
+
+        if apiBase is not None:
             CONFIG.set("APIBASE", apiBase)
             if authMethod:
                 CONFIG.set("AUTH_METHOD", authMethod)

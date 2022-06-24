@@ -13,45 +13,6 @@ import fhirpack.utils as utils
 
 
 class ExtractorEndpointMixin(base.BaseExtractorMixin):
-    def getEndpoints(
-        self,
-        input: Union[
-            list[str],
-            list[SyncFHIRReference],
-            list[SyncFHIRResource],
-        ] = None,
-        searchParams: dict = None,
-        params: dict = None,
-        ignoreFrame: bool = False,
-    ):
-        searchActive = False if searchParams is None else True
-        searchParams = {} if searchParams is None else searchParams
-        params = {} if params is None else params
-        input = [] if input is None else input
-        result = []
+    def getEndpoints(self, *args, **kwargs):
 
-        if len(input):
-            raise NotImplementedError
-
-        elif self.isFrame and not ignoreFrame:
-
-            utils.validateFrame(self)
-
-            if self.resourceTypeIs("ImagingStudy"):
-                input = self.data
-                input = self.castOperand(input, SyncFHIRReference, "Endpoint")
-                result = self.getResources(input, resourceType="Endpoint", raw=True)
-                result = result
-
-            else:
-                raise NotImplementedError
-
-        elif searchActive:
-            raise NotImplementedError
-
-        else:
-            raise NotImplementedError
-
-        result = self.prepareOutput(result)
-
-        return result
+        return self.getResources(*args, resourceType="Endpoint", **kwargs)
