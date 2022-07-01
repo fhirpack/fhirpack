@@ -24,7 +24,7 @@ Issue Reports
 
 If you experience bugs or general issues with `fhirpack`, please have a
 look on the [issue
-tracker](https://github.com/%3CUSERNAME%3E/fhirpack/issues). If you
+tracker](https://gitlab.com/fhirpack/main/-/issues). If you
 don\'t see anything useful there, please feel free to fire an issue
 report.
 
