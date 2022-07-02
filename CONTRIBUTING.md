@@ -52,12 +52,16 @@ done in the same way was a code contribution.
 When working on documentation changes in your local machine, you can
 compile them using `tox`\_:
 
-    tox -e docs
+```shell
+tox -e docs
+```
 
 and use Python\'s built-in web server for a preview in your web browser
 (`http://localhost:8000`):
 
-    python3 -m http.server --directory 'docs/_build/html'
+```shell
+python3 -m http.server --directory 'docs/_build/html'
+```
 
 Code Contributions
 ------------------
@@ -80,9 +84,11 @@ improve `usage.py` and `minimal.py`. However, keep in mind to not upload
 notebook outputs as they bloat the files and are irrelevant to the
 reader. To prevent that, execute:
 
-    echo -e '[filter "strip-notebook-output"]\n\tclean = jupyter nbconvert \
-    --ClearOutputPreprocessor.enabled=True --to=notebook --stdin --stdout --log-level=ERROR' \
-    >> .git/config
+```shell
+echo -e '[filter "strip-notebook-output"]\n\tclean = jupyter nbconvert \
+--ClearOutputPreprocessor.enabled=True --to=notebook --stdin --stdout --log-level=ERROR' \
+>> .git/config
+```
 
 within the repository. That line defines a clean for Jupyter notebooks
 that git can then use for all `*.ipynb`.
@@ -102,18 +108,24 @@ environment](https://realpython.com/python-virtual-environments-a-primer/)
 to avoid any problems with your installed Python packages. This can
 easily be done via either `virtualenv`\_:
 
-    virtualenv <PATH TO VENV>
-    source <PATH TO VENV>/bin/activate
+```shell
+virtualenv <PATH TO VENV>
+source <PATH TO VENV>/bin/activate
+```
 
 or [Miniconda](https://docs.conda.io/en/latest/miniconda.html):
 
-    conda create -n fhirpack python=3.9.6 six virtualenv pytest pytest-cov
-    conda activate fhirpack
+```shell
+conda create -n fhirpack python=3.9.6 six virtualenv pytest pytest-cov
+conda activate fhirpack
+```
 
 or [Pipenv](https://pipenv.pypa.io/en/latest/):
 
-    pipenv install fhirpack
-    pipenv shell
+```shell
+pipenv install fhirpack
+pipenv shell
+```
 
 ### Clone the repository
 
@@ -133,7 +145,7 @@ or [Pipenv](https://pipenv.pypa.io/en/latest/):
     or from GitHub with:
 
     ```shell
-    git clone https://github.com/fhirpack/main.git
+    git clone https://gitlab.com/fhirpack/main.git
     ```
 
 1.  You should run:
@@ -204,7 +216,7 @@ This projetc relies on the followin python packages.
 
 ### Submit your contribution
 
-1.  If everything works fine, push your local branch to GitHub with:
+1.  If everything works fine, push your local branch to GitLab with:
 
     ```shell
     git push -u origin my-feature
@@ -219,7 +231,7 @@ The following tips can be used when facing problems to build or test the
 package:
 
 1.  Make sure to fetch all the tags from the upstream
-    [repository](https://github.com/%3CUSERNAME%3E/fhirpack). The
+    [repository](https://gitlab.com/fhirpack/main). The
     command `git describe --abbrev=0 --tags` should return the version
     you are expecting. If you are trying to run CI scripts in a fork
     repository, make sure to push all the tags. You can also try to
@@ -284,7 +296,7 @@ used to release a new version for `fhirpack`:
 2.  Tag the current commit on the main branch with a release tag, e.g.,
     `v1.2.3`.
 3.  Push the new tag to the upstream
-    [repository](https://github.com/%3CUSERNAME%3E/fhirpack), e.g.,
+    [repository](https://gitlab.com/fhirpack/main), e.g.,
     `git push upstream v1.2.3`
 4.  Clean up the `dist` and `build` folders with `tox -e clean` (or
     `rm -rf dist build`) to avoid confusion with old builds and Sphinx
