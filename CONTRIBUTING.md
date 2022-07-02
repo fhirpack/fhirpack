@@ -62,11 +62,11 @@ and use Python\'s built-in web server for a preview in your web browser
 Code Contributions
 ------------------
 
-`fhirpack` is build around the `PACK` class which uses a subclass of
+`fhirpack` is build around the `PACK` class which uses a custom subclass of
 `pandas` `DataFrame`, called `Frame`, as the main underlying
-datastructure. Upon connecting to a server, the worklow follows the ETL
+datastructure. Upon connecting to a server, the workflow follows the ETL
 principle. In general, methods that extract FHIR resources can be found
-in inside the `extraction` directory. These methods expect a list of
+inside the `extraction` directory. These methods expect a list of
 either `fhirpy` resources, `fhirpy` references or FHIR-ID strings as
 input. Alternatively, the methods can operate on a `Frame` object
 according to the
@@ -76,7 +76,7 @@ methods return `Frame` objects which can be used by the Transformer for
 data manipulation or Loader for uploading.
 
 You can use Jupyter, JupyterLab or VSCode\'s Jupyter Plugin to use and
-improve `usage.py` and `samples.py`. However, keep in mind to not upload
+improve `usage.py` and `minimal.py`. However, keep in mind to not upload
 notebook outputs as they bloat the files and are irrelevant to the
 reader. To prevent that, execute:
 
@@ -91,7 +91,7 @@ that git can then use for all `*.ipynb`.
 
 Before you work on any non-trivial code contribution it\'s best to first
 create a report in the [issue
-tracker](https://github.com/%3CUSERNAME%3E/fhirpack/issues) to start a
+tracker](https://gitlab.com/fhirpack/main/-/issues) to start a
 discussion on the subject. This often provides additional considerations
 and avoids unnecessary work.
 
@@ -120,7 +120,7 @@ or [Pipenv](https://pipenv.pypa.io/en/latest/):
 1.  Create an user account on GitHub if you do not already have one.
 
 2.  Fork the project
-    [repository](https://github.com/%3CUSERNAME%3E/fhirpack): click on
+    [repository](https://github.com/fhirpack/main): click on
     the *Fork* button near the top of the page. This creates a copy of
     the code under your account on GitHub.
 
