@@ -24,15 +24,11 @@ Issue Reports
 
 If you experience bugs or general issues with `fhirpack`, please have a
 look on the [issue
-tracker](https://github.com/%3CUSERNAME%3E/fhirpack/issues). If you
+tracker](https://gitlab.com/fhirpack/main/-/issues). If you
 don\'t see anything useful there, please feel free to fire an issue
 report.
 
-```{tip}
-Please don\'t forget to include the closed issues in your search.
-Sometimes a solution was already reported, and the problem is considered
-**solved**.
-```
+> **_NOTE:_** Please don\'t forget to include the closed issues in your search. Sometimes a solution was already reported, and the problem is considered
 
 New issue reports should include information about your programming
 environment (e.g., operating system, Python version) and steps to
@@ -53,42 +49,28 @@ documentation compiler. This means that the docs are kept in the same
 repository as the project code, and that any documentation update is
 done in the same way was a code contribution.
 
-```{tip}
-Please notice that the [GitHub web
-interface](https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files)
-provides a quick way of propose changes in `fhirpack`\'s files. While
-this mechanism can be tricky for normal code contributions, it works
-perfectly fine for contributing to the docs, and can be quite handy.
-
-If you are interested in trying this method out, please navigate to the
-`docs` folder in the source
-[repository](https://github.com/%3CUSERNAME%3E/fhirpack), find which
-file you would like to propose changes and click in the little pencil
-icon at the top, to open [GitHub\'s code
-editor](https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files).
-Once you finish editing the file, please write a message in the form at
-the bottom of the page describing which changes have you made and what
-are the motivations behind them and submit your proposal.
-```
-
 When working on documentation changes in your local machine, you can
-compile them using `tox`\_:
+compile them using `tox`:
 
-    tox -e docs
+```
+tox -e docs
+```
 
 and use Python\'s built-in web server for a preview in your web browser
 (`http://localhost:8000`):
 
-    python3 -m http.server --directory 'docs/_build/html'
+```
+python3 -m http.server --directory 'docs/_build/html'
+```
 
 Code Contributions
 ------------------
 
-`fhirpack` is build around the `PACK` class which uses a subclass of
+`fhirpack` is build around the `PACK` class which uses a custom subclass of
 `pandas` `DataFrame`, called `Frame`, as the main underlying
-datastructure. Upon connecting to a server, the worklow follows the ETL
+datastructure. Upon connecting to a server, the workflow follows the ETL
 principle. In general, methods that extract FHIR resources can be found
-in inside the `extraction` directory. These methods expect a list of
+inside the `extraction` directory. These methods expect a list of
 either `fhirpy` resources, `fhirpy` references or FHIR-ID strings as
 input. Alternatively, the methods can operate on a `Frame` object
 according to the
@@ -98,13 +80,15 @@ methods return `Frame` objects which can be used by the Transformer for
 data manipulation or Loader for uploading.
 
 You can use Jupyter, JupyterLab or VSCode\'s Jupyter Plugin to use and
-improve `usage.py` and `samples.py`. However, keep in mind to not upload
+improve `usage.py` and `minimal.py`. However, keep in mind to not upload
 notebook outputs as they bloat the files and are irrelevant to the
 reader. To prevent that, execute:
 
-    echo -e '[filter "strip-notebook-output"]\n\tclean = jupyter nbconvert \
-    --ClearOutputPreprocessor.enabled=True --to=notebook --stdin --stdout --log-level=ERROR' \
-    >> .git/config
+```
+echo -e '[filter "strip-notebook-output"]\n\tclean = jupyter nbconvert \
+--ClearOutputPreprocessor.enabled=True --to=notebook --stdin --stdout --log-level=ERROR' \
+>> .git/config
+```
 
 within the repository. That line defines a clean for Jupyter notebooks
 that git can then use for all `*.ipynb`.
@@ -113,7 +97,7 @@ that git can then use for all `*.ipynb`.
 
 Before you work on any non-trivial code contribution it\'s best to first
 create a report in the [issue
-tracker](https://github.com/%3CUSERNAME%3E/fhirpack/issues) to start a
+tracker](https://gitlab.com/fhirpack/main/-/issues) to start a
 discussion on the subject. This often provides additional considerations
 and avoids unnecessary work.
 
@@ -122,48 +106,62 @@ and avoids unnecessary work.
 Before you start coding, we recommend creating an isolated [virtual
 environment](https://realpython.com/python-virtual-environments-a-primer/)
 to avoid any problems with your installed Python packages. This can
-easily be done via either `virtualenv`\_:
+easily be done via either `virtualenv`:
 
-    virtualenv <PATH TO VENV>
-    source <PATH TO VENV>/bin/activate
+```
+virtualenv <PATH TO VENV>
+source <PATH TO VENV>/bin/activate
+```
 
 or [Miniconda](https://docs.conda.io/en/latest/miniconda.html):
 
-    conda create -n fhirpack python=3.9.6 six virtualenv pytest pytest-cov
-    conda activate fhirpack
+```
+conda create -n fhirpack python=3.9.6 six virtualenv pytest pytest-cov
+conda activate fhirpack
+```
 
 or [Pipenv](https://pipenv.pypa.io/en/latest/):
 
-    pipenv install fhirpack
-    pipenv shell
+```
+pipenv install fhirpack
+pipenv 
+```
 
 ### Clone the repository
 
-1.  Create an user account on GitHub if you do not already have one.
+1.  Create an user account on GitLab if you do not already have one.
 
 2.  Fork the project
-    [repository](https://github.com/%3CUSERNAME%3E/fhirpack): click on
+    [repository](https://gitlab.com/fhirpack/main): click on
     the *Fork* button near the top of the page. This creates a copy of
-    the code under your account on GitHub.
+    the code under your account on GitLab.
 
-3.  Clone this repository to your local disk from GitHub with:
+3.  Clone this repository to your local disk from GitLab with:
 
-        git clone https://github.com/fhirpack/main.git
+    ```
+    git clone https://gitlab.com/fhirpack/main.git
+    ```
 
-or from GitLab with:
+    or from GitHub with:
 
-> git clone <https://gitlab.com/fhirpack/main.git> cd fhirpack
+    ```
+    git clone https://github.com/fhirpack/main.git
+    ```
 
 1.  You should run:
 
-        pip install -U pip setuptools -e .
+    ```
+    pip install -U pip setuptools -e .
+    ```
 
     to be able to import the package under development in the Python
     REPL.
 
 2.  Verify you can run tests and build `fhirpack`:
 
-        tox -e; tox -e build; tox -e clean
+    ```
+    tox -e; tox -e build; tox -e clean
+    ```
 
 ### Dependencies
 
@@ -173,7 +171,9 @@ This projetc relies on the followin python packages.
 
 1.  Create a branch to hold your changes:
 
-        git checkout -b my-feature
+    ```
+    git checkout -b my-feature
+    ```
 
     and start making changes. Never work on the main branch!
 
@@ -184,49 +184,45 @@ This projetc relies on the followin python packages.
 
 3.  Test your Improvements:
 
-        pytest -s --use-running-containers --docker-compose-no-build --pyargs fhirpack tests 
-        tox
+    ```
+    pytest -s --use-running-containers --docker-compose-no-build --pyargs fhirpack tests 
+    tox
+    ```
 
 4.  Add yourself to the list of contributors in `AUTHORS.rst`.
 
 5.  When you're done editing, do:
 
-        git add <MODIFIED FILES>
-        git commit
+    ```
+    git add <MODIFIED FILES>
+    git commit
+    ```
 
     to record your changes in [git](https://git-scm.com).
 
-    ```{important}
-    Don\'t forget to add unit tests and documentation in case your
-    contribution adds an additional feature and is not just a bugfix.
-
-    Moreover, writing a [descriptive commit
-    message](https://chris.beams.io/posts/git-commit) is highly
-    recommended. In case of doubt, you can check the commit history
-    with:
-
-        git log --graph --decorate --pretty=oneline --abbrev-commit --all
-
-    to look for recurring communication patterns.
-    ```
+    > **__NOTE__** Don\'t forget to add unit tests and documentation in case your contribution adds an additional feature and is not just a bugfix. Moreover, writing a [descriptive commit message](https://chris.beams.io/posts/git-commit) is highly recommended.
 
 6.  Please check that your changes don\'t break any unit tests with:
 
-        tox
+    ```
+    tox
+    ```
 
-    (after having installed `tox`\_ with `pip install tox` or `pipx`).
+    (after having installed `tox` with `pip install tox` or `pipx`).
 
-    You can also use `tox`\_ to run several other pre-configured tasks
+    You can also use `tox` to run several other pre-configured tasks
     in the repository. Try `tox -av` to see a list of the available
     checks.
 
 ### Submit your contribution
 
-1.  If everything works fine, push your local branch to GitHub with:
+1.  If everything works fine, push your local branch to GitLab with:
 
-        git push -u origin my-feature
+    ```
+    git push -u origin my-feature
+    ```
 
-2.  Go to the web page of your fork and click \"Create pull request\" to
+2.  Go to the web page of your fork and click \"Create merge request\" to
     send your changes for review.
 
 ### Troubleshooting
@@ -235,7 +231,7 @@ The following tips can be used when facing problems to build or test the
 package:
 
 1.  Make sure to fetch all the tags from the upstream
-    [repository](https://github.com/%3CUSERNAME%3E/fhirpack). The
+    [repository](https://gitlab.com/fhirpack/main). The
     command `git describe --abbrev=0 --tags` should return the version
     you are expecting. If you are trying to run CI scripts in a fork
     repository, make sure to push all the tags. You can also try to
@@ -243,34 +239,42 @@ package:
     as well as the `*.egg-info` folders in the `src` folder or
     potentially in the root of your project.
 
-2.  Sometimes `tox`\_ misses out when new dependencies are added,
+2.  Sometimes `tox` misses out when new dependencies are added,
     especially to `setup.cfg` and `docs/requirements.txt`. If you find
     any problems with missing dependencies when running a command with
-    `tox`\_, try to recreate the `tox` environment using the `-r` flag.
+    `tox`, try to recreate the `tox` environment using the `-r` flag.
     For example, instead of:
 
-        tox -e docs
+    ```
+    tox -e docs
+    ```
 
     Try running:
 
-        tox -r -e docs
+    ```
+    tox -r -e docs
+    ```
 
-3.  Make sure to have a reliable `tox`\_ installation that uses the
-    correct Python version (e.g., 3.7+). When in doubt you can run:
+3.  Make sure to have a reliable `tox` installation that uses the
+    correct Python version (3.9). When in doubt you can run:
 
-        tox --version
-        # OR
-        which tox
+    ```
+    tox --version
+    # OR
+    which tox
+    ```
 
     If you have trouble and are seeing weird errors upon running
-    `tox`\_, you can also try to create a dedicated [virtual
+    `tox`, you can also try to create a dedicated [virtual
     environment](https://realpython.com/python-virtual-environments-a-primer/)
-    with a `tox`\_ binary freshly installed. For example:
+    with a `tox` binary freshly installed. For example:
 
-        virtualenv .venv
-        source .venv/bin/activate
-        .venv/bin/pip install tox
-        .venv/bin/tox -e all
+    ```
+    virtualenv .venv
+    source .venv/bin/activate
+    .venv/bin/pip install tox
+    .venv/bin/tox -e all
+    ```
 
 4.  [Pytest can drop
     you](https://docs.pytest.org/en/stable/how-to/failures.html#using-python-library-pdb-with-pytest)
@@ -292,7 +296,7 @@ used to release a new version for `fhirpack`:
 2.  Tag the current commit on the main branch with a release tag, e.g.,
     `v1.2.3`.
 3.  Push the new tag to the upstream
-    [repository](https://github.com/%3CUSERNAME%3E/fhirpack), e.g.,
+    [repository](https://gitlab.com/fhirpack/main), e.g.,
     `git push upstream v1.2.3`
 4.  Clean up the `dist` and `build` folders with `tox -e clean` (or
     `rm -rf dist build`) to avoid confusion with old builds and Sphinx
