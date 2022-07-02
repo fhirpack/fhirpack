@@ -50,16 +50,16 @@ repository as the project code, and that any documentation update is
 done in the same way was a code contribution.
 
 When working on documentation changes in your local machine, you can
-compile them using `tox`\_:
+compile them using `tox`:
 
-```shell
+```
 tox -e docs
 ```
 
 and use Python\'s built-in web server for a preview in your web browser
 (`http://localhost:8000`):
 
-```shell
+```
 python3 -m http.server --directory 'docs/_build/html'
 ```
 
@@ -84,7 +84,7 @@ improve `usage.py` and `minimal.py`. However, keep in mind to not upload
 notebook outputs as they bloat the files and are irrelevant to the
 reader. To prevent that, execute:
 
-```shell
+```
 echo -e '[filter "strip-notebook-output"]\n\tclean = jupyter nbconvert \
 --ClearOutputPreprocessor.enabled=True --to=notebook --stdin --stdout --log-level=ERROR' \
 >> .git/config
@@ -106,25 +106,25 @@ and avoids unnecessary work.
 Before you start coding, we recommend creating an isolated [virtual
 environment](https://realpython.com/python-virtual-environments-a-primer/)
 to avoid any problems with your installed Python packages. This can
-easily be done via either `virtualenv`\_:
+easily be done via either `virtualenv`:
 
-```shell
+```
 virtualenv <PATH TO VENV>
 source <PATH TO VENV>/bin/activate
 ```
 
 or [Miniconda](https://docs.conda.io/en/latest/miniconda.html):
 
-```shell
+```
 conda create -n fhirpack python=3.9.6 six virtualenv pytest pytest-cov
 conda activate fhirpack
 ```
 
 or [Pipenv](https://pipenv.pypa.io/en/latest/):
 
-```shell
+```
 pipenv install fhirpack
-pipenv shell
+pipenv 
 ```
 
 ### Clone the repository
@@ -138,19 +138,19 @@ pipenv shell
 
 3.  Clone this repository to your local disk from GitLab with:
 
-    ```shell
+    ```
     git clone https://gitlab.com/fhirpack/main.git
     ```
 
     or from GitHub with:
 
-    ```shell
-    git clone https://gitlab.com/fhirpack/main.git
+    ```
+    git clone https://github.com/fhirpack/main.git
     ```
 
 1.  You should run:
 
-    ```shell
+    ```
     pip install -U pip setuptools -e .
     ```
 
@@ -159,7 +159,7 @@ pipenv shell
 
 2.  Verify you can run tests and build `fhirpack`:
 
-    ```shell
+    ```
     tox -e; tox -e build; tox -e clean
     ```
 
@@ -171,7 +171,7 @@ This projetc relies on the followin python packages.
 
 1.  Create a branch to hold your changes:
 
-    ```shell
+    ```
     git checkout -b my-feature
     ```
 
@@ -184,7 +184,7 @@ This projetc relies on the followin python packages.
 
 3.  Test your Improvements:
 
-    ```shell
+    ```
     pytest -s --use-running-containers --docker-compose-no-build --pyargs fhirpack tests 
     tox
     ```
@@ -193,7 +193,7 @@ This projetc relies on the followin python packages.
 
 5.  When you're done editing, do:
 
-    ```shell
+    ```
     git add <MODIFIED FILES>
     git commit
     ```
@@ -204,13 +204,13 @@ This projetc relies on the followin python packages.
 
 6.  Please check that your changes don\'t break any unit tests with:
 
-    ```shell
+    ```
     tox
     ```
 
-    (after having installed `tox`\_ with `pip install tox` or `pipx`).
+    (after having installed `tox` with `pip install tox` or `pipx`).
 
-    You can also use `tox`\_ to run several other pre-configured tasks
+    You can also use `tox` to run several other pre-configured tasks
     in the repository. Try `tox -av` to see a list of the available
     checks.
 
@@ -218,11 +218,11 @@ This projetc relies on the followin python packages.
 
 1.  If everything works fine, push your local branch to GitLab with:
 
-    ```shell
+    ```
     git push -u origin my-feature
     ```
 
-2.  Go to the web page of your fork and click \"Create pull request\" to
+2.  Go to the web page of your fork and click \"Create merge request\" to
     send your changes for review.
 
 ### Troubleshooting
@@ -239,37 +239,37 @@ package:
     as well as the `*.egg-info` folders in the `src` folder or
     potentially in the root of your project.
 
-2.  Sometimes `tox`\_ misses out when new dependencies are added,
+2.  Sometimes `tox` misses out when new dependencies are added,
     especially to `setup.cfg` and `docs/requirements.txt`. If you find
     any problems with missing dependencies when running a command with
-    `tox`\_, try to recreate the `tox` environment using the `-r` flag.
+    `tox`, try to recreate the `tox` environment using the `-r` flag.
     For example, instead of:
 
-    ```shell
+    ```
     tox -e docs
     ```
 
     Try running:
 
-    ```shell
+    ```
     tox -r -e docs
     ```
 
-3.  Make sure to have a reliable `tox`\_ installation that uses the
-    correct Python version (e.g., 3.7+). When in doubt you can run:
+3.  Make sure to have a reliable `tox` installation that uses the
+    correct Python version (3.9). When in doubt you can run:
 
-    ```shell
+    ```
     tox --version
     # OR
     which tox
     ```
 
     If you have trouble and are seeing weird errors upon running
-    `tox`\_, you can also try to create a dedicated [virtual
+    `tox`, you can also try to create a dedicated [virtual
     environment](https://realpython.com/python-virtual-environments-a-primer/)
-    with a `tox`\_ binary freshly installed. For example:
+    with a `tox` binary freshly installed. For example:
 
-    ```shell
+    ```
     virtualenv .venv
     source .venv/bin/activate
     .venv/bin/pip install tox
