@@ -67,7 +67,7 @@ Code Contributions
 ------------------
 
 `fhirpack` is build around the `PACK` class which uses a custom subclass of
-`pandas` `DataFrame`, called `Frame`, as the main underlying
+`pandas.DataFrame`, called `Frame`, as the main underlying
 datastructure. Upon connecting to a server, the workflow follows the ETL
 principle. In general, methods that extract FHIR resources can be found
 inside the `extraction` directory. These methods expect a list of
@@ -200,7 +200,7 @@ This projetc relies on the followin python packages.
 
     to record your changes in [git](https://git-scm.com).
 
-    > **__NOTE__** Don\'t forget to add unit tests and documentation in case your contribution adds an additional feature and is not just a bugfix. Moreover, writing a [descriptive commit message](https://chris.beams.io/posts/git-commit) is highly recommended.
+    > **_NOTE:_** Don\'t forget to add unit tests and documentation in case your contribution adds an additional feature and is not just a bugfix. Moreover, writing a [descriptive commit message](https://chris.beams.io/posts/git-commit) is highly recommended.
 
 6.  Please check that your changes don\'t break any unit tests with:
 
