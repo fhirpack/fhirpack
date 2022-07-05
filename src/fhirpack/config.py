@@ -48,7 +48,7 @@ class Config:
     def __configLogger(self):
 
         logging.basicConfig(
-            filename=f"./execution.log",
+            filename=f"./fhirpack.log",
             filemode="a+",
             format="%(asctime)s, %(msecs)d %(name)s %(levelname)s [ %(filename)s-%(lineno)d-%(funcName)20s() ]  : %(message)s",
             # format="%(message)s",
