@@ -29,7 +29,6 @@ class Config:
         config = dotenv.dotenv_values(dotenvPath)
 
         self.__CONFIG = config
-        self.__DOTENVPATH = dotenvPath
 
     def globalExceptionHandler(self, exctype, value, tb):
         logger = logging.getLogger(__name__)
@@ -47,10 +46,9 @@ class Config:
 
     @staticmethod
     def __configLogger(self):
-        logspath = self.get("LOGSPATH")
-        logspath = "./" if not logspath else logspath
+
         logging.basicConfig(
-            filename=f"{logspath}/execution.log",
+            filename=f"./execution.log",
             filemode="a+",
             format="%(asctime)s, %(msecs)d %(name)s %(levelname)s [ %(filename)s-%(lineno)d-%(funcName)20s() ]  : %(message)s",
             # format="%(message)s",
