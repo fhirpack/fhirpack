@@ -29,6 +29,7 @@ class Config:
         config = dotenv.dotenv_values(dotenvPath)
 
         self.__CONFIG = config
+        self.__DOTENVPATH = dotenvPath
 
     def globalExceptionHandler(self, exctype, value, tb):
         logger = logging.getLogger(__name__)
