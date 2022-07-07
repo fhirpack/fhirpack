@@ -440,7 +440,7 @@ class BaseExtractorMixin:
             data = bytearray()
 
             if not response.ok:
-                # TODO log to execution.log
+                # TODO log to fhirpack.log
                 data = None
                 # raise Exception(f"{response}")
             else:
