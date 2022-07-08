@@ -55,7 +55,6 @@ class PACK(
             warnings.warn("PACK is not connected to server.")
             self.logger.info("PACK is not connected to server.")
             self.client = SyncFHIRClient("")
-            # self.client = None
 
         self.logger.info("pack initialization finished")
 
