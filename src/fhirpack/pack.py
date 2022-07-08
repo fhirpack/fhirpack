@@ -1,12 +1,4 @@
-import logging
-from datetime import datetime
-import json
-import base64
-import importlib
-from typing import Union
-import requests
 import warnings
-
 from pandas import DataFrame
 from fhirpy import SyncFHIRClient
 
@@ -63,7 +55,6 @@ class PACK(
             warnings.warn("PACK is not connected to server.")
             self.logger.info("PACK is not connected to server.")
             self.client = SyncFHIRClient("")
-            self.client = None
 
         self.logger.info("pack initialization finished")
 
