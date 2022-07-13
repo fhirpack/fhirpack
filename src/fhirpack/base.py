@@ -1,6 +1,7 @@
 from typing import Union
 import numpy as np
 from pandas import DataFrame
+import pandas as pd
 import json
 
 from fhirpy.lib import SyncFHIRResource
@@ -16,6 +17,14 @@ from fhirpack.constants import CONFIG
 
 LOGGER = CONFIG.getLogger(__name__)
 
+SIMPLE_PATHS = {
+    "default": ["id"],
+    "Reference": ["resourceType"],
+    "Patient": ["name.given", "name.family", "birthDate", "city", "state", "country", ],
+    "DiagnosticReport": ["subject", "presentedForm.contentType", "presentedForm.data", "presentedForm.url", "presentedForm.title", "presentedForm.creation"],
+    "Observation": ["subject", "category.coding.code", "code.coding.display", "code.coding.code", "valueQuantity.value"]
+}
+
 
 class BaseMixin:
 
@@ -25,6 +34,8 @@ class BaseMixin:
     # hard to understand the codebase
     # keep this class free of constructor, class variables
     # and similar
+
+    resourceType = 'Invalid'
 
     def guessOutputResourceType(self, data):
         resourceType = None
@@ -62,23 +73,117 @@ class BaseMixin:
 
         return output
 
-    def prepareOutput(self, data, resourceType=None, columns=["data"], wrap=True):
+    def prepareOutput(
+        self,
+        data,
+        resourceType=None,
+        columns=["data"],
+        wrap=True
+    ):
 
         if len(data) and not resourceType:
             resourceType = self.guessOutputResourceType(data)
 
-        # index=[e['id'] for e in data]
+        # in case we decide to someday use other DataFrame parameters
+        # frameParams = {}
+        # if index:
+        #     frameParams={'index':index}
 
         if wrap:
             data = [[e] for e in data]
+
         output = Frame(
             data,
             columns=columns,
-            # index=index,
             resourceType=resourceType,
             client=self.client,
+            # **frameParams
         )
+
         return output
+
+    def attachOperandIds(self, frame, metaResourceType):
+        result = frame
+        sourceType = self.resourceType
+
+        # the target type is the desired resource type
+        # getPatients().getConditions() -> "Patient" source, "Condition" target
+        targetType = frame.resourceType
+        targetType = metaResourceType
+
+        # TODO: improve empty result handling
+        result[result.resourceType+".id"] = result.gatherSimplePaths(['id'])
+
+        if sourceType in ['Invalid', 'Reference']:
+            return result
+
+        field, basePath = self.getConversionPath(
+            sourceType=sourceType, targetType=targetType
+        )
+
+        path = "id" if basePath is None else f"{basePath}.id"
+
+        searchValues = self.gatherSimplePaths(
+            [path], columns=["searchValue"]
+        ).dropna()
+
+        if not searchValues.size:
+            path = f"{basePath}.reference"
+
+        if self.isFrame and self.resourceType != 'Invalid':
+
+            reversePath = None
+            try:
+                reverseField, reversePath = self.getConversionPath(
+                    sourceType=targetType, targetType=sourceType
+                )
+            except:
+                pass
+
+            # contained=True means it's possible to access the resources
+            # which form the basis for the search from the result resources
+            containedReverse = True
+
+            # if this is not possible, a join is necessary based on the
+            # resources which form the basis of the search
+            if reversePath is None:
+                containedReverse = False
+
+            if containedReverse:
+                result[self.resourceType +
+                       ".id"] = result.gatherSimplePaths([reversePath])[reversePath].values
+
+                # if the reverse-matching path contains lists as in link.other
+                if (result[self.resourceType + ".id"].apply(type).astype(str) == "<class 'list'>").all(0):
+                    result = result.explode(self.resourceType+".id")
+                    result[self.resourceType + ".id"] = result[self.resourceType +
+                                                               ".id"].apply(lambda x: x.id)
+            else:
+                # print(f"calculating {result.resourceType+'.id'} using {path}")
+                self[result.resourceType +
+                     ".id"] = self.gatherSimplePaths([path])[path].values
+
+                # if the reverse-matching path contains lists as in link.other
+                if (self[result.resourceType + ".id"].apply(type).astype(str) == "<class 'list'>").all(0):
+                    self = self.explode(result.resourceType+".id")
+                    # self[result.resourceType +".id"] =self[result.resourceType +".id"].apply(lambda x:x.id)
+
+                if 'reference' in path:
+                    self[result.resourceType+".id"] = self[result.resourceType +
+                                                           ".id"].str.split('/').str[1]
+
+                # print(f"joining frame with {result.columns}({result.index}) and frame with {self.columns} on {result.resourceType}","\n")
+                # print(self.to_dict(),"\n")
+                # print(result.to_dict(),"\n")
+                # result = self.join(result,on=result.resourceType+'.id',how='inner', rsuffix='_self')
+                result = pd.merge(
+                    result, self, on=result.resourceType+'.id', suffixes=['', '_self'])
+                # result=result.combine_first(self)
+                # result[self.resourceType+".id"]=self.gatherSimplePaths([path])[path].values
+
+                result.drop(columns=['data_self'], inplace=True)
+
+        return result
 
     def parseReference(
         self, reference: Union[str, SyncFHIRReference], resourceType=None
@@ -195,7 +300,11 @@ class Frame(
 
     @property
     def _constructor(self):
-        return Frame
+        def _c(*args, **kwargs):
+            return Frame(*args, **kwargs).__finalize__(self)
+        return _c
+
+        # return Frame
 
     @property
     def _constructor_expanddim(self):
@@ -225,8 +334,18 @@ class Frame(
 
     @property
     def pretty(self):
-        for i, e in self.data.items():
-            print(json.dumps(e, indent=4, sort_keys=True))
+        print(
+            json.dumps(
+                self.data.values.tolist(),
+                indent=4,
+                sort_keys=True)
+        )
+
+    @property
+    def summary(self):
+        return self.gatherSimplePaths(
+            SIMPLE_PATHS['default']+SIMPLE_PATHS.get(self.resourceType, [])
+        )
 
     @property
     def keys(self):
