@@ -36,6 +36,7 @@ class PACK(
         apiBase=None,
         client=None,
         envFile=None,
+        ignoreEnvFile=False,
         unconnected=False,
         authMethod=None,
         authParams=None,
@@ -46,7 +47,7 @@ class PACK(
 
         if envFile:
             CONFIG.loadConfig(envFile)
-        else:
+        elif not ignoreEnvFile:
             CONFIG.loadConfig()
 
         if client:
