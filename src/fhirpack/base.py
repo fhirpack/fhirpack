@@ -114,7 +114,7 @@ class BaseMixin:
         # TODO: improve empty result handling
         result[result.resourceType+".id"] = result.gatherSimplePaths(['id'])
 
-        if sourceType in ['Invalid', 'Reference']:
+        if sourceType in ['Invalid', 'Reference'] or sourceType == targetType:
             return result
 
         field, basePath = self.getConversionPath(
@@ -132,11 +132,19 @@ class BaseMixin:
 
         if self.isFrame and self.resourceType != 'Invalid':
 
-            reversePath = None
+            baseReversePath = None
             try:
-                reverseField, reversePath = self.getConversionPath(
+                reverseField, baseReversePath = self.getConversionPath(
                     sourceType=targetType, targetType=sourceType
                 )
+                reversePath = "id" if baseReversePath is None else f"{baseReversePath}.id"
+
+                searchValues = result.gatherSimplePaths(
+                    [reversePath], columns=["searchValue"]
+                ).dropna()
+
+                if not searchValues.size:
+                    reversePath = f"{baseReversePath}.reference"
             except:
                 pass
 
@@ -146,7 +154,7 @@ class BaseMixin:
 
             # if this is not possible, a join is necessary based on the
             # resources which form the basis of the search
-            if reversePath is None:
+            if baseReversePath is None:
                 containedReverse = False
 
             if containedReverse:
@@ -156,8 +164,13 @@ class BaseMixin:
                 # if the reverse-matching path contains lists as in link.other
                 if (result[self.resourceType + ".id"].apply(type).astype(str) == "<class 'list'>").all(0):
                     result = result.explode(self.resourceType+".id")
-                    result[self.resourceType + ".id"] = result[self.resourceType +
-                                                               ".id"].apply(lambda x: x.id)
+                    # result[self.resourceType + ".id"] = result[self.resourceType +
+                    #                                            ".id"].apply(lambda x: x.id)
+                                                               
+                if 'reference' in reversePath:
+                    result[self.resourceType+".id"] = result[self.resourceType +
+                                                           ".id"].apply(lambda x: None if x is None else x.split('/')[1])
+
             else:
                 # print(f"calculating {result.resourceType+'.id'} using {path}")
                 self[result.resourceType +
@@ -170,7 +183,7 @@ class BaseMixin:
 
                 if 'reference' in path:
                     self[result.resourceType+".id"] = self[result.resourceType +
-                                                           ".id"].str.split('/').str[1]
+                                                           ".id"].apply(lambda x: None if x is None else x.split('/')[1])
 
                 # print(f"joining frame with {result.columns}({result.index}) and frame with {self.columns} on {result.resourceType}","\n")
                 # print(self.to_dict(),"\n")

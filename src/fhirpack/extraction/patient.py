@@ -61,10 +61,10 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
 
         if len(input):
             return self.getPatients(input).getRootPatients()
-            
+
         elif self.isFrame and not ignoreFrame:
             input = self
-            if input.resourceTypeIs("Patient"):
+            if input.resourceType in ["Patient", "LinkedPatient"]:
 
                 result = input.getResources(
                     searchParams={
@@ -104,7 +104,6 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
         else:
             raise NotImplementedError
 
-        
         return result
 
     def getLinkedPatients(
@@ -128,10 +127,10 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
 
         if len(input):
             return self.getPatients(input).getLinkedPatients()
-            
+
         elif self.isFrame and not ignoreFrame:
             input = self
-            
+
             if input.resourceTypeIs("Patient"):
                 return input.getRootPatients().getLinkedPatients()
 
@@ -140,7 +139,7 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
                 linked = input.gatherSimplePaths(['link.other'])
                 linked = linked.dropna()
 
-                if len(linked)>0:
+                if len(linked) > 0:
                     linked = linked.explode('link.other')
                     linked['link.other'] = linked['link.other'].apply(lambda x: x.id)
                     linked = linked['link.other'].unique()
@@ -149,7 +148,7 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
                             "_id": ",".join(linked)
                         },
                         resourceType="Patient",
-                        # metaResourceType="RootPatient",
+                        metaResourceType="LinkedPatient",
                         raw=True,
                         ignoreFrame=True
                     )
@@ -157,11 +156,11 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
                 result = input.prepareOutput(result, "LinkedPatient")
                 result = input.attachOperandIds(result, "LinkedPatient")
 
-                # return self whenever no linked patients exist 
+                # return self whenever no linked patients exist
                 result = pd.merge(
                     result,
                     input,
-                    on='Patient.id',
+                    on='LinkedPatient.id',
                     suffixes=['', '_self'],
                     how="right"
                 )
@@ -169,16 +168,20 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
                     result['data'].isna(),
                     result['data_self']
                 )
+                result['Patient.id'] = result['RootPatient.id'].mask(
+                    result['RootPatient.id'].isna(),
+                    result['RootPatient.id_self']
+                )
                 result['RootPatient.id'] = result['RootPatient.id'].mask(
                     result['RootPatient.id'].isna(),
-                    result['Patient.id']
+                    result['RootPatient.id_self']
                 )
                 result['LinkedPatient.id'] = result['LinkedPatient.id'].mask(
                     result['LinkedPatient.id'].isna(),
-                    result['Patient.id']
+                    result['RootPatient.id_self']
                 )
                 result.drop(columns=['data_self'], inplace=True)
-                result.drop(columns=['LinkedPatient.id_self'], inplace=True)
+                result.drop(columns=['Patient.id_self'], inplace=True)
                 result.drop(columns=['RootPatient.id_self'], inplace=True)
 
             else:
