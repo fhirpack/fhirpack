@@ -182,7 +182,6 @@ SEARCH_ATTRIBUTES = {
         "RootPatient": {"field": "_id", "path": None},
         "LinkedPatient": {"field": "_id", "path": None},
     },
-    "ImagingStudy": {"Patient": {"field": "_id", "path": "subject"}},
     "RootPatient": {
         "Patient": {"field": "_id", "path": "link.other"},
         "LinkedPatient": {"field": "_id", "path": "link.other"},
@@ -190,30 +189,77 @@ SEARCH_ATTRIBUTES = {
     },
     "LinkedPatient": {
         # "Patient": {"field": "_id", "path": "link.other"}
-        # "Patient": {"field": "_id", "path": None}
+        # "RootPatient": {"field": "_id", "path": None},
         "Patient": {"field": "_id", "path": "id"}
+    },
+    "ImagingStudy": {
+        "Patient": {"field": "_id", "path": "subject"}
     },
     "Condition": {
         "Patient": {"field": "_id", "path": "subject"},
+        "LinkedPatient": {"field": "_id", "path": "subject"},
+        "RootPatient": {"field": "_id", "path": "subject"},
         "Encounter": {"field": "_id", "path": "encounter"}
     },
     "Observation": {
         "Patient": {"field": "_id", "path": "subject"},
+        "RootPatient": {"field": "_id", "path": "subject"},
+        "LinkedPatient": {"field": "_id", "path": "subject"},
         "Encounter": {"field": "_id", "path": "encounter"}
     },
-    "MedicationAdministration": {"Patient": {"field": "_id", "path": "subject"}},
-    "DiagnosticReport": {"Patient": {"field": "_id", "path": "subject"}},
-    "AllergyIntolerance": {"Patient": {"field": "_id", "path": "patient"}},
-    "CarePlan": {"Patient": {"field": "_id", "path": "subject"}},
-    "CarePlan": {"Patient": {"field": "_id", "path": "subject"}},
-    "Claim": {"Patient": {"field": "_id", "path": "subject"}},
+    "MedicationAdministration": {
+        "Patient": {"field": "_id", "path": "subject"},
+        "RootPatient": {"field": "_id", "path": "subject"},
+        "LinkedPatient": {"field": "_id", "path": "subject"},
+    },
+    "DiagnosticReport": {
+        "Patient": {"field": "_id", "path": "subject"},
+        "RootPatient": {"field": "_id", "path": "subject"},
+        "LinkedPatient": {"field": "_id", "path": "subject"},
+    },
+    "AllergyIntolerance": {
+        "Patient": {"field": "_id", "path": "patient"}
+        },
+    "CarePlan": {
+        "Patient": {"field": "_id", "path": "subject"},
+        "RootPatient": {"field": "_id", "path": "subject"},
+        "LinkedPatient": {"field": "_id", "path": "subject"},
+        },
+    "CarePlan": {
+        "Patient": {"field": "_id", "path": "subject"},
+        "RootPatient": {"field": "_id", "path": "subject"},
+        "LinkedPatient": {"field": "_id", "path": "subject"},
+        },
+    "Claim": {
+        "Patient": {"field": "_id", "path": "subject"},
+        "RootPatient": {"field": "_id", "path": "subject"},
+        "LinkedPatient": {"field": "_id", "path": "subject"},
+        },
     "Encounter": {
         "Patient": {"field": "_id", "path": "subject"},
+        "RootPatient": {"field": "_id", "path": "subject"},
+        "LinkedPatient": {"field": "_id", "path": "subject"},
     },
-    "EpisodeOfCare": {"Patient": {"field": "_id", "path": "subject"}},
-    "Goal": {"Patient": {"field": "_id", "path": "subject"}},
-    "Immunization": {"Patient": {"field": "_id", "path": "patient"}},
-    "Procedure": {"Patient": {"field": "_id", "path": "subject"}},
+    "EpisodeOfCare": {
+        "Patient": {"field": "_id", "path": "subject"},
+        "RootPatient": {"field": "_id", "path": "subject"},
+        "LinkedPatient": {"field": "_id", "path": "subject"},
+        },
+    "Goal": {
+        "Patient": {"field": "_id", "path": "subject"},
+        "RootPatient": {"field": "_id", "path": "subject"},
+        "LinkedPatient": {"field": "_id", "path": "subject"},
+        },
+    "Immunization": {
+        "Patient": {"field": "_id", "path": "patient"},
+        "RootPatient": {"field": "_id", "path": "subject"},
+        "LinkedPatient": {"field": "_id", "path": "subject"},
+        },
+    "Procedure": {
+        "Patient": {"field": "_id", "path": "subject"},
+        "RootPatient": {"field": "_id", "path": "subject"},
+        "LinkedPatient": {"field": "_id", "path": "subject"},
+        },
 }
 
 
@@ -429,7 +475,7 @@ class BaseExtractorMixin:
         else:
             aliasSourceDict = SEARCH_ATTRIBUTES.get(META_RESOURCE_TYPES[sourceType], {})
             aliasTargetDict = aliasSourceDict.get(targetType, {})
-            aliasField, aliasPath = targetDict.get("field"), targetDict.get("path")
+            aliasField, aliasPath = aliasTargetDict.get("field"), targetDict.get("path")
             if aliasField:
                 return aliasField, aliasPath
                 
