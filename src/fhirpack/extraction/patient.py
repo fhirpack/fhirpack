@@ -83,7 +83,7 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
                 result = pd.merge(
                     result,
                     input,
-                    on='Patient.id',
+                    on=self.resourceType,#'Patient',
                     suffixes=['', '_self'],
                     how="right"
                 )
@@ -91,9 +91,9 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
                     result['data'].isna(),
                     result['data_self']
                 )
-                result['RootPatient.id'] = result['RootPatient.id'].mask(
-                    result['RootPatient.id'].isna(),
-                    result['Patient.id']
+                result[result.resourceType] = result[result.resourceType].mask(
+                    result[result.resourceType].isna(),
+                    result[self.resourceType]
                 )
                 result.drop(columns=['data_self'], inplace=True)
             else:
@@ -160,7 +160,7 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
                 result = pd.merge(
                     result,
                     input,
-                    on='LinkedPatient.id',
+                    on=result.resourceType,
                     suffixes=['', '_self'],
                     how="right"
                 )
@@ -168,21 +168,21 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
                     result['data'].isna(),
                     result['data_self']
                 )
-                result['Patient.id'] = result['RootPatient.id'].mask(
-                    result['RootPatient.id'].isna(),
-                    result['RootPatient.id_self']
+                result['Patient'] = result[self.resourceType].mask(
+                    result[self.resourceType].isna(),
+                    result[f"{self.resourceType}_self"]
                 )
-                result['RootPatient.id'] = result['RootPatient.id'].mask(
-                    result['RootPatient.id'].isna(),
-                    result['RootPatient.id_self']
+                result[self.resourceType] = result[self.resourceType].mask(
+                    result[self.resourceType].isna(),
+                    result[f"{self.resourceType}_self"]
                 )
-                result['LinkedPatient.id'] = result['LinkedPatient.id'].mask(
-                    result['LinkedPatient.id'].isna(),
-                    result['RootPatient.id_self']
+                result[result.resourceType] = result[result.resourceType].mask(
+                    result[result.resourceType].isna(),
+                    result[f"{self.resourceType}_self"]
                 )
                 result.drop(columns=['data_self'], inplace=True)
-                result.drop(columns=['Patient.id_self'], inplace=True)
-                result.drop(columns=['RootPatient.id_self'], inplace=True)
+                result.drop(columns=['Patient_self'], inplace=True)
+                result.drop(columns=[f"{self.resourceType}_self"], inplace=True)
 
             else:
                 raise NotImplementedError
