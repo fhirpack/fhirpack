@@ -288,7 +288,7 @@ class BaseExtractorMixin:
             raise NotImplementedError
 
         if not raw:
-            result = self.prepareOutput(input)
+            result = self.prepareOutput(input, resourceType='Reference')
         return result
 
     def getResources(
@@ -404,13 +404,13 @@ class BaseExtractorMixin:
         params = {} if params is None else params
         input = [] if input is None else input
 
-        if searchParams:
+        # if searchParams:
 
-            invalidsearchParams = set(searchParams.keys()) - set(
-                SEARCH_PARAMS[resourceType]
-            )
-            if invalidsearchParams:
-                raise Exception(f"non allowed search parameters {invalidsearchParams}")
+        #     invalidsearchParams = set(searchParams.keys()) - set(
+        #         SEARCH_PARAMS[resourceType]
+        #     )
+        #     if invalidsearchParams:
+        #         raise Exception(f"non allowed search parameters {invalidsearchParams}")
 
         if len(input):
             raise NotImplementedError
