@@ -382,7 +382,7 @@ class BaseExtractorMixin:
             indexList = []
             result = self.prepareOutput(result, resourceType=resourceType)
             # if self.resourceType != 'Invalid':
-            input, result = self.attachOperandIds(self,result, metaResourceType)
+            result = self.attachOperandIds(result, metaResourceType)
 
         return result
 
@@ -442,24 +442,25 @@ class BaseExtractorMixin:
         if nonEmptyBundle:
             try:
                 resourceCount = search.limit(1).fetch_raw().get("total", None)
-                if not resourceCount:
-                    resourceCount = search.count()
-
-                for element in tqdm(
-                    search,
-                    desc=f"SEARCH[{metaResourceType}]> ",
-                    total=resourceCount,
-                    leave=True,
-                ):
-                    result.append(element)
             except:
-                # server doesn't support _total parameter nor returns total
-                # element in each request https://build.fhir.org/bundle.html#searchset
+            # server doesn't support _total parameter nor returns total
+            # element in each request https://build.fhir.org/bundle.html#searchset
                 pass
+            if not resourceCount:
+                resourceCount = search.count()
+
+            for element in tqdm(
+                search,
+                desc=f"SEARCH[{metaResourceType}]> ",
+                total=resourceCount,
+                leave=True,
+            ):
+                result.append(element)
+            
 
         if not raw:
             result = self.prepareOutput(result, resourceType)
-            input, result = self.attachOperandIds(self,result, metaResourceType)
+            result = self.attachOperandIds(result, metaResourceType)
 
         return result
 
