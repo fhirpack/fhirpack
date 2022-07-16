@@ -10,4 +10,5 @@ import fhirpack.extraction.base as base
 
 class ExtractorEncounterMixin(base.BaseExtractorMixin):
     def getEncounters(self, *args, **kwargs):
+
         return self.getResources(*args, resourceType="Encounter", **kwargs)

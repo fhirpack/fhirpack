@@ -79,6 +79,8 @@ class BaseTransformerMixin:
         """
         if not params:
             params = {}
+        if not columns:
+            columns = paths
 
         if not input and self.isFrame:
             input = self.data.values
@@ -88,8 +90,9 @@ class BaseTransformerMixin:
             # TODO your code for data coming in as arguments and frame
             raise NotImplementedError
 
-        result = {k: [] for k in paths}
-        for path in paths:
+        result = {k: [] for k in columns}
+
+        for path, column in zip(paths, columns):
             # print(results)
             for element in input:
                 if isinstance(element, SyncFHIRReference) or isinstance(
@@ -99,9 +102,9 @@ class BaseTransformerMixin:
                 elementResult = self.__gatherSimplePath(element, path)
 
                 if elementResult.get(path, None):
-                    result[path].append(elementResult[path])
+                    result[column].append(elementResult[path])
                 else:
-                    result[path].append(None)
+                    result[column].append(None)
                 # print(f"\n\n\n\n\n\n\n\n ..........result ...........")
                 # print(json.dumps(results,indent=4,sort_keys=True))
         # return results
