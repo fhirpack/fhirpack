@@ -380,9 +380,9 @@ class BaseExtractorMixin:
             #     # if self.isFrame:
             #         # index=[index,self.index]
             indexList = []
-            result = self.prepareOutput(result)
+            result = self.prepareOutput(result, resourceType=resourceType)
             # if self.resourceType != 'Invalid':
-            result = self.attachOperandIds(result, metaResourceType)
+            input, result = self.attachOperandIds(self,result, metaResourceType)
 
         return result
 
@@ -459,6 +459,7 @@ class BaseExtractorMixin:
 
         if not raw:
             result = self.prepareOutput(result, resourceType)
+            input, result = self.attachOperandIds(self,result, metaResourceType)
 
         return result
 
