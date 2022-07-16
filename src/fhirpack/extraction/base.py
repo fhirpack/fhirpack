@@ -375,10 +375,14 @@ class BaseExtractorMixin:
             )
 
         if not raw:
+<<<<<<< Updated upstream
             # columns=result.columns
             #     index=[e['id'] for e in data]
             #     # if self.isFrame:
             #         # index=[index,self.index]
+=======
+            indexList = []
+>>>>>>> Stashed changes
             result = self.prepareOutput(result, resourceType=resourceType)
             # if self.resourceType != 'Invalid':
             result = self.attachOperandIds(result, metaResourceType)
