@@ -45,7 +45,7 @@ class PACK(
         if client:
             self.client = client
         elif unconnected:
-            self.client = None
+            self.client = SyncFHIRClient("")
         else:
             self.__setupClient(
                 apiBase=apiBase, authMethod=authMethod, authParams=authParams
@@ -56,8 +56,6 @@ class PACK(
             warnings.warn("PACK is not connected to server.")
             self.logger.info("PACK is not connected to server.")
             self.client = SyncFHIRClient("")
-            # TODO: improve on FHIRPACK's unconnected capabilities
-            # https://gitlab.com/fhirpack/main/-/issues/68
 
         self.logger.info("pack initialization finished")
 
