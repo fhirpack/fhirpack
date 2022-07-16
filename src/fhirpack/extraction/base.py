@@ -4,6 +4,7 @@ import time
 import requests
 from tqdm import tqdm
 from dicomweb_client.api import DICOMwebClient
+import pandas as pd
 
 from fhirpy.lib import SyncFHIRResource
 from fhirpy.lib import SyncFHIRReference
@@ -159,6 +160,106 @@ SEARCH_PARAMS = {
     "List": ["_id", "_content", "_sort", "_include", "code", "identifier"],
 }
 
+META_RESOURCE_TYPES = {
+    "RootPatient": "Patient",
+    "LinkedPatient": "Patient"
+}
+
+SEARCH_ATTRIBUTES = {
+    "Patient": {
+        "Condition": {"field": "subject", "path": None},
+        "DiagnosticReport": {"field": "subject", "path": None},
+        "EpisodeOfCare": {"field": "patient", "path": None},
+        "Encounter": {"field": "patient", "path": None},
+        "FamilyMemberHistory": {"field": "_content", "path": None},
+        "ImagingStudy": {"field": "subject", "path": None},
+        "List": {"field": "", "path": None},
+        "MedicationAdministration": {"field": "subject", "path": None},
+        "MedicationRequest": {"field": "subject", "path": None},
+        "Observation": {"field": "patient", "path": None},
+        "RootPatient": {"field": "_id", "path": None},
+        "LinkedPatient": {"field": "_id", "path": None},
+    },
+    "RootPatient": {
+        "Patient": {"field": "_id", "path": "link.other"},
+        "LinkedPatient": {"field": "_id", "path": "link.other"},
+        # "LinkedPatient": {"field": "_id", "path": None}
+    },
+    "LinkedPatient": {
+        # "Patient": {"field": "_id", "path": "link.other"}
+        # "RootPatient": {"field": "_id", "path": None},
+        "Patient": {"field": "_id", "path": "id"}
+    },
+    "ImagingStudy": {
+        "Patient": {"field": "_id", "path": "subject"}
+    },
+    "Condition": {
+        "Patient": {"field": "_id", "path": "subject"},
+        "LinkedPatient": {"field": "_id", "path": "subject"},
+        "RootPatient": {"field": "_id", "path": "subject"},
+        "Encounter": {"field": "_id", "path": "encounter"}
+    },
+    "Observation": {
+        "Patient": {"field": "_id", "path": "subject"},
+        "RootPatient": {"field": "_id", "path": "subject"},
+        "LinkedPatient": {"field": "_id", "path": "subject"},
+        "Encounter": {"field": "_id", "path": "encounter"}
+    },
+    "MedicationAdministration": {
+        "Patient": {"field": "_id", "path": "subject"},
+        "RootPatient": {"field": "_id", "path": "subject"},
+        "LinkedPatient": {"field": "_id", "path": "subject"},
+    },
+    "DiagnosticReport": {
+        "Patient": {"field": "_id", "path": "subject"},
+        "RootPatient": {"field": "_id", "path": "subject"},
+        "LinkedPatient": {"field": "_id", "path": "subject"},
+    },
+    "AllergyIntolerance": {
+        "Patient": {"field": "_id", "path": "patient"}
+        },
+    "CarePlan": {
+        "Patient": {"field": "_id", "path": "subject"},
+        "RootPatient": {"field": "_id", "path": "subject"},
+        "LinkedPatient": {"field": "_id", "path": "subject"},
+        },
+    "CarePlan": {
+        "Patient": {"field": "_id", "path": "subject"},
+        "RootPatient": {"field": "_id", "path": "subject"},
+        "LinkedPatient": {"field": "_id", "path": "subject"},
+        },
+    "Claim": {
+        "Patient": {"field": "_id", "path": "subject"},
+        "RootPatient": {"field": "_id", "path": "subject"},
+        "LinkedPatient": {"field": "_id", "path": "subject"},
+        },
+    "Encounter": {
+        "Patient": {"field": "_id", "path": "subject"},
+        "RootPatient": {"field": "_id", "path": "subject"},
+        "LinkedPatient": {"field": "_id", "path": "subject"},
+    },
+    "EpisodeOfCare": {
+        "Patient": {"field": "_id", "path": "subject"},
+        "RootPatient": {"field": "_id", "path": "subject"},
+        "LinkedPatient": {"field": "_id", "path": "subject"},
+        },
+    "Goal": {
+        "Patient": {"field": "_id", "path": "subject"},
+        "RootPatient": {"field": "_id", "path": "subject"},
+        "LinkedPatient": {"field": "_id", "path": "subject"},
+        },
+    "Immunization": {
+        "Patient": {"field": "_id", "path": "patient"},
+        "RootPatient": {"field": "_id", "path": "subject"},
+        "LinkedPatient": {"field": "_id", "path": "subject"},
+        },
+    "Procedure": {
+        "Patient": {"field": "_id", "path": "subject"},
+        "RootPatient": {"field": "_id", "path": "subject"},
+        "LinkedPatient": {"field": "_id", "path": "subject"},
+        },
+}
+
 
 class BaseExtractorMixin:
     def getReferences(
@@ -200,9 +301,13 @@ class BaseExtractorMixin:
         searchParams: dict = None,
         params: dict = None,
         resourceType: str = None,
+        metaResourceType: str = None,
         ignoreFrame: bool = False,
         raw: bool = False,
     ):
+
+        if metaResourceType is None:
+            metaResourceType = resourceType
 
         searchActive = False if searchParams is None else True
         searchParams = {} if searchParams is None else searchParams
@@ -213,20 +318,65 @@ class BaseExtractorMixin:
         result = []
 
         if len(input):
-            pass
+            for element in tqdm(input, desc=f"GET[{metaResourceType}]> ", leave=True):
+                element = self.castOperand(element, SyncFHIRResource, resourceType)
+                result.extend(element)
 
         elif self.isFrame and not ignoreFrame:
-            input = self.data.values
+            # utils.validateFrame(self)
+            input = self.data
+
+            # source Type is the type of resources contained in a frame
+            sourceType = self.resourceType
+
+            # the target type is the desired resource type
+            # getPatients().getConditions() -> "Patient" source, "Condition" target
+            targetType = resourceType
+
+            # handles
+            # pack.getReferences().getResources
+            # pack.getReferences().getResources
+            if targetType is None:
+                return self.getResources(self.data.values)
+
+            field, basePath = self.getConversionPath(
+                sourceType=sourceType, targetType=metaResourceType
+            )
+
+            path = "id" if basePath is None else f"{basePath}.id"
+
+            searchValues = self.gatherSimplePaths(
+                [path], columns=["searchValue"]
+            ).dropna()
+
+            if not searchValues.size:
+                path = f"{basePath}.reference"
+                searchValues = self.gatherSimplePaths(
+                    [path], columns=["searchValue"]
+                )
+                searchValues = searchValues["searchValue"].str.split('/').str[-1]
+            else:
+                searchValues = searchValues["searchValue"].values
+            searchValues = ",".join(searchValues)
+
+            searchParams.update({field: searchValues})
+
+            result = self.searchResources(
+                searchParams=searchParams,
+                resourceType=resourceType,
+                raw=True,
+            )
 
         elif searchActive:
-            raise NotImplementedError
-
-        for element in tqdm(input, desc=f"GET[{resourceType}]> ", leave=False):
-            element = self.castOperand(element, SyncFHIRResource, resourceType)
-            result.extend(element)
+            result = self.searchResources(
+                searchParams=searchParams, resourceType=resourceType, metaResourceType=metaResourceType, raw=True
+            )
 
         if not raw:
-            result = self.prepareOutput(result)
+            indexList = []
+            result = self.prepareOutput(result, resourceType=resourceType)
+            # if self.resourceType != 'Invalid':
+            result = self.attachOperandIds(result, metaResourceType)
 
         return result
 
@@ -240,10 +390,14 @@ class BaseExtractorMixin:
         searchParams: dict = None,
         params: dict = None,
         resourceType: str = None,
+        metaResourceType: str = None,
         ignoreFrame: bool = True,
         raw: bool = False,
     ):
 
+        if metaResourceType is None:
+            metaResourceType = resourceType
+            
         searchActive = False if searchParams is None else True
         searchParams = {} if searchParams is None else searchParams
 
@@ -281,25 +435,48 @@ class BaseExtractorMixin:
         if nonEmptyBundle:
             try:
                 resourceCount = search.limit(1).fetch_raw().get("total", None)
-                if not resourceCount:
-                    resourceCount = search.count()
-
-                for element in tqdm(
-                    search,
-                    desc=f"SEARCH[{resourceType}]> ",
-                    total=resourceCount,
-                    leave=False,
-                ):
-                    result.append(element)
             except:
-                # server doesn't support _total parameter nor returns total
-                # element in each request https://build.fhir.org/bundle.html#searchset
+            # server doesn't support _total parameter nor returns total
+            # element in each request https://build.fhir.org/bundle.html#searchset
                 pass
+            if not resourceCount:
+                resourceCount = search.count()
+
+            for element in tqdm(
+                search,
+                desc=f"SEARCH[{metaResourceType}]> ",
+                total=resourceCount,
+                leave=True,
+            ):
+                result.append(element)
+            
 
         if not raw:
             result = self.prepareOutput(result, resourceType)
+            result = self.attachOperandIds(result, metaResourceType)
 
         return result
+
+    def getConversionPath(self, sourceType: str, targetType: str):
+        """This method retrieves the needed fhir serach param (field) and the
+        respective path for a source-target pair from the handler ditcionary"""
+
+        sourceDict = SEARCH_ATTRIBUTES.get(sourceType, {})
+        targetDict = sourceDict.get(targetType, {})
+        field, path = targetDict.get("field"), targetDict.get("path")
+
+        if field:  # and path:
+            return field, path
+        else:
+            aliasSourceDict = SEARCH_ATTRIBUTES.get(META_RESOURCE_TYPES[sourceType], {})
+            aliasTargetDict = aliasSourceDict.get(targetType, {})
+            aliasField, aliasPath = aliasTargetDict.get("field"), targetDict.get("path")
+            if aliasField:
+                return aliasField, aliasPath
+                
+            raise RuntimeError(
+                f"No handler for source {sourceType} and target {targetType}"
+            )
 
     def getAbsolutePaths(
         self,

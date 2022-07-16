@@ -158,7 +158,7 @@ def main(source, environment, params, operation, destination, verbose):
             desiredOperation = op.replace(",", "").split(" ")
             packEquivalentFunc = getattr(pack, desiredOperation.pop(0))
 
-            # exectue method, with associated search parameters
+            # execute method, with associated search parameters
             if desiredOperation:
                 result = packEquivalentFunc(desiredOperation, **searchParams)
             else:

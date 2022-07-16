@@ -59,6 +59,7 @@ class BaseTransformerMixin:
     def gatherSimplePaths(
         self,
         paths: list[str],
+        columns: list[str] = None,
         input: Union[
             list[str],
             list[SyncFHIRReference],
@@ -107,7 +108,7 @@ class BaseTransformerMixin:
         # return pd.DataFrame(results)
 
         return self.prepareOutput(
-            result, resourceType=self.resourceType, columns=paths, wrap=False
+            result, resourceType="Invalid", columns=columns, wrap=False
         )
 
     # TODO test path one level (no dot)
@@ -347,7 +348,7 @@ class BaseTransformerMixin:
             result.append(list(utils.keys(e)))
 
         # return pd.DataFrame(pd.Series(result, dtype="object"), columns=["data"])
-        return self.prepareOutput(result, "Invalid")
+        return self.prepareOutput(result, resourceType="Invalid")
 
     def gatherValuesForKeys(
         self,
