@@ -379,7 +379,6 @@ class BaseExtractorMixin:
             #     index=[e['id'] for e in data]
             #     # if self.isFrame:
             #         # index=[index,self.index]
-            indexList = []
             result = self.prepareOutput(result, resourceType=resourceType)
             # if self.resourceType != 'Invalid':
             result = self.attachOperandIds(result, metaResourceType)
