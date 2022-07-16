@@ -382,7 +382,7 @@ class BaseExtractorMixin:
             indexList = []
             result = self.prepareOutput(result, resourceType=resourceType)
             # if self.resourceType != 'Invalid':
-            result = self.attachOperandIds(result, metaResourceType)
+            input, result = self.attachOperandIds(self, result, metaResourceType)
 
         return result
 
@@ -460,7 +460,7 @@ class BaseExtractorMixin:
 
         if not raw:
             result = self.prepareOutput(result, resourceType)
-            result = self.attachOperandIds(result, metaResourceType)
+            input, result = self.attachOperandIds(self, result, metaResourceType)
 
         return result
 
