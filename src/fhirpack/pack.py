@@ -65,7 +65,7 @@ class PACK(
 
         authorization = None
         
-        if apiBase:
+        if apiBase is not None:
             CONFIG.set("APIBASE", apiBase)
             if authMethod:
                 CONFIG.set("AUTH_METHOD", authMethod)
