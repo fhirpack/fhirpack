@@ -111,7 +111,7 @@ class BaseMixin:
         targetType = metaResourceType
 
         # TODO: improve empty result handling
-        result[result.resourceType+".id"] = result.gatherSimplePaths(['id'])
+        result[result.resourceType] = result.gatherSimplePaths(['id'])
 
         if sourceType in ['Invalid', 'Reference'] or sourceType == targetType:
             return input, result
@@ -157,41 +157,36 @@ class BaseMixin:
                 containedReverse = False
 
             if containedReverse:
-                result[input.resourceType +
-                       ".id"] = result.gatherSimplePaths([reversePath])[reversePath].values
+                result[input.resourceType] = result.gatherSimplePaths([reversePath])[reversePath].values
 
                 # if the reverse-matching path contains lists as in link.other
-                if (result[input.resourceType + ".id"].apply(type).astype(str) == "<class 'list'>").all(0):
-                    result = result.explode(input.resourceType+".id")
-                    # result[input.resourceType + ".id"] = result[input.resourceType +
-                    #                                            ".id"].apply(lambda x: x.id)
+                if (result[input.resourceType].apply(type).astype(str) == "<class 'list'>").all(0):
+                    result = result.explode(input.resourceType)
+                    # result[input.resourceType] = result[input.resourceType].apply(lambda x: x.id)
                                                                
                 if 'reference' in reversePath:
-                    result[input.resourceType+".id"] = result[input.resourceType +
-                                                           ".id"].apply(lambda x: None if x is None else x.split('/')[1])
+                    result[input.resourceType] = result[input.resourceType].apply(lambda x: None if x is None else x.split('/')[1])
 
             else:
-                # print(f"calculating {result.resourceType+'.id'} using {path}")
-                input[result.resourceType +
-                     ".id"] = input.gatherSimplePaths([path])[path].values
+                # print(f"calculating {result.resourceType} using {path}")
+                input[result.resourceType] = input.gatherSimplePaths([path])[path].values
 
                 # if the reverse-matching path contains lists as in link.other
-                if (input[result.resourceType + ".id"].apply(type).astype(str) == "<class 'list'>").all(0):
-                    input = input.explode(result.resourceType+".id")
-                    # input[result.resourceType +".id"] =input[result.resourceType +".id"].apply(lambda x:x.id)
+                if (input[result.resourceType].apply(type).astype(str) == "<class 'list'>").all(0):
+                    input = input.explode(result.resourceType)
+                    # input[result.resourceType] =input[result.resourceType].apply(lambda x:x.id)
 
                 if 'reference' in path:
-                    input[result.resourceType+".id"] = input[result.resourceType +
-                                                           ".id"].apply(lambda x: None if x is None else x.split('/')[1])
+                    input[result.resourceType] = input[result.resourceType].apply(lambda x: None if x is None else x.split('/')[1])
 
                 # print(f"joining frame with {result.columns}({result.index}) and frame with {input.columns} on {result.resourceType}","\n")
                 # print(input.to_dict(),"\n")
                 # print(result.to_dict(),"\n")
-                # result = input.join(result,on=result.resourceType+'.id',how='inner', rsuffix='_self')
+                # result = input.join(result,on=result.resourceType,how='inner', rsuffix='_self')
                 result = pd.merge(
-                    result, input, on=result.resourceType+'.id', suffixes=['', '_input'])
+                    result, input, on=result.resourceType, suffixes=['', '_input'])
                 # result=result.combine_first(input)
-                # result[input.resourceType+".id"]=input.gatherSimplePaths([path])[path].values
+                # result[input.resourceType]=input.gatherSimplePaths([path])[path].values
 
                 result.drop(columns=['data_input'], inplace=True)
 
