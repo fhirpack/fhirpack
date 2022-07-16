@@ -1,12 +1,4 @@
-import logging
-from datetime import datetime
-import json
-import base64
-import importlib
-from typing import Union
-import requests
 import warnings
-
 from pandas import DataFrame
 from fhirpy import SyncFHIRClient
 
@@ -70,7 +62,7 @@ class PACK(
     def __setupClient(self, apiBase=None, authMethod=None, authParams=None):
 
         authorization = None
-
+        
         if apiBase is not None:
             CONFIG.set("APIBASE", apiBase)
             if authMethod:

@@ -65,7 +65,8 @@ def packUnconnected(request):
 
     request.addfinalizer(globalSessionFixtureFin)
 
-    pack = fp.PACK(unconnected=True)
+    # pack = fp.PACK(unconnected=True)
+    pack = fp.PACK("")
     return pack
 
 

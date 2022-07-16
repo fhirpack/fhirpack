@@ -84,11 +84,6 @@ class BaseMixin:
         if len(data) and not resourceType:
             resourceType = self.guessOutputResourceType(data)
 
-        # in case we decide to someday use other DataFrame parameters
-        # frameParams = {}
-        # if index:
-        #     frameParams={'index':index}
-
         if wrap:
             data = [[e] for e in data]
 
