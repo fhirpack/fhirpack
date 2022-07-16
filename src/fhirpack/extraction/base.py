@@ -356,7 +356,7 @@ class BaseExtractorMixin:
                 searchValues = self.gatherSimplePaths(
                     [path], columns=["searchValue"]
                 )
-                searchValues = searchValues["searchValue"].str.split('/').str[1]
+                searchValues = searchValues["searchValue"].str.split('/').str[-1]
             else:
                 searchValues = searchValues["searchValue"].values
             searchValues = ",".join(searchValues)
@@ -375,14 +375,7 @@ class BaseExtractorMixin:
             )
 
         if not raw:
-<<<<<<< Updated upstream
-            # columns=result.columns
-            #     index=[e['id'] for e in data]
-            #     # if self.isFrame:
-            #         # index=[index,self.index]
-=======
             indexList = []
->>>>>>> Stashed changes
             result = self.prepareOutput(result, resourceType=resourceType)
             # if self.resourceType != 'Invalid':
             result = self.attachOperandIds(result, metaResourceType)
