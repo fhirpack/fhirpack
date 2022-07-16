@@ -1,8 +1,6 @@
 import json
 from typing import Union
 import time
-from operator import attrgetter
-
 import requests
 from tqdm import tqdm
 from dicomweb_client.api import DICOMwebClient
@@ -290,7 +288,7 @@ class BaseExtractorMixin:
             raise NotImplementedError
 
         if not raw:
-            result = self.prepareOutput(input, resourceType="Reference")
+            result = self.prepareOutput(input)
         return result
 
     def getResources(
@@ -356,7 +354,7 @@ class BaseExtractorMixin:
                 searchValues = self.gatherSimplePaths(
                     [path], columns=["searchValue"]
                 )
-                searchValues = searchValues["searchValue"].str.split('/').str[1]
+                searchValues = searchValues["searchValue"].str.split('/').str[-1]
             else:
                 searchValues = searchValues["searchValue"].values
             searchValues = ",".join(searchValues)
@@ -375,10 +373,6 @@ class BaseExtractorMixin:
             )
 
         if not raw:
-            # columns=result.columns
-            #     index=[e['id'] for e in data]
-            #     # if self.isFrame:
-            #         # index=[index,self.index]
             indexList = []
             result = self.prepareOutput(result, resourceType=resourceType)
             # if self.resourceType != 'Invalid':
@@ -410,13 +404,13 @@ class BaseExtractorMixin:
         params = {} if params is None else params
         input = [] if input is None else input
 
-        # if searchParams:
+        if searchParams:
 
-        #     invalidsearchParams = set(searchParams.keys()) - set(
-        #         SEARCH_PARAMS[resourceType]
-        #     )
-        #     if invalidsearchParams:
-        #         raise Exception(f"non allowed search parameters {invalidsearchParams}")
+            invalidsearchParams = set(searchParams.keys()) - set(
+                SEARCH_PARAMS[resourceType]
+            )
+            if invalidsearchParams:
+                raise Exception(f"non allowed search parameters {invalidsearchParams}")
 
         if len(input):
             raise NotImplementedError
@@ -434,7 +428,6 @@ class BaseExtractorMixin:
             .search(**searchParams)
             .limit(resourcePageSize)
         )
-
         result = []
         resourceCount = 0
         nonEmptyBundle = bool(len(search.limit(1).fetch()))
@@ -624,7 +617,7 @@ class BaseExtractorMixin:
             data = bytearray()
 
             if not response.ok:
-                # TODO log to execution.log
+                # TODO log to fhirpack.log
                 data = None
                 # raise Exception(f"{response}")
             else:
