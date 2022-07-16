@@ -1,1 +1,1 @@
-The `/logs` directory is meant to contain all logs related to the execution and usage of FHIR PACK during development and if desired during execution.
+The file `fhirpack.log` contains all logs related to the execution and usage of FHIRPACK during development. The file is located in the current working directory.

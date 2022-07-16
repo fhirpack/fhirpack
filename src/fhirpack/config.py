@@ -47,10 +47,9 @@ class Config:
 
     @staticmethod
     def __configLogger(self):
-        logspath = self.get("LOGSPATH")
-        logspath = "./" if not logspath else logspath
+
         logging.basicConfig(
-            filename=f"{logspath}/execution.log",
+            filename=f"./fhirpack.log",
             filemode="a+",
             format="%(asctime)s, %(msecs)d %(name)s %(levelname)s [ %(filename)s-%(lineno)d-%(funcName)20s() ]  : %(message)s",
             # format="%(message)s",
