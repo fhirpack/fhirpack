@@ -165,7 +165,7 @@ class BaseMixin:
                     # result[input.resourceType] = result[input.resourceType].apply(lambda x: x.id)
                                                                
                 if 'reference' in reversePath:
-                    result[input.resourceType] = result[input.resourceType].apply(lambda x: None if x is None else x.split('/')[1])
+                    result[input.resourceType] = result[input.resourceType].apply(lambda x: None if x is None else x.split('/')[-1])
 
             else:
                 # print(f"calculating {result.resourceType} using {path}")
@@ -177,7 +177,7 @@ class BaseMixin:
                     # input[result.resourceType] =input[result.resourceType].apply(lambda x:x.id)
 
                 if 'reference' in path:
-                    input[result.resourceType] = input[result.resourceType].apply(lambda x: None if x is None else x.split('/')[1])
+                    input[result.resourceType] = input[result.resourceType].apply(lambda x: None if x is None else x.split('/')[-1])
 
                 # print(f"joining frame with {result.columns}({result.index}) and frame with {input.columns} on {result.resourceType}","\n")
                 # print(input.to_dict(),"\n")
