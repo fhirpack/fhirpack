@@ -76,8 +76,8 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
                     ignoreFrame=True
                 )
 
-                result = input.prepareOutput(result, "RootPatient")
-                result = input.attachOperandIds(result, "RootPatient")
+                result = self.prepareOutput(result, "RootPatient")
+                input, result = self.attachOperandIds(input,result, "RootPatient")
 
                 # return self whenever no root patients exist
                 result = pd.merge(
@@ -153,8 +153,8 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
                         ignoreFrame=True
                     )
 
-                result = input.prepareOutput(result, "LinkedPatient")
-                result = input.attachOperandIds(result, "LinkedPatient")
+                result = self.prepareOutput(result, "LinkedPatient")
+                input, result = self.attachOperandIds(self, result, "LinkedPatient")
 
                 # return self whenever no linked patients exist
                 result = pd.merge(

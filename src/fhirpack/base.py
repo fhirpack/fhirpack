@@ -102,35 +102,34 @@ class BaseMixin:
 
         return output
 
-    def attachOperandIds(self, frame, metaResourceType):
-        result = frame
-        sourceType = self.resourceType
+    def attachOperandIds(self, input, result, metaResourceType):
+        sourceType = input.resourceType
 
         # the target type is the desired resource type
         # getPatients().getConditions() -> "Patient" source, "Condition" target
-        targetType = frame.resourceType
+        targetType = result.resourceType
         targetType = metaResourceType
 
         # TODO: improve empty result handling
         result[result.resourceType+".id"] = result.gatherSimplePaths(['id'])
 
         if sourceType in ['Invalid', 'Reference'] or sourceType == targetType:
-            return result
+            return input, result
 
-        field, basePath = self.getConversionPath(
+        field, basePath = input.getConversionPath(
             sourceType=sourceType, targetType=targetType
         )
 
         path = "id" if basePath is None else f"{basePath}.id"
 
-        searchValues = self.gatherSimplePaths(
+        searchValues = input.gatherSimplePaths(
             [path], columns=["searchValue"]
         ).dropna()
 
         if not searchValues.size:
             path = f"{basePath}.reference"
 
-        if self.isFrame and self.resourceType != 'Invalid':
+        if input.isFrame and input.resourceType != 'Invalid':
 
             baseReversePath = None
             try:
@@ -158,45 +157,45 @@ class BaseMixin:
                 containedReverse = False
 
             if containedReverse:
-                result[self.resourceType +
+                result[input.resourceType +
                        ".id"] = result.gatherSimplePaths([reversePath])[reversePath].values
 
                 # if the reverse-matching path contains lists as in link.other
-                if (result[self.resourceType + ".id"].apply(type).astype(str) == "<class 'list'>").all(0):
-                    result = result.explode(self.resourceType+".id")
-                    # result[self.resourceType + ".id"] = result[self.resourceType +
+                if (result[input.resourceType + ".id"].apply(type).astype(str) == "<class 'list'>").all(0):
+                    result = result.explode(input.resourceType+".id")
+                    # result[input.resourceType + ".id"] = result[input.resourceType +
                     #                                            ".id"].apply(lambda x: x.id)
                                                                
                 if 'reference' in reversePath:
-                    result[self.resourceType+".id"] = result[self.resourceType +
+                    result[input.resourceType+".id"] = result[input.resourceType +
                                                            ".id"].apply(lambda x: None if x is None else x.split('/')[1])
 
             else:
                 # print(f"calculating {result.resourceType+'.id'} using {path}")
-                self[result.resourceType +
-                     ".id"] = self.gatherSimplePaths([path])[path].values
+                input[result.resourceType +
+                     ".id"] = input.gatherSimplePaths([path])[path].values
 
                 # if the reverse-matching path contains lists as in link.other
-                if (self[result.resourceType + ".id"].apply(type).astype(str) == "<class 'list'>").all(0):
-                    self = self.explode(result.resourceType+".id")
-                    # self[result.resourceType +".id"] =self[result.resourceType +".id"].apply(lambda x:x.id)
+                if (input[result.resourceType + ".id"].apply(type).astype(str) == "<class 'list'>").all(0):
+                    input = input.explode(result.resourceType+".id")
+                    # input[result.resourceType +".id"] =input[result.resourceType +".id"].apply(lambda x:x.id)
 
                 if 'reference' in path:
-                    self[result.resourceType+".id"] = self[result.resourceType +
+                    input[result.resourceType+".id"] = input[result.resourceType +
                                                            ".id"].apply(lambda x: None if x is None else x.split('/')[1])
 
-                # print(f"joining frame with {result.columns}({result.index}) and frame with {self.columns} on {result.resourceType}","\n")
-                # print(self.to_dict(),"\n")
+                # print(f"joining frame with {result.columns}({result.index}) and frame with {input.columns} on {result.resourceType}","\n")
+                # print(input.to_dict(),"\n")
                 # print(result.to_dict(),"\n")
-                # result = self.join(result,on=result.resourceType+'.id',how='inner', rsuffix='_self')
+                # result = input.join(result,on=result.resourceType+'.id',how='inner', rsuffix='_self')
                 result = pd.merge(
-                    result, self, on=result.resourceType+'.id', suffixes=['', '_self'])
-                # result=result.combine_first(self)
-                # result[self.resourceType+".id"]=self.gatherSimplePaths([path])[path].values
+                    result, input, on=result.resourceType+'.id', suffixes=['', '_input'])
+                # result=result.combine_first(input)
+                # result[input.resourceType+".id"]=input.gatherSimplePaths([path])[path].values
 
-                result.drop(columns=['data_self'], inplace=True)
+                result.drop(columns=['data_input'], inplace=True)
 
-        return result
+        return input, result
 
     def parseReference(
         self, reference: Union[str, SyncFHIRReference], resourceType=None
