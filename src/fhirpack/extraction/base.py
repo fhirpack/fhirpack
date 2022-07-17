@@ -219,22 +219,22 @@ SEARCH_ATTRIBUTES = {
     },
     "AllergyIntolerance": {
         "Patient": {"field": "_id", "path": "patient"}
-        },
+    },
     "CarePlan": {
         "Patient": {"field": "_id", "path": "subject"},
         "RootPatient": {"field": "_id", "path": "subject"},
         "LinkedPatient": {"field": "_id", "path": "subject"},
-        },
+    },
     "CarePlan": {
         "Patient": {"field": "_id", "path": "subject"},
         "RootPatient": {"field": "_id", "path": "subject"},
         "LinkedPatient": {"field": "_id", "path": "subject"},
-        },
+    },
     "Claim": {
         "Patient": {"field": "_id", "path": "subject"},
         "RootPatient": {"field": "_id", "path": "subject"},
         "LinkedPatient": {"field": "_id", "path": "subject"},
-        },
+    },
     "Encounter": {
         "Patient": {"field": "_id", "path": "subject"},
         "RootPatient": {"field": "_id", "path": "subject"},
@@ -244,22 +244,22 @@ SEARCH_ATTRIBUTES = {
         "Patient": {"field": "_id", "path": "subject"},
         "RootPatient": {"field": "_id", "path": "subject"},
         "LinkedPatient": {"field": "_id", "path": "subject"},
-        },
+    },
     "Goal": {
         "Patient": {"field": "_id", "path": "subject"},
         "RootPatient": {"field": "_id", "path": "subject"},
         "LinkedPatient": {"field": "_id", "path": "subject"},
-        },
+    },
     "Immunization": {
         "Patient": {"field": "_id", "path": "patient"},
         "RootPatient": {"field": "_id", "path": "subject"},
         "LinkedPatient": {"field": "_id", "path": "subject"},
-        },
+    },
     "Procedure": {
         "Patient": {"field": "_id", "path": "subject"},
         "RootPatient": {"field": "_id", "path": "subject"},
         "LinkedPatient": {"field": "_id", "path": "subject"},
-        },
+    },
 }
 
 
@@ -360,24 +360,15 @@ class BaseExtractorMixin:
                 searchValues = searchValues["searchValue"].str.split('/').str[-1]
             else:
                 searchValues = searchValues["searchValue"].values
-            
-            n=len(searchValues)
-            i,j=0,0
-            chunkSize=100
-            chunks=math.ceil(n/chunkSize)
-            progressPrefix = '' if chunks == 1 else 'CHUNK'
-            
-            for chunk in tqdm(
-                range(1,chunks+1),
-                desc=f"SEARCH {progressPrefix}[{metaResourceType}]{progressSuffix}> ",
-                total=chunks,
-                leave=True,
-            ):
-            
-                j=i+chunkSize
-                if j > n:
-                    j = n
-                    
+
+            i, j = 0, 0
+            chunkSize = 100
+
+            while j < len(searchValues):
+                j = i+chunkSize
+                if j > len(searchValues):
+                    j = len(searchValues)
+
                 searchValuesChunk = searchValues[i:j]
                 searchValuesChunk = ",".join(searchValuesChunk)
 
@@ -387,8 +378,9 @@ class BaseExtractorMixin:
                     searchParams=searchParams,
                     resourceType=resourceType,
                     raw=True,
+                    progressSuffix=f"({math.ceil(j//chunkSize)}/{math.ceil(len(searchValues)/chunkSize)})"
                 )
-                i=i+chunkSize
+                i = i+chunkSize
 
         elif searchActive:
             result = self.searchResources(
@@ -421,7 +413,7 @@ class BaseExtractorMixin:
 
         if metaResourceType is None:
             metaResourceType = resourceType
-            
+
         searchActive = False if searchParams is None else True
         searchParams = {} if searchParams is None else searchParams
 
@@ -460,8 +452,8 @@ class BaseExtractorMixin:
             try:
                 resourceCount = search.limit(1).fetch_raw().get("total", None)
             except:
-            # server doesn't support _total parameter nor returns total
-            # element in each request https://build.fhir.org/bundle.html#searchset
+                # server doesn't support _total parameter nor returns total
+                # element in each request https://build.fhir.org/bundle.html#searchset
                 pass
             if not resourceCount:
                 resourceCount = search.count()
@@ -470,7 +462,7 @@ class BaseExtractorMixin:
                 search,
                 desc=f"SEARCH[{metaResourceType}]{progressSuffix}> ",
                 total=resourceCount,
-                leave=False,
+                leave=True,
             ):
                 result.append(element)
 
@@ -496,7 +488,7 @@ class BaseExtractorMixin:
             aliasField, aliasPath = aliasTargetDict.get("field"), targetDict.get("path")
             if aliasField:
                 return aliasField, aliasPath
-                
+
             raise RuntimeError(
                 f"No handler for source {sourceType} and target {targetType}"
             )
