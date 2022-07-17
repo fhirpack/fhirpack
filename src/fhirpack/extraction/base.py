@@ -1,3 +1,5 @@
+import chunk
+import math
 import json
 from typing import Union
 import time
@@ -304,6 +306,7 @@ class BaseExtractorMixin:
         metaResourceType: str = None,
         ignoreFrame: bool = False,
         raw: bool = False,
+        progressSuffix: str = ""
     ):
 
         if metaResourceType is None:
@@ -318,7 +321,7 @@ class BaseExtractorMixin:
         result = []
 
         if len(input):
-            for element in tqdm(input, desc=f"GET[{metaResourceType}]> ", leave=True):
+            for element in tqdm(input, desc=f"GET[{metaResourceType}]{progressSuffix}> ", leave=True):
                 element = self.castOperand(element, SyncFHIRResource, resourceType)
                 result.extend(element)
 
@@ -357,15 +360,34 @@ class BaseExtractorMixin:
                 searchValues = searchValues["searchValue"].str.split('/').str[-1]
             else:
                 searchValues = searchValues["searchValue"].values
-            searchValues = ",".join(searchValues)
+            
+            n=len(searchValues)
+            i,j=0,0
+            chunkSize=100
+            chunks=math.ceil(n/chunkSize)
+            
+            for chunk in tqdm(
+                range(1,chunks+1),
+                desc=f"SEARCH CHUNK[{metaResourceType}]{progressSuffix}> ",
+                total=chunks,
+                leave=True,
+            ):
+            
+                j=i+chunkSize
+                if j > n:
+                    j = n
+                    
+                searchValuesChunk = searchValues[i:j]
+                searchValuesChunk = ",".join(searchValuesChunk)
 
-            searchParams.update({field: searchValues})
+                searchParams.update({field: searchValuesChunk})
 
-            result = self.searchResources(
-                searchParams=searchParams,
-                resourceType=resourceType,
-                raw=True,
-            )
+                result += self.searchResources(
+                    searchParams=searchParams,
+                    resourceType=resourceType,
+                    raw=True,
+                )
+                i=i+chunkSize
 
         elif searchActive:
             result = self.searchResources(
@@ -393,6 +415,7 @@ class BaseExtractorMixin:
         metaResourceType: str = None,
         ignoreFrame: bool = True,
         raw: bool = False,
+        progressSuffix: str = ""
     ):
 
         if metaResourceType is None:
@@ -444,12 +467,11 @@ class BaseExtractorMixin:
 
             for element in tqdm(
                 search,
-                desc=f"SEARCH[{metaResourceType}]> ",
+                desc=f"SEARCH[{metaResourceType}]{progressSuffix}> ",
                 total=resourceCount,
                 leave=True,
             ):
                 result.append(element)
-            
 
         if not raw:
             result = self.prepareOutput(result, resourceType)
