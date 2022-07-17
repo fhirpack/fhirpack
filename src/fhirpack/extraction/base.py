@@ -365,10 +365,11 @@ class BaseExtractorMixin:
             i,j=0,0
             chunkSize=100
             chunks=math.ceil(n/chunkSize)
+            progressPrefix = '' if chunks == 1 else 'CHUNK'
             
             for chunk in tqdm(
                 range(1,chunks+1),
-                desc=f"SEARCH CHUNK[{metaResourceType}]{progressSuffix}> ",
+                desc=f"SEARCH {progressPrefix}[{metaResourceType}]{progressSuffix}> ",
                 total=chunks,
                 leave=True,
             ):
@@ -469,7 +470,7 @@ class BaseExtractorMixin:
                 search,
                 desc=f"SEARCH[{metaResourceType}]{progressSuffix}> ",
                 total=resourceCount,
-                leave=True,
+                leave=False,
             ):
                 result.append(element)
 
