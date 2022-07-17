@@ -321,7 +321,7 @@ class BaseExtractorMixin:
         result = []
 
         if len(input):
-            for element in tqdm(input, desc=f"GET[{metaResourceType}]{progressSuffix}> ", leave=True):
+            for element in tqdm(input, desc=f"GET[{metaResourceType}]{progressSuffix}> ", leave=False):
                 element = self.castOperand(element, SyncFHIRResource, resourceType)
                 result.extend(element)
 
@@ -462,7 +462,7 @@ class BaseExtractorMixin:
                 search,
                 desc=f"SEARCH[{metaResourceType}]{progressSuffix}> ",
                 total=resourceCount,
-                leave=True,
+                leave=False,
             ):
                 result.append(element)
 
