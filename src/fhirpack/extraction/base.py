@@ -362,12 +362,12 @@ class BaseExtractorMixin:
                 searchValues = searchValues["searchValue"].values
 
             i, j = 0, 0
+            n=len(searchValues)
             chunkSize = 100
+            nChunks=math.ceil(n/chunkSize)
 
-            while j < len(searchValues):
-                j = i+chunkSize
-                if j > len(searchValues):
-                    j = len(searchValues)
+            while j < n:
+                j = i+chunkSize if i+chunkSize < n else n
 
                 searchValuesChunk = searchValues[i:j]
                 searchValuesChunk = ",".join(searchValuesChunk)
@@ -378,7 +378,7 @@ class BaseExtractorMixin:
                     searchParams=searchParams,
                     resourceType=resourceType,
                     raw=True,
-                    progressSuffix=f"({math.ceil(j//chunkSize)}/{math.ceil(len(searchValues)/chunkSize)})"
+                    progressSuffix=f"({math.ceil(j/chunkSize)}/{nChunks})"
                 )
                 i = i+chunkSize
 
