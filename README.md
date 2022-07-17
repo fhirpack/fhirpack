@@ -1,4 +1,3 @@
-# FHIR Python Analysis and Conversion Kit (FHIRPACK)
 
 <div>
 <p align="center">
@@ -17,6 +16,8 @@
 </div>
 
 ---
+
+# FHIR Python Analysis and Conversion Kit (FHIRPACK)
 
 FHIRPACK (FHIR Python Analysis Conversion Kit) is a general purpose library that simplifies the access, analysis and representation of FHIR and EHR data using PANDAS, an ETL philosophy and a functional syntax. FHIRPACK was designed and developed at the Institute for Artificial Intelligence in Medicine ([IKIM](https://mml.ikim.nrw/)) and the Database Systems Research Group of the University of Heidelberg ([HDDBS](https://dbs.ifi.uni-heidelberg.de/)). 
 
