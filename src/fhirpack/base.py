@@ -155,7 +155,8 @@ class BaseMixin:
                 result[input.resourceType] = result.gatherSimplePaths([reversePath])[reversePath].values
 
                 # if the reverse-matching path contains lists as in link.other
-                if (result[input.resourceType].apply(type).astype(str) == "<class 'list'>").all(0):
+                # we use .any() because not each of the root patients has linked patients
+                if (result[input.resourceType].apply(type).astype(str) == "<class 'list'>").any(0):
                     result = result.explode(input.resourceType)
                     # result[input.resourceType] = result[input.resourceType].apply(lambda x: x.id)
                                                                
@@ -167,7 +168,8 @@ class BaseMixin:
                 input[result.resourceType] = input.gatherSimplePaths([path])[path].values
 
                 # if the reverse-matching path contains lists as in link.other
-                if (input[result.resourceType].apply(type).astype(str) == "<class 'list'>").all(0):
+                # we use .any() because not each of the root patients has linked patients
+                if (input[result.resourceType].apply(type).astype(str) == "<class 'list'>").any(0):
                     input = input.explode(result.resourceType)
                     # input[result.resourceType] =input[result.resourceType].apply(lambda x:x.id)
 
