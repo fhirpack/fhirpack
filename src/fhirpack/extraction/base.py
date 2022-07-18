@@ -368,6 +368,8 @@ class BaseExtractorMixin:
             
             if (searchValues["searchValue"].apply(type).astype(str) == "<class 'list'>").any(0):
                 searchValues= searchValues.explode("searchValue")
+            
+            searchValues = searchValues.dropna()
                 
             if 'reference' in path:
                 searchValues = searchValues["searchValue"].str.split('/').str[-1]
