@@ -167,6 +167,12 @@ META_RESOURCE_TYPES = {
     "LinkedPatient": "Patient"
 }
 
+# first key is source resourcetype
+# second key is destination resourcetype
+# field is by what to search in destination resourcetype
+# path is where to find the values to search in field
+# path: None means id
+
 SEARCH_ATTRIBUTES = {
     "Patient": {
         "Condition": {"field": "subject", "path": None},
@@ -179,7 +185,8 @@ SEARCH_ATTRIBUTES = {
         "MedicationAdministration": {"field": "subject", "path": None},
         "MedicationRequest": {"field": "subject", "path": None},
         "Observation": {"field": "patient", "path": None},
-        "RootPatient": {"field": "_id", "path": None},
+        "Procedure": {"field": "patient", "path": None},
+        "RootPatient": {"field": "link", "path": None},
         "LinkedPatient": {"field": "_id", "path": None},
     },
     "RootPatient": {
@@ -318,6 +325,7 @@ class BaseExtractorMixin:
         params = {} if params is None else params
         input = [] if input is None else input
 
+        searchValues = []
         result = []
 
         if len(input):
@@ -357,36 +365,47 @@ class BaseExtractorMixin:
                 searchValues = self.gatherSimplePaths(
                     [path], columns=["searchValue"]
                 )
+            
+            if (searchValues["searchValue"].apply(type).astype(str) == "<class 'list'>").any(0):
+                searchValues= searchValues.explode("searchValue")
+                
+            if 'reference' in path:
                 searchValues = searchValues["searchValue"].str.split('/').str[-1]
             else:
                 searchValues = searchValues["searchValue"].values
 
-            i, j = 0, 0
-            n=len(searchValues)
-            chunkSize = 100
-            nChunks=math.ceil(n/chunkSize)
-
-            while j < n:
-                j = i+chunkSize if i+chunkSize < n else n
-
-                searchValuesChunk = searchValues[i:j]
-                searchValuesChunk = ",".join(searchValuesChunk)
-
-                searchParams.update({field: searchValuesChunk})
-
-                result += self.searchResources(
-                    searchParams=searchParams,
-                    resourceType=resourceType,
-                    raw=True,
-                    progressSuffix=f"({math.ceil(j/chunkSize)}/{nChunks})"
-                )
-                i = i+chunkSize
-
         elif searchActive:
-            result = self.searchResources(
-                searchParams=searchParams, resourceType=resourceType, metaResourceType=metaResourceType, raw=True
-            )
+            # getResources is for getting/searching known resources
+            # delegate to search for special handling
+            
+            return self.searchResources(
+                input=input,
+                searchParams=searchParams,
+                params=params,
+                ignoreFrame=ignoreFrame,
+                resourceType=resourceType)
 
+        i, j = 0, 0
+        n=len(searchValues)
+        chunkSize = 100
+        nChunks=math.ceil(n/chunkSize)
+
+        while j < n:
+            j = i+chunkSize if i+chunkSize < n else n
+
+            searchValuesChunk = searchValues[i:j]
+            searchValuesChunk = ",".join(searchValuesChunk)
+
+            searchParams.update({field: searchValuesChunk})
+
+            result += self.searchResources(
+                searchParams=searchParams,
+                resourceType=resourceType,
+                raw=True,
+                progressSuffix=f"({math.ceil(j/chunkSize)}/{nChunks})"
+            )
+            i = i+chunkSize
+            
         if not raw:
             indexList = []
             result = self.prepareOutput(result, resourceType=resourceType)
