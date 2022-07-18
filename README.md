@@ -1,16 +1,23 @@
-<div>
-<p align="center">
-  <a href="https://github.com/fhirpack/main/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/fhirpack/main"></a>
-  <a href="https://github.com/fhirpack/main/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/fhirpack/main"></a>
-  <a href=""><img alt="" src="https://img.shields.io/badge/python-3.9%2B%7CPyPy-red"></a>
-  <a href=""><img alt="" src="  https://img.shields.io/badge/docs-passing-ff69b4"></a>
-  <a href=""><img alt="GitHub license" src="https://img.shields.io/badge/license-MIT-blueviolet"></a>
-  <a href="https://github.com/fhirpack/main/network"><img alt="GitHub forks" src="https://img.shields.io/github/forks/fhirpack/main"></a>
-</p>
+<div >
+  <p align="center">
+    <a>
+      <img alt="FHIRPACK" src="assets/fp_readme_sign.png" width="650">
+    </a>
+  </p>
+  <p align="center" >
+    <a href="https://github.com/fhirpack/main/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/fhirpack/main"></a>
+    <a href="https://github.com/fhirpack/main/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/fhirpack/main"></a>
+    <a href=""><img alt="" src="https://img.shields.io/badge/python-3.9%2B%7CPyPy-red"></a>
+    <a href=""><img alt="" src="  https://img.shields.io/badge/docs-passing-ff69b4"></a>
+    <a href=""><img alt="GitHub license" src="https://img.shields.io/badge/license-MIT-blueviolet"></a>
+    <a href="https://github.com/fhirpack/main/network"><img alt="GitHub forks" src="https://img.shields.io/github/forks/fhirpack/main"></a>
+  </p>
 
-<p align="center">
-  <img src="assets/fp_cli02.gif" alt="CLI demo" width="850"/>
-</p>
+  <p align="center">
+    <a>
+      <img src="assets/fp_cli02.gif" alt="CLI demo" width="850"/>
+    </a>
+  </p>
 </div>
 
 ---
