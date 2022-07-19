@@ -107,6 +107,7 @@ class BaseMixin:
 
         # TODO: improve empty result handling
         result[result.resourceType] = result.gatherSimplePaths(['id'])
+        result = result.drop_duplicates(subset=[result.resourceType])
 
         if sourceType in ['Invalid', 'Reference'] or sourceType == targetType:
             return input, result
