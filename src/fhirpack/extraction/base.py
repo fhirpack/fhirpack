@@ -387,17 +387,20 @@ class BaseExtractorMixin:
                 ignoreFrame=ignoreFrame,
                 resourceType=resourceType)
 
-        i, j = 0, 0
+        searchValues=searchValues.tolist()
         n=len(searchValues)
         chunkSize = 100
         nChunks=math.ceil(n/chunkSize)
+        i, j = 0, 0
+
+        total=[]
 
         while j < n:
-            j = i+chunkSize if i+chunkSize < n else n
 
+            j = j+chunkSize if j+chunkSize < n else n
+            
             searchValuesChunk = searchValues[i:j]
             searchValuesChunk = ",".join(searchValuesChunk)
-
             searchParams.update({field: searchValuesChunk})
 
             result += self.searchResources(
@@ -407,11 +410,10 @@ class BaseExtractorMixin:
                 progressSuffix=f"({math.ceil(j/chunkSize)}/{nChunks})"
             )
             i = i+chunkSize
-            
+        
         if not raw:
             indexList = []
             result = self.prepareOutput(result, resourceType=resourceType)
-            # if self.resourceType != 'Invalid':
             input, result = self.attachOperandIds(self, result, metaResourceType)
 
         return result
