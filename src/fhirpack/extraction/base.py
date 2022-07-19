@@ -329,7 +329,7 @@ class BaseExtractorMixin:
         result = []
 
         if len(input):
-            for element in tqdm(input, desc=f"GET[{metaResourceType}]{progressSuffix}> ", leave=False):
+            for element in tqdm(set(input), desc=f"GET[{metaResourceType}]{progressSuffix}> ", leave=False):
                 element = self.castOperand(element, SyncFHIRResource, resourceType)
                 result.extend(element)
 
@@ -387,7 +387,6 @@ class BaseExtractorMixin:
                 ignoreFrame=ignoreFrame,
                 resourceType=resourceType)
 
-        searchValues=searchValues.tolist()
         n=len(searchValues)
         chunkSize = 100
         nChunks=math.ceil(n/chunkSize)
@@ -480,7 +479,6 @@ class BaseExtractorMixin:
                 pass
             if not resourceCount:
                 resourceCount = search.count()
-
             for element in tqdm(
                 search,
                 desc=f"SEARCH[{metaResourceType}]{progressSuffix}> ",
