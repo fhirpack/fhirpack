@@ -4,7 +4,6 @@ import time
 import requests
 from tqdm import tqdm
 from dicomweb_client.api import DICOMwebClient
-import pandas as pd
 
 from fhirpy.lib import SyncFHIRResource
 from fhirpy.lib import SyncFHIRReference
@@ -160,10 +159,7 @@ SEARCH_PARAMS = {
     "List": ["_id", "_content", "_sort", "_include", "code", "identifier"],
 }
 
-META_RESOURCE_TYPES = {
-    "RootPatient": "Patient",
-    "LinkedPatient": "Patient"
-}
+META_RESOURCE_TYPES = {"RootPatient": "Patient", "LinkedPatient": "Patient"}
 
 SEARCH_ATTRIBUTES = {
     "Patient": {
@@ -190,20 +186,18 @@ SEARCH_ATTRIBUTES = {
         # "RootPatient": {"field": "_id", "path": None},
         "Patient": {"field": "_id", "path": "id"}
     },
-    "ImagingStudy": {
-        "Patient": {"field": "_id", "path": "subject"}
-    },
+    "ImagingStudy": {"Patient": {"field": "_id", "path": "subject"}},
     "Condition": {
         "Patient": {"field": "_id", "path": "subject"},
         "LinkedPatient": {"field": "_id", "path": "subject"},
         "RootPatient": {"field": "_id", "path": "subject"},
-        "Encounter": {"field": "_id", "path": "encounter"}
+        "Encounter": {"field": "_id", "path": "encounter"},
     },
     "Observation": {
         "Patient": {"field": "_id", "path": "subject"},
         "RootPatient": {"field": "_id", "path": "subject"},
         "LinkedPatient": {"field": "_id", "path": "subject"},
-        "Encounter": {"field": "_id", "path": "encounter"}
+        "Encounter": {"field": "_id", "path": "encounter"},
     },
     "MedicationAdministration": {
         "Patient": {"field": "_id", "path": "subject"},
@@ -215,24 +209,22 @@ SEARCH_ATTRIBUTES = {
         "RootPatient": {"field": "_id", "path": "subject"},
         "LinkedPatient": {"field": "_id", "path": "subject"},
     },
-    "AllergyIntolerance": {
-        "Patient": {"field": "_id", "path": "patient"}
-        },
+    "AllergyIntolerance": {"Patient": {"field": "_id", "path": "patient"}},
     "CarePlan": {
         "Patient": {"field": "_id", "path": "subject"},
         "RootPatient": {"field": "_id", "path": "subject"},
         "LinkedPatient": {"field": "_id", "path": "subject"},
-        },
+    },
     "CarePlan": {
         "Patient": {"field": "_id", "path": "subject"},
         "RootPatient": {"field": "_id", "path": "subject"},
         "LinkedPatient": {"field": "_id", "path": "subject"},
-        },
+    },
     "Claim": {
         "Patient": {"field": "_id", "path": "subject"},
         "RootPatient": {"field": "_id", "path": "subject"},
         "LinkedPatient": {"field": "_id", "path": "subject"},
-        },
+    },
     "Encounter": {
         "Patient": {"field": "_id", "path": "subject"},
         "RootPatient": {"field": "_id", "path": "subject"},
@@ -242,22 +234,22 @@ SEARCH_ATTRIBUTES = {
         "Patient": {"field": "_id", "path": "subject"},
         "RootPatient": {"field": "_id", "path": "subject"},
         "LinkedPatient": {"field": "_id", "path": "subject"},
-        },
+    },
     "Goal": {
         "Patient": {"field": "_id", "path": "subject"},
         "RootPatient": {"field": "_id", "path": "subject"},
         "LinkedPatient": {"field": "_id", "path": "subject"},
-        },
+    },
     "Immunization": {
         "Patient": {"field": "_id", "path": "patient"},
         "RootPatient": {"field": "_id", "path": "subject"},
         "LinkedPatient": {"field": "_id", "path": "subject"},
-        },
+    },
     "Procedure": {
         "Patient": {"field": "_id", "path": "subject"},
         "RootPatient": {"field": "_id", "path": "subject"},
         "LinkedPatient": {"field": "_id", "path": "subject"},
-        },
+    },
 }
 
 
@@ -288,7 +280,7 @@ class BaseExtractorMixin:
             raise NotImplementedError
 
         if not raw:
-            result = self.prepareOutput(input, resourceType='Reference')
+            result = self.prepareOutput(input, resourceType="Reference")
         return result
 
     def getResources(
@@ -305,6 +297,24 @@ class BaseExtractorMixin:
         ignoreFrame: bool = False,
         raw: bool = False,
     ):
+        """Retrieves FHIR resources of the specified resource type based on either:
+        1. The provided input.
+        2. The provided search parameters.
+        3. The data stored in the Frame object this the method is called on.
+
+        Args:
+            input: IDs, references or resources of the desired FHIR resources.
+            searchParams: Parameters used executing a search acoording to the FHIR search framework.
+            Thus, only valid FHIR parameters for the specified resource type can be used.
+            params: Optional parameters.
+            resourceType: Type of the FHIR resource.
+            metaResourceType: This is used to avoid conflicts of identitcal resource types.
+            ignoreFrame
+            raw
+
+        Returns:
+            Frame: _description_
+        """
 
         if metaResourceType is None:
             metaResourceType = resourceType
@@ -351,10 +361,8 @@ class BaseExtractorMixin:
 
             if not searchValues.size:
                 path = f"{basePath}.reference"
-                searchValues = self.gatherSimplePaths(
-                    [path], columns=["searchValue"]
-                )
-                searchValues = searchValues["searchValue"].str.split('/').str[-1]
+                searchValues = self.gatherSimplePaths([path], columns=["searchValue"])
+                searchValues = searchValues["searchValue"].str.split("/").str[-1]
             else:
                 searchValues = searchValues["searchValue"].values
             searchValues = ",".join(searchValues)
@@ -369,7 +377,10 @@ class BaseExtractorMixin:
 
         elif searchActive:
             result = self.searchResources(
-                searchParams=searchParams, resourceType=resourceType, metaResourceType=metaResourceType, raw=True
+                searchParams=searchParams,
+                resourceType=resourceType,
+                metaResourceType=metaResourceType,
+                raw=True,
             )
 
         if not raw:
@@ -397,7 +408,7 @@ class BaseExtractorMixin:
 
         if metaResourceType is None:
             metaResourceType = resourceType
-            
+
         searchActive = False if searchParams is None else True
         searchParams = {} if searchParams is None else searchParams
 
@@ -436,8 +447,8 @@ class BaseExtractorMixin:
             try:
                 resourceCount = search.limit(1).fetch_raw().get("total", None)
             except:
-            # server doesn't support _total parameter nor returns total
-            # element in each request https://build.fhir.org/bundle.html#searchset
+                # server doesn't support _total parameter nor returns total
+                # element in each request https://build.fhir.org/bundle.html#searchset
                 pass
             if not resourceCount:
                 resourceCount = search.count()
@@ -449,7 +460,6 @@ class BaseExtractorMixin:
                 leave=True,
             ):
                 result.append(element)
-            
 
         if not raw:
             result = self.prepareOutput(result, resourceType)
@@ -473,7 +483,7 @@ class BaseExtractorMixin:
             aliasField, aliasPath = aliasTargetDict.get("field"), targetDict.get("path")
             if aliasField:
                 return aliasField, aliasPath
-                
+
             raise RuntimeError(
                 f"No handler for source {sourceType} and target {targetType}"
             )
