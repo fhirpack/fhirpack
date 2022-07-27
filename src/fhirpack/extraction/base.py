@@ -1,3 +1,5 @@
+import chunk
+import math
 import json
 from typing import Union
 import time
@@ -160,10 +162,13 @@ SEARCH_PARAMS = {
     "List": ["_id", "_content", "_sort", "_include", "code", "identifier"],
 }
 
-META_RESOURCE_TYPES = {
-    "RootPatient": "Patient",
-    "LinkedPatient": "Patient"
-}
+META_RESOURCE_TYPES = {"RootPatient": "Patient", "LinkedPatient": "Patient"}
+
+# first key is source resourcetype
+# second key is destination resourcetype
+# field is by what to search in destination resourcetype
+# path is where to find the values to search in field
+# path: None means id
 
 SEARCH_ATTRIBUTES = {
     "Patient": {
@@ -177,7 +182,8 @@ SEARCH_ATTRIBUTES = {
         "MedicationAdministration": {"field": "subject", "path": None},
         "MedicationRequest": {"field": "subject", "path": None},
         "Observation": {"field": "patient", "path": None},
-        "RootPatient": {"field": "_id", "path": None},
+        "Procedure": {"field": "patient", "path": None},
+        "RootPatient": {"field": "link", "path": None},
         "LinkedPatient": {"field": "_id", "path": None},
     },
     "RootPatient": {
@@ -190,20 +196,18 @@ SEARCH_ATTRIBUTES = {
         # "RootPatient": {"field": "_id", "path": None},
         "Patient": {"field": "_id", "path": "id"}
     },
-    "ImagingStudy": {
-        "Patient": {"field": "_id", "path": "subject"}
-    },
+    "ImagingStudy": {"Patient": {"field": "_id", "path": "subject"}},
     "Condition": {
         "Patient": {"field": "_id", "path": "subject"},
         "LinkedPatient": {"field": "_id", "path": "subject"},
         "RootPatient": {"field": "_id", "path": "subject"},
-        "Encounter": {"field": "_id", "path": "encounter"}
+        "Encounter": {"field": "_id", "path": "encounter"},
     },
     "Observation": {
         "Patient": {"field": "_id", "path": "subject"},
         "RootPatient": {"field": "_id", "path": "subject"},
         "LinkedPatient": {"field": "_id", "path": "subject"},
-        "Encounter": {"field": "_id", "path": "encounter"}
+        "Encounter": {"field": "_id", "path": "encounter"},
     },
     "MedicationAdministration": {
         "Patient": {"field": "_id", "path": "subject"},
@@ -215,24 +219,22 @@ SEARCH_ATTRIBUTES = {
         "RootPatient": {"field": "_id", "path": "subject"},
         "LinkedPatient": {"field": "_id", "path": "subject"},
     },
-    "AllergyIntolerance": {
-        "Patient": {"field": "_id", "path": "patient"}
-        },
+    "AllergyIntolerance": {"Patient": {"field": "_id", "path": "patient"}},
     "CarePlan": {
         "Patient": {"field": "_id", "path": "subject"},
         "RootPatient": {"field": "_id", "path": "subject"},
         "LinkedPatient": {"field": "_id", "path": "subject"},
-        },
+    },
     "CarePlan": {
         "Patient": {"field": "_id", "path": "subject"},
         "RootPatient": {"field": "_id", "path": "subject"},
         "LinkedPatient": {"field": "_id", "path": "subject"},
-        },
+    },
     "Claim": {
         "Patient": {"field": "_id", "path": "subject"},
         "RootPatient": {"field": "_id", "path": "subject"},
         "LinkedPatient": {"field": "_id", "path": "subject"},
-        },
+    },
     "Encounter": {
         "Patient": {"field": "_id", "path": "subject"},
         "RootPatient": {"field": "_id", "path": "subject"},
@@ -242,22 +244,22 @@ SEARCH_ATTRIBUTES = {
         "Patient": {"field": "_id", "path": "subject"},
         "RootPatient": {"field": "_id", "path": "subject"},
         "LinkedPatient": {"field": "_id", "path": "subject"},
-        },
+    },
     "Goal": {
         "Patient": {"field": "_id", "path": "subject"},
         "RootPatient": {"field": "_id", "path": "subject"},
         "LinkedPatient": {"field": "_id", "path": "subject"},
-        },
+    },
     "Immunization": {
         "Patient": {"field": "_id", "path": "patient"},
         "RootPatient": {"field": "_id", "path": "subject"},
         "LinkedPatient": {"field": "_id", "path": "subject"},
-        },
+    },
     "Procedure": {
         "Patient": {"field": "_id", "path": "subject"},
         "RootPatient": {"field": "_id", "path": "subject"},
         "LinkedPatient": {"field": "_id", "path": "subject"},
-        },
+    },
 }
 
 
@@ -288,7 +290,7 @@ class BaseExtractorMixin:
             raise NotImplementedError
 
         if not raw:
-            result = self.prepareOutput(input, resourceType='Reference')
+            result = self.prepareOutput(input, resourceType="Reference")
         return result
 
     def getResources(
@@ -304,6 +306,7 @@ class BaseExtractorMixin:
         metaResourceType: str = None,
         ignoreFrame: bool = False,
         raw: bool = False,
+        progressSuffix: str = "",
     ):
 
         if metaResourceType is None:
@@ -315,10 +318,22 @@ class BaseExtractorMixin:
         params = {} if params is None else params
         input = [] if input is None else input
 
+        searchValues = []
         result = []
 
         if len(input):
-            for element in tqdm(input, desc=f"GET[{metaResourceType}]> ", leave=True):
+            inputReprs = set()
+            uniqueInput = []
+            for i in input:
+                r = repr(i)
+                if r not in inputReprs:
+                    uniqueInput.append(i)
+                    inputReprs.update([r])
+            input = uniqueInput
+
+            for element in tqdm(
+                input, desc=f"GET[{metaResourceType}]{progressSuffix}> ", leave=False
+            ):
                 element = self.castOperand(element, SyncFHIRResource, resourceType)
                 result.extend(element)
 
@@ -351,31 +366,58 @@ class BaseExtractorMixin:
 
             if not searchValues.size:
                 path = f"{basePath}.reference"
-                searchValues = self.gatherSimplePaths(
-                    [path], columns=["searchValue"]
-                )
-                searchValues = searchValues["searchValue"].str.split('/').str[-1]
+                searchValues = self.gatherSimplePaths([path], columns=["searchValue"])
+
+            if (
+                searchValues["searchValue"].apply(type).astype(str) == "<class 'list'>"
+            ).any(0):
+                searchValues = searchValues.explode("searchValue")
+
+            searchValues = searchValues.dropna()
+
+            if "reference" in path:
+                searchValues = searchValues["searchValue"].str.split("/").str[-1]
             else:
                 searchValues = searchValues["searchValue"].values
-            searchValues = ",".join(searchValues)
 
-            searchParams.update({field: searchValues})
+        elif searchActive:
+            # getResources is for getting/searching known resources
+            # delegate to search for special handling
 
-            result = self.searchResources(
+            return self.searchResources(
+                input=input,
+                searchParams=searchParams,
+                params=params,
+                ignoreFrame=ignoreFrame,
+                resourceType=resourceType,
+            )
+
+        n = len(searchValues)
+        chunkSize = 100
+        nChunks = math.ceil(n / chunkSize)
+        i, j = 0, 0
+
+        total = []
+
+        while j < n:
+
+            j = j + chunkSize if j + chunkSize < n else n
+
+            searchValuesChunk = searchValues[i:j]
+            searchValuesChunk = ",".join(searchValuesChunk)
+            searchParams.update({field: searchValuesChunk})
+
+            result += self.searchResources(
                 searchParams=searchParams,
                 resourceType=resourceType,
                 raw=True,
+                progressSuffix=f"({math.ceil(j/chunkSize)}/{nChunks})",
             )
-
-        elif searchActive:
-            result = self.searchResources(
-                searchParams=searchParams, resourceType=resourceType, metaResourceType=metaResourceType, raw=True
-            )
+            i = i + chunkSize
 
         if not raw:
             indexList = []
             result = self.prepareOutput(result, resourceType=resourceType)
-            # if self.resourceType != 'Invalid':
             input, result = self.attachOperandIds(self, result, metaResourceType)
 
         return result
@@ -393,11 +435,12 @@ class BaseExtractorMixin:
         metaResourceType: str = None,
         ignoreFrame: bool = True,
         raw: bool = False,
+        progressSuffix: str = "",
     ):
 
         if metaResourceType is None:
             metaResourceType = resourceType
-            
+
         searchActive = False if searchParams is None else True
         searchParams = {} if searchParams is None else searchParams
 
@@ -436,20 +479,18 @@ class BaseExtractorMixin:
             try:
                 resourceCount = search.limit(1).fetch_raw().get("total", None)
             except:
-            # server doesn't support _total parameter nor returns total
-            # element in each request https://build.fhir.org/bundle.html#searchset
+                # server doesn't support _total parameter nor returns total
+                # element in each request https://build.fhir.org/bundle.html#searchset
                 pass
             if not resourceCount:
                 resourceCount = search.count()
-
             for element in tqdm(
                 search,
-                desc=f"SEARCH[{metaResourceType}]> ",
+                desc=f"SEARCH[{metaResourceType}]{progressSuffix}> ",
                 total=resourceCount,
-                leave=True,
+                leave=False,
             ):
                 result.append(element)
-            
 
         if not raw:
             result = self.prepareOutput(result, resourceType)
@@ -473,7 +514,7 @@ class BaseExtractorMixin:
             aliasField, aliasPath = aliasTargetDict.get("field"), targetDict.get("path")
             if aliasField:
                 return aliasField, aliasPath
-                
+
             raise RuntimeError(
                 f"No handler for source {sourceType} and target {targetType}"
             )

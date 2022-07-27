@@ -20,9 +20,29 @@ LOGGER = CONFIG.getLogger(__name__)
 SIMPLE_PATHS = {
     "default": ["id"],
     "Reference": ["resourceType"],
-    "Patient": ["name.given", "name.family", "birthDate", "city", "state", "country", ],
-    "DiagnosticReport": ["subject", "presentedForm.contentType", "presentedForm.data", "presentedForm.url", "presentedForm.title", "presentedForm.creation"],
-    "Observation": ["subject", "category.coding.code", "code.coding.display", "code.coding.code", "valueQuantity.value"]
+    "Patient": [
+        "name.given",
+        "name.family",
+        "birthDate",
+        "city",
+        "state",
+        "country",
+    ],
+    "DiagnosticReport": [
+        "subject",
+        "presentedForm.contentType",
+        "presentedForm.data",
+        "presentedForm.url",
+        "presentedForm.title",
+        "presentedForm.creation",
+    ],
+    "Observation": [
+        "subject",
+        "category.coding.code",
+        "code.coding.display",
+        "code.coding.code",
+        "valueQuantity.value",
+    ],
 }
 
 
@@ -35,7 +55,7 @@ class BaseMixin:
     # keep this class free of constructor, class variables
     # and similar
 
-    resourceType = 'Invalid'
+    resourceType = "Invalid"
 
     def guessOutputResourceType(self, data):
         resourceType = None
@@ -73,13 +93,7 @@ class BaseMixin:
 
         return output
 
-    def prepareOutput(
-        self,
-        data,
-        resourceType=None,
-        columns=["data"],
-        wrap=True
-    ):
+    def prepareOutput(self, data, resourceType=None, columns=["data"], wrap=True):
 
         if len(data) and not resourceType:
             resourceType = self.guessOutputResourceType(data)
@@ -106,9 +120,10 @@ class BaseMixin:
         targetType = metaResourceType
 
         # TODO: improve empty result handling
-        result[result.resourceType] = result.gatherSimplePaths(['id'])
+        result[result.resourceType] = result.gatherSimplePaths(["id"])
+        result = result.drop_duplicates(subset=[result.resourceType])
 
-        if sourceType in ['Invalid', 'Reference'] or sourceType == targetType:
+        if sourceType in ["Invalid", "Reference"] or sourceType == targetType:
             return input, result
 
         field, basePath = input.getConversionPath(
@@ -117,21 +132,21 @@ class BaseMixin:
 
         path = "id" if basePath is None else f"{basePath}.id"
 
-        searchValues = input.gatherSimplePaths(
-            [path], columns=["searchValue"]
-        ).dropna()
+        searchValues = input.gatherSimplePaths([path], columns=["searchValue"]).dropna()
 
         if not searchValues.size:
             path = f"{basePath}.reference"
 
-        if input.isFrame and input.resourceType != 'Invalid':
+        if input.isFrame and input.resourceType != "Invalid":
 
             baseReversePath = None
             try:
                 reverseField, baseReversePath = self.getConversionPath(
                     sourceType=targetType, targetType=sourceType
                 )
-                reversePath = "id" if baseReversePath is None else f"{baseReversePath}.id"
+                reversePath = (
+                    "id" if baseReversePath is None else f"{baseReversePath}.id"
+                )
 
                 searchValues = result.gatherSimplePaths(
                     [reversePath], columns=["searchValue"]
@@ -152,38 +167,55 @@ class BaseMixin:
                 containedReverse = False
 
             if containedReverse:
-                result[input.resourceType] = result.gatherSimplePaths([reversePath])[reversePath].values
+                result[input.resourceType] = result.gatherSimplePaths([reversePath])[
+                    reversePath
+                ].values
 
                 # if the reverse-matching path contains lists as in link.other
-                if (result[input.resourceType].apply(type).astype(str) == "<class 'list'>").all(0):
+                # we use .any() because not each of the root patients has linked patients
+                if (
+                    result[input.resourceType].apply(type).astype(str)
+                    == "<class 'list'>"
+                ).any(0):
                     result = result.explode(input.resourceType)
                     # result[input.resourceType] = result[input.resourceType].apply(lambda x: x.id)
-                                                               
-                if 'reference' in reversePath:
-                    result[input.resourceType] = result[input.resourceType].apply(lambda x: None if x is None else x.split('/')[-1])
+
+                if "reference" in reversePath:
+                    result[input.resourceType] = result[input.resourceType].apply(
+                        lambda x: None if x is None else x.split("/")[-1]
+                    )
 
             else:
                 # print(f"calculating {result.resourceType} using {path}")
-                input[result.resourceType] = input.gatherSimplePaths([path])[path].values
+                input[result.resourceType] = input.gatherSimplePaths([path])[
+                    path
+                ].values
 
                 # if the reverse-matching path contains lists as in link.other
-                if (input[result.resourceType].apply(type).astype(str) == "<class 'list'>").all(0):
+                # we use .any() because not each of the root patients has linked patients
+                if (
+                    input[result.resourceType].apply(type).astype(str)
+                    == "<class 'list'>"
+                ).any(0):
                     input = input.explode(result.resourceType)
                     # input[result.resourceType] =input[result.resourceType].apply(lambda x:x.id)
 
-                if 'reference' in path:
-                    input[result.resourceType] = input[result.resourceType].apply(lambda x: None if x is None else x.split('/')[-1])
+                if "reference" in path:
+                    input[result.resourceType] = input[result.resourceType].apply(
+                        lambda x: None if x is None else x.split("/")[-1]
+                    )
 
                 # print(f"joining frame with {result.columns}({result.index}) and frame with {input.columns} on {result.resourceType}","\n")
                 # print(input.to_dict(),"\n")
                 # print(result.to_dict(),"\n")
                 # result = input.join(result,on=result.resourceType,how='inner', rsuffix='_self')
                 result = pd.merge(
-                    result, input, on=result.resourceType, suffixes=['', '_input'])
+                    result, input, on=result.resourceType, suffixes=["", "_input"]
+                )
                 # result=result.combine_first(input)
                 # result[input.resourceType]=input.gatherSimplePaths([path])[path].values
 
-                result.drop(columns=['data_input'], inplace=True)
+                result.drop(columns=["data_input"], inplace=True)
 
         return input, result
 
@@ -304,6 +336,7 @@ class Frame(
     def _constructor(self):
         def _c(*args, **kwargs):
             return Frame(*args, **kwargs).__finalize__(self)
+
         return _c
 
         # return Frame
@@ -336,17 +369,12 @@ class Frame(
 
     @property
     def pretty(self):
-        print(
-            json.dumps(
-                self.data.values.tolist(),
-                indent=4,
-                sort_keys=True)
-        )
+        print(json.dumps(self.data.values.tolist(), indent=4, sort_keys=True))
 
     @property
     def summary(self):
         return self.gatherSimplePaths(
-            SIMPLE_PATHS['default']+SIMPLE_PATHS.get(self.resourceType, [])
+            SIMPLE_PATHS["default"] + SIMPLE_PATHS.get(self.resourceType, [])
         )
 
     @property
