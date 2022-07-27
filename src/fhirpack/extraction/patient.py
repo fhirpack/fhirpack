@@ -170,7 +170,7 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
                     result[f"{input.resourceType}_self"],
                 )
 
-                toDrop=[e for e in result.columns if e.endswith('_self')]
+                toDrop = [e for e in result.columns if e.endswith("_self")]
                 result.drop(columns=toDrop, inplace=True)
 
             else:
