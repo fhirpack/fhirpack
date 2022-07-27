@@ -1,7 +1,7 @@
 <div >
   <p align="center">
     <a>
-      <img alt="FHIRPACK" src="assets/fp_readme_sign.png" width="650">
+      <img alt="FHIRPACK" src="https://gitlab.com/fhirpack/main/-/raw/main/assets/fp_readme_sign.png" width="650">
     </a>
   </p>
   <p align="center" >
@@ -15,7 +15,7 @@
 
   <p align="center">
     <a>
-      <img src="assets/fp_cli02.gif" alt="CLI demo" width="850"/>
+      <img src="https://gitlab.com/fhirpack/main/-/raw/main/assets/fp_cli02.gif" alt="CLI demo" width="850"/>
     </a>
   </p>
 </div>
