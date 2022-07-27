@@ -169,9 +169,9 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
                     result[result.resourceType].isna(),
                     result[f"{input.resourceType}_self"],
                 )
-                result.drop(columns=["data_self"], inplace=True)
-                result.drop(columns=["Patient_self"], inplace=True)
-                result.drop(columns=[f"{input.resourceType}_self"], inplace=True)
+
+                toDrop=[e for e in result.columns if e.endswith('_self')]
+                result.drop(columns=toDrop, inplace=True)
 
             else:
                 raise NotImplementedError
