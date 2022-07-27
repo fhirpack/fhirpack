@@ -18,22 +18,29 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
     # TODO test len(references) > 1
     # TODO raise len(references) = 0?
 
-    def getPatients(self,
-                    input: Union[
-                        list[str],
-                        list[SyncFHIRReference],
-                        list[SyncFHIRResource],
-                    ] = None,
-                    searchParams: dict = None,
-                    params: dict = None,
-                    ignoreFrame: bool = False, *args, **kwargs):
+    def getPatients(
+        self,
+        input: Union[
+            list[str],
+            list[SyncFHIRReference],
+            list[SyncFHIRResource],
+        ] = None,
+        searchParams: dict = None,
+        params: dict = None,
+        ignoreFrame: bool = False,
+        *args,
+        **kwargs,
+    ):
 
         return self.getResources(
             input=input,
             searchParams=searchParams,
             params=params,
             ignoreFrame=ignoreFrame,
-            resourceType="Patient", *args, **kwargs)
+            resourceType="Patient",
+            *args,
+            **kwargs,
+        )
 
     # TODO test len(result) = 0
     # TODO test len(result) = 1
@@ -80,18 +87,16 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
                     result,
                     input,
                     on=self.resourceType,  # 'Patient',
-                    suffixes=['', '_self'],
-                    how="right"
+                    suffixes=["", "_self"],
+                    how="right",
                 )
-                result['data'] = result['data'].mask(
-                    result['data'].isna(),
-                    result['data_self']
+                result["data"] = result["data"].mask(
+                    result["data"].isna(), result["data_self"]
                 )
                 result[result.resourceType] = result[result.resourceType].mask(
-                    result[result.resourceType].isna(),
-                    result[self.resourceType]
+                    result[result.resourceType].isna(), result[self.resourceType]
                 )
-                result.drop(columns=['data_self'], inplace=True)
+                result.drop(columns=["data_self"], inplace=True)
             else:
                 raise NotImplementedError
 
@@ -146,28 +151,26 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
                     result,
                     input,
                     on=result.resourceType,
-                    suffixes=['', '_self'],
-                    how="right"
+                    suffixes=["", "_self"],
+                    how="right",
                 )
-                result['data'] = result['data'].mask(
-                    result['data'].isna(),
-                    result['data_self']
+                result["data"] = result["data"].mask(
+                    result["data"].isna(), result["data_self"]
                 )
-                result['Patient'] = result["Patient"].mask(
-                    result["Patient"].isna(),
-                    result["Patient_self"]
+                result["Patient"] = result["Patient"].mask(
+                    result["Patient"].isna(), result["Patient_self"]
                 )
 
                 result[input.resourceType] = result[input.resourceType].mask(
                     result[input.resourceType].isna(),
-                    result[f"{input.resourceType}_self"]
+                    result[f"{input.resourceType}_self"],
                 )
                 result[result.resourceType] = result[result.resourceType].mask(
                     result[result.resourceType].isna(),
-                    result[f"{input.resourceType}_self"]
+                    result[f"{input.resourceType}_self"],
                 )
-                result.drop(columns=['data_self'], inplace=True)
-                result.drop(columns=['Patient_self'], inplace=True)
+                result.drop(columns=["data_self"], inplace=True)
+                result.drop(columns=["Patient_self"], inplace=True)
                 result.drop(columns=[f"{input.resourceType}_self"], inplace=True)
 
             else:
