@@ -438,6 +438,8 @@ class BaseExtractorMixin:
         progressSuffix: str = "",
     ):
 
+        self.authenticate()
+
         if metaResourceType is None:
             metaResourceType = resourceType
 

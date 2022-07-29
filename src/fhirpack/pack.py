@@ -50,10 +50,10 @@ class PACK(
             self.__setupClient(
                 apiBase=apiBase, authMethod=authMethod, authParams=authParams
             )
-        try:
-            self.client._do_request("get", f"{self.client.url}/metadata")
-        except:
-            warnings.warn("PACK is not connected to server.")
+            
+        if self.connected:
+            pass
+        else:
             self.logger.info("PACK is not connected to server.")
             self.client = SyncFHIRClient("")
 
@@ -87,6 +87,18 @@ class PACK(
                 raise NotImplementedError
 
         self.client = SyncFHIRClient(CONFIG.get("APIBASE"), authorization=authorization)
+
+    @property
+    def connected(self):
+        try:
+            self.client._do_request("get", f"{self.client.url}/metadata")
+            return True
+        except:
+            return False
+
+    def authenticate(self, force: bool = False):
+        if not self.connected or force:
+            self.__setupClient()
 
     def countServerResources(self):
 
