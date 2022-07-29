@@ -7,6 +7,7 @@ import json
 from fhirpy.lib import SyncFHIRResource
 from fhirpy.lib import SyncFHIRReference
 
+import fhirpack.pack as pack
 import fhirpack.extraction as extraction
 import fhirpack.transformation as transformation
 import fhirpack.load as load
@@ -316,6 +317,7 @@ class BaseMixin:
 
 class Frame(
     DataFrame,
+    pack.PACK,
     BaseMixin,
     extraction.ExtractorMixin,
     transformation.TransformerMixin,
