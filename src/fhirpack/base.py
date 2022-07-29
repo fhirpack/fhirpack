@@ -308,7 +308,6 @@ class BaseMixin:
     def prepareInput(self, data, resourceType):
         raise NotImplementedError
 
-    # TODO: turn is frame into a property to avoid needing to call it everywhere ()
     @property
     def isFrame(self):
         return isinstance(self, Frame)

@@ -1,7 +1,7 @@
 <div >
   <p align="center">
     <a>
-      <img alt="FHIRPACK" src="https://gitlab.com/fhirpack/main/-/raw/main/assets/fp_readme_sign.png" width="650">
+      <img alt="FHIRPACK" src="https://gitlab.com/fhirpack/main/-/raw/main/assets/fp_readme_sign.png">
     </a>
   </p>
   <p align="center" >
