@@ -1,5 +1,0 @@
-{
-    "Patient": ["city", "state", "country", "given", "family"],
-    "Condition": ["", "", "", ""],
-    "DiagnosticReport": ["", "", "", ""]
-}
