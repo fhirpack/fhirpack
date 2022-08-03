@@ -297,7 +297,7 @@ class BaseExtractorMixin:
         ignoreFrame: bool = False,
         raw: bool = False,
     ):
-        """Retrieves FHIR resources of the specified resource type based on either:
+        """This method retrieves FHIR resources based on the provided resource type.
         1. The provided input.
         2. The provided search parameters.
         3. The data stored in the Frame object this the method is called on.
