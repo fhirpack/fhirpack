@@ -67,15 +67,15 @@ class BaseTransformerMixin:
         ] = None,
         params: dict = {},
     ):
-        """Returns the resource elements specified by the path.
+        """Returns elements from fhir resources.
 
         Args:
-            paths: Resource path to the desired elemnts.
-            input: Contains the resources to operate on. Defaults to None.
-            params: Additional parameters. Defaults to {}.
+            paths: Resource path to the desired elements.
+            input: Resources to operate on. If None, calling frame object will be used as input.
+            params: Additional parameters.
 
         Returns:
-            Frame: FHIRPACK Frame storing the resource elemnts in the respective rows.
+            Frame: Frame object storing the resource elemnts in the respective rows.
         """
         if not params:
             params = {}
@@ -235,7 +235,7 @@ class BaseTransformerMixin:
         defaultLookUps: bool = True,
         includeDuplicates: bool = False,
     ):
-        """extract Text from resources by lookups.
+        """Extracts text from resources by lookups.
 
         Args:
             input: Data to extract text from.
