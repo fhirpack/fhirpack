@@ -10,5 +10,11 @@ import fhirpack.extraction.base as base
 
 class ExtractorImagingStudyMixin(base.BaseExtractorMixin):
     def getImagingStudies(self, *args, **kwargs):
+        """Retrieves FHIR ImaginStudy resources.
+
+        Returns:
+            Frame: Frame object storing the ImaginsStudies.
+        """
+
 
         return self.getResources(*args, resourceType="ImagingStudy", **kwargs)
