@@ -8,5 +8,10 @@ import fhirpack.extraction.base as base
 
 class ExtractorConditionMixin(base.BaseExtractorMixin):
     def getConditions(self, *args, **kwargs):
+        """Retrieves FHIR Condition resources.
+
+        Returns:
+            Frame: Frame object storing the Conditions.
+        """
 
         return self.getResources(*args, resourceType="Condition", **kwargs)
