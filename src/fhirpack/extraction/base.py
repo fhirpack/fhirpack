@@ -298,22 +298,19 @@ class BaseExtractorMixin:
         raw: bool = False,
     ):
         """This method retrieves FHIR resources based on the provided resource type.
-        1. The provided input.
-        2. The provided search parameters.
-        3. The data stored in the Frame object this the method is called on.
 
         Args:
             input: IDs, references or resources of the desired FHIR resources.
-            searchParams: Parameters used executing a search acoording to the FHIR search framework.
-            Thus, only valid FHIR parameters for the specified resource type can be used.
-            params: Optional parameters.
-            resourceType: Type of the FHIR resource.
-            metaResourceType: This is used to avoid conflicts of identitcal resource types.
-            ignoreFrame
-            raw
+            searchParams: FHIR search parameters to execute a search.
+            Only valid FHIR parameters for the specified resource type can be used. This can not be combined with input.
+            params: Additional parameters.
+            resourceType: Type of the desired FHIR resources.
+            metaResourceType: Used to avoid conflicts when non-standard fhir resources are used.
+            ignoreFrame: True when data inside the Frame object should be ignored.
+            raw: True when the raw output should be returned.
 
         Returns:
-            Frame: _description_
+            Frame: Frame object containing the desired FHIR resources.
         """
 
         if metaResourceType is None:
@@ -468,8 +465,16 @@ class BaseExtractorMixin:
         return result
 
     def getConversionPath(self, sourceType: str, targetType: str):
-        """This method retrieves the needed fhir serach param (field) and the
-        respective path for a source-target pair from the handler ditcionary"""
+        """This method retrieves the needed fhir serach params (field) and the
+        respective path for a source-target pair from the handler ditcionary
+
+        Args:
+            sourceType (str): Resource type the method is operating on.
+            targetType (str): Desired Resource type.
+
+        Returns:
+            Tuple(str, str): Field and path in the handler dictionary.
+        """
 
         sourceDict = SEARCH_ATTRIBUTES.get(sourceType, {})
         targetDict = sourceDict.get(targetType, {})
