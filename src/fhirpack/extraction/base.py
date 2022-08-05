@@ -3,6 +3,7 @@ from typing import Union
 import time
 import requests
 from tqdm import tqdm
+from typing import Tuple
 from dicomweb_client.api import DICOMwebClient
 
 from fhirpy.lib import SyncFHIRResource
@@ -254,35 +255,6 @@ SEARCH_ATTRIBUTES = {
 
 
 class BaseExtractorMixin:
-    def getReferences(
-        self,
-        input: Union[
-            list[str],
-            list[SyncFHIRReference],
-            list[SyncFHIRResource],
-        ] = None,
-        params: dict = None,
-        ignoreFrame: bool = False,
-        raw: bool = False,
-    ):
-
-        params = {} if params is None else params
-
-        if not input and self.isFrame:
-            input = self.data
-            pass
-        elif input and not self.isFrame:
-            input = self.prepareOperationInput(input, SyncFHIRReference)
-            pass
-        elif input and self.isFrame:
-            # TODO raise error references and isFrame not allowed
-            # TODO raise in other similar methods
-            raise NotImplementedError
-
-        if not raw:
-            result = self.prepareOutput(input, resourceType="Reference")
-        return result
-
     def getResources(
         self,
         input: Union[
@@ -402,7 +374,20 @@ class BaseExtractorMixin:
         ignoreFrame: bool = True,
         raw: bool = False,
     ):
+        """This method executes a FHIR search based on the provided resource type and search parameters.
 
+        Args:
+            input: Not implemented.
+            searchParams: FHIR search parameters to execute a search.
+            params: Additional parameters.
+            resourceType: Type of the desired FHIR resource.
+            metaResourceType: Used to avoid conflicts when non-standard fhir resources are used.
+            ignoreFrame: True when data inside the Frame object should be ignored.
+            raw: True when the raw output should be returned.
+
+        Returns:
+            Frame: Frame object containing the desired FHIR resources.
+        """
         if metaResourceType is None:
             metaResourceType = resourceType
 
@@ -464,13 +449,13 @@ class BaseExtractorMixin:
 
         return result
 
-    def getConversionPath(self, sourceType: str, targetType: str):
+    def getConversionPath(self, sourceType: str, targetType: str) -> Tuple[str, str]:
         """This method retrieves the needed fhir serach params (field) and the
         respective path for a source-target pair from the handler ditcionary
 
         Args:
-            sourceType (str): Resource type the method is operating on.
-            targetType (str): Desired Resource type.
+            sourceType: Resource type the method is operating on.
+            targetType: Desired Resource type.
 
         Returns:
             Tuple(str, str): Field and path in the handler dictionary.
@@ -650,7 +635,14 @@ class BaseExtractorMixin:
         return result
 
     def getFromFiles(self, input: list[str]):
-        """Creates a Frame object from json files containing fhir resources"""
+        """This method generates a Frame object from FHIR resources stored in json.
+
+        Args:
+            input: List of files containing json fhir resources.
+
+        Returns:
+            Frame: Frame object storing the FHIR resources.
+        """
 
         pathsData = []
         for iPath in input:
