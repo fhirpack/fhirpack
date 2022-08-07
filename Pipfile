@@ -27,6 +27,8 @@ build = "*"
 pytest-docker-compose = "*"
 twine = "*"
 pandoc = "*"
+sphinx-book-theme = "*"
+nbsphinx = "*"
 
 [packages]
 pytest = "*"
@@ -49,8 +51,6 @@ python-magic = "*"
 fhirpack = {editable = true, path = "."}
 dicomweb-client = "*"
 markupsafe = "==2.0.1"
-sphinx-book-theme = "*"
-nbsphinx = "*"
 
 [requires]
 python_version = "3.9.6"

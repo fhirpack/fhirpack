@@ -62,7 +62,7 @@ class PACK(
     def __setupClient(self, apiBase=None, authMethod=None, authParams=None):
 
         authorization = None
-        
+
         if apiBase is not None:
             CONFIG.set("APIBASE", apiBase)
             if authMethod:

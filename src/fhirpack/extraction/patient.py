@@ -18,22 +18,29 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
     # TODO test len(references) > 1
     # TODO raise len(references) = 0?
 
-    def getPatients(self,
-                    input: Union[
-                        list[str],
-                        list[SyncFHIRReference],
-                        list[SyncFHIRResource],
-                    ] = None,
-                    searchParams: dict = None,
-                    params: dict = None,
-                    ignoreFrame: bool = False, *args, **kwargs):
+    def getPatients(
+        self,
+        input: Union[
+            list[str],
+            list[SyncFHIRReference],
+            list[SyncFHIRResource],
+        ] = None,
+        searchParams: dict = None,
+        params: dict = None,
+        ignoreFrame: bool = False,
+        *args,
+        **kwargs,
+    ):
 
         return self.getResources(
             input=input,
             searchParams=searchParams,
             params=params,
             ignoreFrame=ignoreFrame,
-            resourceType="Patient", *args, **kwargs)
+            resourceType="Patient",
+            *args,
+            **kwargs,
+        )
 
     # TODO test len(result) = 0
     # TODO test len(result) = 1
@@ -67,35 +74,29 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
             if input.resourceType in ["Patient", "LinkedPatient"]:
 
                 result = input.getResources(
-                    searchParams={
-                        "link": ",".join(input.gatherSimplePaths(['id']).id.unique())
-                    },
                     resourceType="Patient",
                     metaResourceType="RootPatient",
                     raw=True,
-                    ignoreFrame=True
                 )
 
                 result = self.prepareOutput(result, "RootPatient")
                 input, result = self.attachOperandIds(input, result, "RootPatient")
 
-                # return self whenever no root patients exist
+                # return input when no root patients exist
                 result = pd.merge(
                     result,
                     input,
-                    on=self.resourceType,#'Patient',
-                    suffixes=['', '_self'],
-                    how="right"
+                    on=self.resourceType,  # 'Patient',
+                    suffixes=["", "_self"],
+                    how="right",
                 )
-                result['data'] = result['data'].mask(
-                    result['data'].isna(),
-                    result['data_self']
+                result["data"] = result["data"].mask(
+                    result["data"].isna(), result["data_self"]
                 )
                 result[result.resourceType] = result[result.resourceType].mask(
-                    result[result.resourceType].isna(),
-                    result[self.resourceType]
+                    result[result.resourceType].isna(), result[self.resourceType]
                 )
-                result.drop(columns=['data_self'], inplace=True)
+                result.drop(columns=["data_self"], inplace=True)
             else:
                 raise NotImplementedError
 
@@ -136,53 +137,41 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
 
             elif input.resourceTypeIs("RootPatient"):
 
-                linked = input.gatherSimplePaths(['link.other'])
-                linked = linked.dropna()
-
-                if len(linked) > 0:
-                    linked = linked.explode('link.other')
-                    linked['link.other'] = linked['link.other'].apply(lambda x: x.id)
-                    linked = linked['link.other'].unique()
-                    result = self.getResources(
-                        searchParams={
-                            "_id": ",".join(linked)
-                        },
-                        resourceType="Patient",
-                        metaResourceType="LinkedPatient",
-                        raw=True,
-                        ignoreFrame=True
-                    )
+                result = self.getResources(
+                    resourceType="Patient",
+                    metaResourceType="LinkedPatient",
+                    raw=True,
+                )
 
                 result = self.prepareOutput(result, "LinkedPatient")
                 input, result = self.attachOperandIds(self, result, "LinkedPatient")
 
-                # return self whenever no linked patients exist
+                # return input when no linked patients exist
                 result = pd.merge(
                     result,
                     input,
                     on=result.resourceType,
-                    suffixes=['', '_self'],
-                    how="right"
+                    suffixes=["", "_self"],
+                    how="right",
                 )
-                result['data'] = result['data'].mask(
-                    result['data'].isna(),
-                    result['data_self']
+                result["data"] = result["data"].mask(
+                    result["data"].isna(), result["data_self"]
                 )
-                result['Patient'] = result[self.resourceType].mask(
-                    result[self.resourceType].isna(),
-                    result[f"{self.resourceType}_self"]
+                result["Patient"] = result["Patient"].mask(
+                    result["Patient"].isna(), result["Patient_self"]
                 )
-                result[self.resourceType] = result[self.resourceType].mask(
-                    result[self.resourceType].isna(),
-                    result[f"{self.resourceType}_self"]
+
+                result[input.resourceType] = result[input.resourceType].mask(
+                    result[input.resourceType].isna(),
+                    result[f"{input.resourceType}_self"],
                 )
                 result[result.resourceType] = result[result.resourceType].mask(
                     result[result.resourceType].isna(),
-                    result[f"{self.resourceType}_self"]
+                    result[f"{input.resourceType}_self"],
                 )
-                result.drop(columns=['data_self'], inplace=True)
-                result.drop(columns=['Patient_self'], inplace=True)
-                result.drop(columns=[f"{self.resourceType}_self"], inplace=True)
+
+                toDrop = [e for e in result.columns if e.endswith("_self")]
+                result.drop(columns=toDrop, inplace=True)
 
             else:
                 raise NotImplementedError
