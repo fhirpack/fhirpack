@@ -98,7 +98,7 @@ class BaseMixin:
         return output
 
     def prepareOutput(self, data, resourceType=None, columns=["data"], wrap=True):
-        """This method constructs a Frame object from the given data.
+        """This method constructs a Frame object from the provided data.
 
         Args:
             data: Data stored in the Frame object.
@@ -127,6 +127,8 @@ class BaseMixin:
         return output
 
     def attachOperandIds(self, input, result, metaResourceType):
+        """This method is used to attach IDs to resources that were retrieved.
+        """
         sourceType = input.resourceType
 
         # the target type is the desired resource type
@@ -336,6 +338,8 @@ class Frame(
     load.LoaderMixin,
     custom.PluginMixin,
 ):
+    """This class represents the main data structure used in the fhirpack.
+    """
 
     _metadata = ["client", "resourceType"]
 
