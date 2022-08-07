@@ -44,7 +44,8 @@ except FileNotFoundError:
 try:
     import sphinx
 
-    cmd_line = f"sphinx-apidoc --implicit-namespaces -f -o {output_dir} {module_dir}"
+    # -d 1 for dpeth 1, -E for no headings
+    cmd_line = f"sphinx-apidoc --implicit-namespaces -f -o {output_dir} {module_dir} -d 1 -e -E"
 
     args = cmd_line.split(" ")
     if tuple(sphinx.__version__.split(".")) >= ("1", "7"):
@@ -153,10 +154,19 @@ exclude_patterns = [
     ".venv",
     "_test",
     "test_",
-    "api/modules.rst",
-    "api/fhirpack.rst",
+    "api/fhirpack",
     "api/fhirpack.custom*",
 ]
+
+autodoc_default_options = {
+    "members": True,
+    "undoc-members": False,
+    "private-members": True,
+    "special_members": False,
+    "autodoc_typehints": "description",
+}
+# autodoc_default_flags = ['members', 'undoc-members', 'private-members', 'special-members', 'inherited-members', 'show-inheritance']
+# autodoc_mock_imports = ["auth", "cli", "cli_test"]
 
 # The reST default role (used for this markup: `text`) to use for all documents.
 # default_role = None
