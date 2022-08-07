@@ -136,6 +136,7 @@ class BaseMixin:
 
         # TODO: improve empty result handling
         result[result.resourceType] = result.gatherSimplePaths(["id"])
+        result = result.drop_duplicates(subset=[result.resourceType])
 
         if sourceType in ["Invalid", "Reference"] or sourceType == targetType:
             return input, result
@@ -186,10 +187,11 @@ class BaseMixin:
                 ].values
 
                 # if the reverse-matching path contains lists as in link.other
+                # we use .any() because not each of the root patients has linked patients
                 if (
                     result[input.resourceType].apply(type).astype(str)
                     == "<class 'list'>"
-                ).all(0):
+                ).any(0):
                     result = result.explode(input.resourceType)
                     # result[input.resourceType] = result[input.resourceType].apply(lambda x: x.id)
 
@@ -205,10 +207,11 @@ class BaseMixin:
                 ].values
 
                 # if the reverse-matching path contains lists as in link.other
+                # we use .any() because not each of the root patients has linked patients
                 if (
                     input[result.resourceType].apply(type).astype(str)
                     == "<class 'list'>"
-                ).all(0):
+                ).any(0):
                     input = input.explode(result.resourceType)
                     # input[result.resourceType] =input[result.resourceType].apply(lambda x:x.id)
 
@@ -320,7 +323,6 @@ class BaseMixin:
     def prepareInput(self, data, resourceType):
         raise NotImplementedError
 
-    # TODO: turn is frame into a property to avoid needing to call it everywhere ()
     @property
     def isFrame(self):
         return isinstance(self, Frame)

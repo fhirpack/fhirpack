@@ -9,6 +9,7 @@ import fhirpack.extraction.base as base
 
 
 class ExtractorDocumentReferenceMixin(base.BaseExtractorMixin):
+<<<<<<< HEAD
     def getDocumentReference(self, *args, **kwargs):
         """Retrieves FHIR DcoumentReference resources.
 
@@ -16,5 +17,8 @@ class ExtractorDocumentReferenceMixin(base.BaseExtractorMixin):
             Frame: Frame object storing the DocumentReferences.
         """
 
+=======
+    def getDocumentReferences(self, *args, **kwargs):
+>>>>>>> main
 
         return self.getResources(*args, resourceType="DocumentReference", **kwargs)

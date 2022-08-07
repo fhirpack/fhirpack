@@ -1,3 +1,5 @@
+import chunk
+import math
 import json
 from typing import Union
 import time
@@ -162,6 +164,12 @@ SEARCH_PARAMS = {
 
 META_RESOURCE_TYPES = {"RootPatient": "Patient", "LinkedPatient": "Patient"}
 
+# first key is source resourcetype
+# second key is destination resourcetype
+# field is by what to search in destination resourcetype
+# path is where to find the values to search in field
+# path: None means id
+
 SEARCH_ATTRIBUTES = {
     "Patient": {
         "Condition": {"field": "subject", "path": None},
@@ -174,7 +182,8 @@ SEARCH_ATTRIBUTES = {
         "MedicationAdministration": {"field": "subject", "path": None},
         "MedicationRequest": {"field": "subject", "path": None},
         "Observation": {"field": "patient", "path": None},
-        "RootPatient": {"field": "_id", "path": None},
+        "Procedure": {"field": "patient", "path": None},
+        "RootPatient": {"field": "link", "path": None},
         "LinkedPatient": {"field": "_id", "path": None},
     },
     "RootPatient": {
@@ -255,6 +264,35 @@ SEARCH_ATTRIBUTES = {
 
 
 class BaseExtractorMixin:
+    def getReferences(
+        self,
+        input: Union[
+            list[str],
+            list[SyncFHIRReference],
+            list[SyncFHIRResource],
+        ] = None,
+        params: dict = None,
+        ignoreFrame: bool = False,
+        raw: bool = False,
+    ):
+
+        params = {} if params is None else params
+
+        if not input and self.isFrame:
+            input = self.data
+            pass
+        elif input and not self.isFrame:
+            input = self.prepareOperationInput(input, SyncFHIRReference)
+            pass
+        elif input and self.isFrame:
+            # TODO raise error references and isFrame not allowed
+            # TODO raise in other similar methods
+            raise NotImplementedError
+
+        if not raw:
+            result = self.prepareOutput(input, resourceType="Reference")
+        return result
+
     def getResources(
         self,
         input: Union[
@@ -268,6 +306,7 @@ class BaseExtractorMixin:
         metaResourceType: str = None,
         ignoreFrame: bool = False,
         raw: bool = False,
+        progressSuffix: str = "",
     ):
         """This method retrieves FHIR resources based on the provided resource type.
 
@@ -294,10 +333,22 @@ class BaseExtractorMixin:
         params = {} if params is None else params
         input = [] if input is None else input
 
+        searchValues = []
         result = []
 
         if len(input):
-            for element in tqdm(input, desc=f"GET[{metaResourceType}]> ", leave=True):
+            inputReprs = set()
+            uniqueInput = []
+            for i in input:
+                r = repr(i)
+                if r not in inputReprs:
+                    uniqueInput.append(i)
+                    inputReprs.update([r])
+            input = uniqueInput
+
+            for element in tqdm(
+                input, desc=f"GET[{metaResourceType}]{progressSuffix}> ", leave=False
+            ):
                 element = self.castOperand(element, SyncFHIRResource, resourceType)
                 result.extend(element)
 
@@ -331,31 +382,57 @@ class BaseExtractorMixin:
             if not searchValues.size:
                 path = f"{basePath}.reference"
                 searchValues = self.gatherSimplePaths([path], columns=["searchValue"])
+
+            if (
+                searchValues["searchValue"].apply(type).astype(str) == "<class 'list'>"
+            ).any(0):
+                searchValues = searchValues.explode("searchValue")
+
+            searchValues = searchValues.dropna()
+
+            if "reference" in path:
                 searchValues = searchValues["searchValue"].str.split("/").str[-1]
             else:
                 searchValues = searchValues["searchValue"].values
-            searchValues = ",".join(searchValues)
-
-            searchParams.update({field: searchValues})
-
-            result = self.searchResources(
-                searchParams=searchParams,
-                resourceType=resourceType,
-                raw=True,
-            )
 
         elif searchActive:
-            result = self.searchResources(
+            # getResources is for getting/searching known resources
+            # delegate to search for special handling
+
+            return self.searchResources(
+                input=input,
+                searchParams=searchParams,
+                params=params,
+                ignoreFrame=ignoreFrame,
+                resourceType=resourceType,
+            )
+
+        n = len(searchValues)
+        chunkSize = 100
+        nChunks = math.ceil(n / chunkSize)
+        i, j = 0, 0
+
+        total = []
+
+        while j < n:
+
+            j = j + chunkSize if j + chunkSize < n else n
+
+            searchValuesChunk = searchValues[i:j]
+            searchValuesChunk = ",".join(searchValuesChunk)
+            searchParams.update({field: searchValuesChunk})
+
+            result += self.searchResources(
                 searchParams=searchParams,
                 resourceType=resourceType,
-                metaResourceType=metaResourceType,
                 raw=True,
+                progressSuffix=f"({math.ceil(j/chunkSize)}/{nChunks})",
             )
+            i = i + chunkSize
 
         if not raw:
             indexList = []
             result = self.prepareOutput(result, resourceType=resourceType)
-            # if self.resourceType != 'Invalid':
             input, result = self.attachOperandIds(self, result, metaResourceType)
 
         return result
@@ -373,6 +450,7 @@ class BaseExtractorMixin:
         metaResourceType: str = None,
         ignoreFrame: bool = True,
         raw: bool = False,
+        progressSuffix: str = "",
     ):
         """This method executes a FHIR search based on the provided resource type and search parameters.
 
@@ -434,12 +512,11 @@ class BaseExtractorMixin:
                 pass
             if not resourceCount:
                 resourceCount = search.count()
-
             for element in tqdm(
                 search,
-                desc=f"SEARCH[{metaResourceType}]> ",
+                desc=f"SEARCH[{metaResourceType}]{progressSuffix}> ",
                 total=resourceCount,
-                leave=True,
+                leave=False,
             ):
                 result.append(element)
 
