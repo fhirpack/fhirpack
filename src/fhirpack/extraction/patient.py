@@ -31,6 +31,11 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
         *args,
         **kwargs,
     ):
+        """Retrieves FHIR Patient resources.
+
+        Returns:
+            Frame: Frame object storing the Patients.
+        """
 
         return self.getResources(
             input=input,
