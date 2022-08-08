@@ -1,3 +1,5 @@
+"""This is the patient title.
+"""
 from typing import Union
 
 from fhirpy.lib import SyncFHIRResource
