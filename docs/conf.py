@@ -155,7 +155,7 @@ exclude_patterns = [
     "_test",
     "test_",
     "api/fhirpack",
-    "api/fhirpack.custom*",
+    "api/fhirpack.custom",
 ]
 
 autodoc_default_options = {
