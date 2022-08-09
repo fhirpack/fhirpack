@@ -45,7 +45,7 @@ try:
     import sphinx
 
     # -d 1 for dpeth 1, -E for no headings
-    cmd_line = f"sphinx-apidoc --implicit-namespaces --no-toc --separate --module-first --force -H fhirpack -o {output_dir} {module_dir}"
+    cmd_line = f"sphinx-apidoc --implicit-namespaces --no-toc --separate --force -H FHIRPACK -o {output_dir} {module_dir}"
 
     args = cmd_line.split(" ")
     if tuple(sphinx.__version__.split(".")) >= ("1", "7"):
@@ -159,12 +159,13 @@ exclude_patterns = [
 ]
 
 autodoc_default_options = {
-    "members": True,
+    #"members": True,
     "undoc-members": False,
-    "private-members": True,
-    "special-members": "",
+    "private-members": False,
+    "special-members": True,
     "autodoc_typehints": "description",
-    "autodoc_class_signature": "mixed"
+    "autodoc_class_signature": "mixed",
+    'exclude-members': '__doc__'
 }
 # autodoc_default_flags = ['members', 'undoc-members', 'private-members', 'special-members', 'inherited-members', 'show-inheritance']
 # autodoc_mock_imports = ["auth", "cli", "cli_test"]
