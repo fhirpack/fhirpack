@@ -154,19 +154,18 @@ exclude_patterns = [
     ".venv",
     "_test",
     "test_",
-    "api/fhirpack",
-    "api/fhirpack.custom*",
+#     "api/fhirpack",
+#     "api/fhirpack.custom*",
 ]
 
-autodoc_default_options = {
-    #"members": True,
-    "undoc-members": False,
-    "private-members": False,
-    "special-members": True,
-    "autodoc_typehints": "description",
-    "autodoc_class_signature": "mixed",
-    'exclude-members': '__doc__'
-}
+# autodoc_default_options = {
+#     #"members": True,
+#     "undoc-members": False,
+#     "private-members": False,
+#     "autodoc_typehints": "description",
+#     "autodoc_class_signature": "mixed",
+#     'exclude-members': '__doc__'
+# }
 # autodoc_default_flags = ['members', 'undoc-members', 'private-members', 'special-members', 'inherited-members', 'show-inheritance']
 # autodoc_mock_imports = ["auth", "cli", "cli_test"]
 
@@ -203,6 +202,9 @@ todo_emit_warnings = True
 # a list of builtin themes.
 html_theme = "sphinx_book_theme"
 
+# generate autosummary pages
+autosummary_generate = True
+
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
@@ -220,7 +222,7 @@ html_theme = "sphinx_book_theme"
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-# html_logo = ""
+html_logo = "../assets/logo.png"
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
