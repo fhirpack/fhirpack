@@ -5,6 +5,6 @@
 
 Base <base>
 Extractor <extractor>
-Transformer <../api/fhirpack.transformation>
-Loader <../api/fhirpack.load>
+Transformer <transformer>
+Loader <loader>
 ```

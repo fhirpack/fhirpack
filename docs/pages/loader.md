@@ -1,3 +1,5 @@
 # Loader
 
-- [Base](../api/fhirpack.load.base.rst)
+```{toctree}
+Base <../api/fhirpack.load.base.rst>
+```
