@@ -1,3 +1,5 @@
 # Transformer
 
-[Base](../api/fhirpack.transformation.base)
+```{toctree}
+Base <../api/fhirpack.transformation.base>
+```
