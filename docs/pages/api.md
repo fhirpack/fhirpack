@@ -10,7 +10,7 @@ The **Extractor** is responsible for retrieving `FHIR` resources from the server
 :maxdepth: 2
 :caption: Content
 
-Base <base>
+General <general>
 Extractor <extractor>
 Transformer <transformer>
 Loader <loader>
