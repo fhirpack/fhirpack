@@ -4,7 +4,7 @@ The **Extractor** provides methods for retrieving FHIR resources from the server
 
 *Supporting functionality:*
 ```{toctree}
-Base Methods <../api/fhirpack.extraction.base>
+Base <../api/fhirpack.extraction.base>
 Utilities <../api/fhirpack.extraction.utils>
 ```
 
