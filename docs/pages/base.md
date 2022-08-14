@@ -1,4 +1,4 @@
-# Base
+# General
 
 ```{toctree}
 Authorization <../api/fhirpack.auth>
@@ -8,5 +8,5 @@ Configurations <../api/fhirpack.config>
 Constants <../api/fhirpack.constants>
 Exceptions <../api/fhirpack.exceptions>
 PACK <../api/fhirpack.pack>
-Utilitie <../api/fhirpack.utils>
+Utilities <../api/fhirpack.utils>
 ```
