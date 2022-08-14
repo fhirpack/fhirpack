@@ -1,6 +1,6 @@
 # Extractor
 
-The Extractor provides methods for retrieving FHIR resources from the server.
+The **Extractor** provides methods for retrieving FHIR resources from the server.
 
 *Supporting functionality:*
 ```{toctree}
