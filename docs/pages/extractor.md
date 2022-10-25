@@ -10,7 +10,7 @@ Utilities <../api/fhirpack.extraction.utils>
 
 *Available resource methods:*
 ```{toctree}
-Condition <../api/fhirpack.extraction.condition> 
+Condition <../api/fhirpack.extraction.condition>
 DiagnosticReport <../api/fhirpack.extraction.diagnosticreport>
 DocumentReference <../api/fhirpack.extraction.documentreference>
 Encounter <../api/fhirpack.extraction.encounter>
