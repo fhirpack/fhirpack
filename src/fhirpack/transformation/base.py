@@ -24,7 +24,6 @@ class BaseTransformerMixin:
             list[SyncFHIRResource],
         ] = None,
     ):
-
         if references:
             references = self.prepareReferences(references)
 
@@ -41,9 +40,10 @@ class BaseTransformerMixin:
         references = self.referencesToResources(references)
         for ref in references:
             try:
-                rtype = ref["resourceType"]
+                resourceType = ref["resourceType"]
                 res = getattr(
-                    importlib.import_module(f"fhir.resources.{rtype.lower()}"), rtype
+                    importlib.import_module(f"fhir.resources.{resourceType.lower()}"),
+                    resourceType,
                 )
 
                 obj = res.parse_obj(ref)
@@ -67,12 +67,12 @@ class BaseTransformerMixin:
         ] = None,
         params: dict = {},
     ):
-        """Returns elements from fhir resources.
+        """Extracts the elements from the given paths and returns them as a Frame.
 
         Args:
-            paths: Resource path to the desired elements.
-            input: Resources to operate on. If None, calling frame object will be used as input.
-            params: Additional parameters.
+            paths (list[str]): Resource path to the desired elements.
+            input (list[str], list[SyncFHIRReference], list[SyncFHIRResource], optional: Resources to operate on. If None, calling frame object will be used as input.
+            params (dict): Additional parameters.
 
         Returns:
             Frame: Frame object storing the resource elemnts in the respective rows.
@@ -124,7 +124,6 @@ class BaseTransformerMixin:
     # ).filterPaths(['name.given'])
 
     def __gatherSimplePath(self, data: dict, path: Union[str, list[str]]):
-
         if isinstance(path, str):
             frags = path.split(".")
         else:
@@ -183,6 +182,18 @@ class BaseTransformerMixin:
         ] = None,
         recursive: bool = False,
     ):
+        """Extracts all the references from the given resources and returns them in a DataFrame.
+
+        Args:
+            references (Union[ list[str], list[SyncFHIRReference], list[SyncFHIRResource], ], optional): Input references. Defaults to None.
+            recursive (bool, optional): If True, will recursively extract all the references from the given references. Defaults to False.
+
+        Raises:
+            NotImplementedError: If references and isFrame are both True.
+
+        Returns:
+            DataFrame: A DataFrame with the referencer and referencee of the references.
+        """
 
         if references:
             references = self.prepareReferences(references)
@@ -290,7 +301,6 @@ class BaseTransformerMixin:
         result = []
 
         for resource in input:
-
             if not includeMeta:
                 resource.pop("meta", None)
 
@@ -326,7 +336,15 @@ class BaseTransformerMixin:
             list[SyncFHIRResource],
         ] = None,
     ):
+        """Extracts keys from resources.
 
+        Args:
+            params (dict, optional): Parameters for the operation. Defaults to None.
+            input (Union[list[str], list[SyncFHIRReference], list[SyncFHIRResource]], optional): Data to extract keys from. Defaults to None.
+
+        Returns:
+            DataFrame: A Frame with the keys of the resources.
+        """
         params = {} if params is None else params
 
         # TODO avoid converting provided resources into references and back
@@ -356,14 +374,26 @@ class BaseTransformerMixin:
     def gatherValuesForKeys(
         self,
         keys: list[str],
-        params: dict = None,
         input: Union[
             list[str],
             list[SyncFHIRReference],
             list[SyncFHIRResource],
         ] = None,
+        params: dict = None,
     ):
+        """Extracts values for keys from resources.
 
+        Args:
+            keys (list[str]): Keys to extract values for.
+            input (Union[ list[str], list[SyncFHIRReference], list[SyncFHIRResource], ], optional): Data to extract values from. Defaults to None.
+            params (dict, optional): Parameters for the operation. Defaults to None.
+
+        Raises:
+            NotImplementedError: If input and isFrame are provided.
+
+        Returns:
+            Union[list, pd.DataFrame]: List of values for keys.
+        """
         params = {} if params is None else params
 
         # TODO avoid converting provided resources into references and back
@@ -392,15 +422,27 @@ class BaseTransformerMixin:
 
     def gatherDates(
         self,
-        recursive: bool = False,
         input: Union[
             list[str],
             list[SyncFHIRReference],
             list[SyncFHIRResource],
         ] = None,
+        recursive: bool = False,
         params: dict = None,
     ):
+        """Extracts dates from resources.
 
+        Args:
+            input (Union[list[str], list[SyncFHIRReference], list[SyncFHIRResource]], optional): Data to extract dates from. Defaults to None.
+            recursive (bool, optional): Whether to extract dates recursively. Defaults to False.
+            params (dict, optional): Parameters for the operation. Defaults to None.
+
+        Raises:
+            NotImplementedError: If input and isFrame are provided.
+
+        Returns:
+            Union[list, pd.DataFrame]: List of dates.
+        """
         params = {} if params is None else params
 
         # TODO avoid converting provided resources into references and back

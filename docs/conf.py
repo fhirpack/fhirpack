@@ -78,6 +78,11 @@ extensions = [
     "nbsphinx",
 ]
 
+# surpress warngings
+suppress_warnings = [
+    "nbsphinx",
+]
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
@@ -160,14 +165,15 @@ exclude_patterns = [
     # "api/fhirpack.transformation.rst",
 ]
 
-# autodoc_default_options = {
-#     #"members": True,
-#     "undoc-members": False,
-#     "private-members": False,
-#     "autodoc_typehints": "description",
-#     "autodoc_class_signature": "mixed",
-#     'exclude-members': '__doc__'
-# }
+autodoc_default_options = {
+    # "members": True,
+    # "undoc-members": False,
+    # "private-members": False,
+    "special-members": False,
+    # "autodoc_typehints": "description",
+    # "autodoc_class_signature": "mixed",
+    "exclude-members": "__doc__, __dict__, __weakref__, __module__, __abstractmethods__, __annotations__, __init__, __init_subclass__, __new__,",
+}
 # autodoc_default_flags = ['members', 'undoc-members', 'private-members', 'special-members', 'inherited-members', 'show-inheritance']
 # autodoc_mock_imports = ["auth", "cli", "cli_test"]
 
@@ -234,7 +240,7 @@ html_logo = "../assets/logo.png"
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-# html_static_path = ["_static"]
+html_static_path = ["_static"]
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
@@ -267,7 +273,7 @@ html_logo = "../assets/logo.png"
 # html_show_sphinx = True
 
 # If true, "(C) Copyright ..." is shown in the HTML footer. Default is True.
-# html_show_copyright = True
+html_show_copyright = True
 
 # If true, an OpenSearch description file will be output, and all pages will
 # contain a <link> tag referring to it.  The value of this option must be the
@@ -334,13 +340,5 @@ intersphinx_mapping = {
 
 print(f"loading configurations for {project} {version} ...", file=sys.stderr)
 
-
-def autodoc_skip_member_handler(app, what, name, obj, skip, options):
-    # Basic approach; you might want a regex instead
-    return name.startswith("test_") or name.endswith("_test")
-
-
-# Automatically called by sphinx at startup
 def setup(app):
-    # Connect the autodoc-skip-member event from apidoc to the callback
-    app.connect("autodoc-skip-member", autodoc_skip_member_handler)
+    app.add_css_file("my_theme.css")

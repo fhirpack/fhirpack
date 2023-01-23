@@ -1,0 +1,7 @@
+.bd-main {
+  flex-grow: 1 !important;
+}
+
+.bd-main .bd-content {
+  justify-content: start !important;
+}

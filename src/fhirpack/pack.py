@@ -4,7 +4,6 @@ from fhirpy import SyncFHIRClient
 
 from fhirpack.auth import AUTH_PARAMS_PRESETS
 from fhirpack.auth import Auth
-
 import fhirpack.base
 import fhirpack.extraction
 import fhirpack.transformation
@@ -23,17 +22,30 @@ class PACK(
     fhirpack.load.LoaderMixin,
     fhirpack.custom.PluginMixin,
 ):
+    """This class is the main class of the package.
+    It is used to connect to the FHIR server, and to call the other classes."""
+
     def __init__(
         self,
-        apiBase=None,
-        client=None,
-        envFile=None,
-        ignoreEnvFile=False,
-        unconnected=False,
-        authMethod=None,
-        authParams=None,
+        apiBase: str = None,
+        client: SyncFHIRClient = None,
+        envFile: str = None,
+        ignoreEnvFile: bool = False,
+        unconnected: bool = False,
+        authMethod: str = None,
+        authParams: str = None,
     ):
+        """This function initializes the PACK class.
 
+        Args:
+            apiBase (str, optional): Base URL of the FHIR server. Defaults to None.
+            client (SyncFHIRClient, optional): Client object. Defaults to None.
+            envFile (str, optional): Path to the .env file. Defaults to None.
+            ignoreEnvFile (bool, optional): If True, the .env file will be ignored. Defaults to False.
+            unconnected (bool, optional): If True, the client will not be connected to the server. Defaults to False.
+            authMethod (str, optional): Authentication method. Defaults to None.
+            authParams (str, optional): Authentication parameters. Defaults to None.
+        """
         self.logger = CONFIG.getLogger(__name__)
         self.logger.info("PACK initialization started.")
 
@@ -59,8 +71,19 @@ class PACK(
 
         self.logger.info("pack initialization finished")
 
-    def __setupClient(self, apiBase=None, authMethod=None, authParams=None):
+    def __setupClient(
+        self, apiBase: str = None, authMethod: str = None, authParams: dict = None
+    ):
+        """This function sets up the client.
 
+        Args:
+            apiBase (str, optional): Base URL of the FHIR server. Defaults to None.
+            authMethod (str, optional): Authentication method. Defaults to None.
+            authParams (dict, optional): Authentication parameters. Defaults to None.
+
+        Raises:
+            NotImplementedError: If the authentication method is not implemented.
+        """
         authorization = None
 
         if apiBase is not None:
@@ -89,6 +112,11 @@ class PACK(
         self.client = SyncFHIRClient(CONFIG.get("APIBASE"), authorization=authorization)
 
     def countServerResources(self):
+        """This function counts the number of resources on the server.
+
+        Returns:
+            DataFrame: DataFrame with columns resourceType and count.
+        """
 
         results = []
         # TODO write function in utils to retrieve current installation path

@@ -1,5 +1,4 @@
 from enum import Enum
-import json
 from fhirpack.config import Config
 
 CONFIG = Config()
