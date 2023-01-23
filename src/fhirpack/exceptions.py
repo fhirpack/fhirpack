@@ -41,5 +41,4 @@ class InvalidOperationException:
 
 
 class InvalidConfigurationException:
-
     pass

@@ -275,6 +275,14 @@ class BaseExtractorMixin:
         ignoreFrame: bool = False,
         raw: bool = False,
     ):
+        """This method is used to get all the references from the input resources
+
+        Args:
+            input (Union[ list[str], list[SyncFHIRReference], list[SyncFHIRResource], optional): Input resources. Defaults to None.
+            params (dict, optional): Additional parameters. Defaults to None.
+            ignoreFrame (bool, optional): Whether to ignore the frame. Defaults to False.
+            raw (bool, optional): If True, the method will return the raw result. Defaults to False.
+        """
 
         params = {} if params is None else params
 
@@ -311,14 +319,14 @@ class BaseExtractorMixin:
         """This method retrieves FHIR resources based on the provided resource type.
 
         Args:
-            input: IDs, references or resources of the desired FHIR resources.
-            searchParams: FHIR search parameters to execute a search.
+            input (Union[ list[str], list[SyncFHIRReference], list[SyncFHIRResource], optional): IDs, references or resources of the desired FHIR resources.
+            searchParams (dict): FHIR search parameters to execute a search.
             Only valid FHIR parameters for the specified resource type can be used. This can not be combined with input.
-            params: Additional parameters.
-            resourceType: Type of the desired FHIR resources.
-            metaResourceType: Used to avoid conflicts when non-standard fhir resources are used.
-            ignoreFrame: True when data inside the Frame object should be ignored.
-            raw: True when the raw output should be returned.
+            params (dict, optional): Additional parameters.
+            resourceType (str, optional): Type of the desired FHIR resources.
+            metaResourceType (str, optional): Used to avoid conflicts when non-standard fhir resources are used.
+            ignoreFrame (bool, optional): True when data inside the Frame object should be ignored.
+            raw (bool, optional): True when the raw output should be returned.
 
         Returns:
             Frame: Frame object containing the desired FHIR resources.
@@ -415,7 +423,6 @@ class BaseExtractorMixin:
         total = []
 
         while j < n:
-
             j = j + chunkSize if j + chunkSize < n else n
 
             searchValuesChunk = searchValues[i:j]
@@ -455,13 +462,13 @@ class BaseExtractorMixin:
         """This method executes a FHIR search based on the provided resource type and search parameters.
 
         Args:
-            input: Not implemented.
-            searchParams: FHIR search parameters to execute a search.
-            params: Additional parameters.
-            resourceType: Type of the desired FHIR resource.
-            metaResourceType: Used to avoid conflicts when non-standard fhir resources are used.
-            ignoreFrame: True when data inside the Frame object should be ignored.
-            raw: True when the raw output should be returned.
+            input (Union[ list[str], list[SyncFHIRReference], list[SyncFHIRResource], optional): Not implemented.
+            searchParams (dict, optional): FHIR search parameters to execute a search.
+            params (dict, optional): Additional parameters.
+            resourceType (str, optional): Type of the desired FHIR resource.
+            metaResourceType (str, optional): Used to avoid conflicts when non-standard fhir resources are used.
+            ignoreFrame (bool, optional): True when data inside the Frame object should be ignored.
+            raw (bool, optional): True when the raw output should be returned.
 
         Returns:
             Frame: Frame object containing the desired FHIR resources.
@@ -531,8 +538,8 @@ class BaseExtractorMixin:
         respective path for a source-target pair from the handler ditcionary
 
         Args:
-            sourceType: Resource type the method is operating on.
-            targetType: Desired Resource type.
+            sourceType (str): Resource type the method is operating on.
+            targetType (str): Desired Resource type.
 
         Returns:
             Tuple(str, str): Field and path in the handler dictionary.
@@ -566,7 +573,6 @@ class BaseExtractorMixin:
         searchParams: dict = None,
         params: dict = None,
     ):
-
         searchActive = False if searchParams is None else True
         searchParams = {} if searchParams is None else searchParams
 
@@ -667,7 +673,6 @@ class BaseExtractorMixin:
         resultInCol: str = None,
         params: dict = {},
     ):
-
         params = {} if params is None else params
         input = [] if input is None else input
 
@@ -753,7 +758,6 @@ class BaseExtractorMixin:
         params: dict = None,
         inPlace: dict = False,
     ):
-
         params = {} if params is None else params
         input = [] if input is None else input
 

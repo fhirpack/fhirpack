@@ -11,7 +11,6 @@ import fhirpack.extraction as extraction
 import fhirpack.transformation as transformation
 import fhirpack.load as load
 import fhirpack.custom as custom
-
 import fhirpack.utils as utils
 from fhirpack.constants import CONFIG
 
@@ -62,6 +61,14 @@ class BaseMixin:
     resourceType = "Invalid"
 
     def guessOutputResourceType(self, data):
+        """This function guesses the resource type of the output data.
+
+        Args:
+            data: Data to be processed.
+
+        Returns:
+            str: Resource type of the output data.
+        """
         resourceType = None
         seenResourceTypes = None
 
@@ -85,6 +92,14 @@ class BaseMixin:
         return resourceType
 
     def prepareCompositeOutput(self, data: dict):
+        """This method constructs a Frame object from the provided data.
+
+        Args:
+            data (dict): Data stored in the Frame object.
+
+        Returns:
+            Frame: Frame object storing the provided data.
+        """
         output = {}
         for resourceType, results in data.items():
             output[resourceType] = Frame(
@@ -127,7 +142,15 @@ class BaseMixin:
         return output
 
     def attachOperandIds(self, input, result, metaResourceType):
-        """This method is used to attach IDs to resources that were retrieved.
+        """This method attaches the ids of the input data to the result data.
+
+        Args:
+            input (_type_): _description_
+            result (_type_): _description_
+            metaResourceType (_type_): _description_
+
+        Returns:
+            _type_: _description_
         """
         sourceType = input.resourceType
 
@@ -155,7 +178,6 @@ class BaseMixin:
             path = f"{basePath}.reference"
 
         if input.isFrame and input.resourceType != "Invalid":
-
             baseReversePath = None
             try:
                 reverseField, baseReversePath = self.getConversionPath(
@@ -237,12 +259,26 @@ class BaseMixin:
         return input, result
 
     def parseReference(
-        self, reference: Union[str, SyncFHIRReference], resourceType=None
+        self, reference: Union[str, SyncFHIRReference], resourceType: str = None
     ):
+        """Parses a reference string into a SyncFHIRReference object.   jj
+
+        Args:
+            reference (Union[str, SyncFHIRReference]): Input reference string or SyncFHIRReference object.
+            resourceType (str, optional): Resource type of the reference. Defaults to None.
+
+        Raises:
+            Exception: If the reference string is not in the correct format.
+
+        Returns:
+            _type_: _description_
+        """
         if isinstance(reference, str):
             if "/" in reference:
                 res, resid = reference.split("/")
-                if res and resid:
+                if (
+                    res and resid
+                ):  # this assumes that format ist always resourceType/id which is not always the case
                     reference = self.client.reference(res, resid)
                 else:
                     raise Exception(f"invalid reference format")
@@ -254,7 +290,16 @@ class BaseMixin:
             reference.client = self.client
         return reference
 
-    def prepareReferences(self, referenceList, resourceType=None):
+    def prepareReferences(self, referenceList, resourceType: str = None):
+        """Parses a list of references into a list of SyncFHIRReference objects.
+
+        Args:
+            referenceList (list): List of reference strings or SyncFHIRReference objects.
+            resourceType (_type_, optional): Resource type of the references. Defaults to None.
+
+        Returns:
+            list[SyncFHIRReference]: List of SyncFHIRReference objects.
+        """
         references = [self.parseReference(e, resourceType) for e in referenceList]
         return references
 
@@ -262,7 +307,6 @@ class BaseMixin:
         return self.castOperand(input, target, resourceType)
 
     def castOperand(self, input, target, resourceType=None):
-
         if isinstance(input, (list, np.ndarray, Frame)):
             pass
         else:
@@ -296,7 +340,6 @@ class BaseMixin:
                 return result
 
         elif isinstance(input[0], SyncFHIRReference):
-
             if target is SyncFHIRReference:
                 return input
             elif target is SyncFHIRResource:
@@ -316,7 +359,15 @@ class BaseMixin:
                 result = [e.to_reference() for e in input]
                 return result
 
-    def referencesToIds(self, referenceList):
+    def referencesToIds(self, referenceList: list[SyncFHIRReference]) -> list[str]:
+        """Converts a list of SyncFHIRReference objects into a list of ids.
+
+        Args:
+            referenceList (list[SyncFHIRReference]): List of SyncFHIRReference objects.
+
+        Returns:
+            list[str]: List of ids.
+        """
         return [e.id for e in referenceList]
 
     def referencesToResources(self, referenceList):
@@ -338,12 +389,15 @@ class Frame(
     load.LoaderMixin,
     custom.PluginMixin,
 ):
-    """This class represents the main data structure used in the fhirpack.
+    """This is the main datatstructure of the FHIRPACK package. It inherits from pandas.DataFrame
+      and adds the functionality to work with FHIR resources.
     """
 
     _metadata = ["client", "resourceType"]
 
     def __init__(self, *args, **kwargs):
+        """Initializes a Frame object.
+        """
         # print(kwargs)
         self.client = kwargs.pop("client", None)
         self.resourceType = kwargs.pop("resourceType", None)
@@ -371,13 +425,26 @@ class Frame(
     def getResourceType(self):
         return self.resourceType
 
-    def resourceTypeIs(self, resourceType):
+    def resourceTypeIs(self, resourceType: str) -> bool:
+        """Returns True if the resourceType of the Frame object matches the given resourceType.
+
+        Args:
+            resourceType (str): Resource type to compare.
+
+        Returns:
+            bool: True if the resourceType of the Frame object matches the given resourceType.
+        """
         if self.resourceType:
             return resourceType.lower() == self.resourceType.lower()
         else:
             return False
 
-    def setResourceType(self, resourceType):
+    def setResourceType(self, resourceType: str):
+        """Sets the resourceType of the Frame object.
+
+        Args:
+            resourceType (str): Resource type to set.
+        """
         self.resourceType = resourceType
         return self
 
@@ -387,10 +454,17 @@ class Frame(
 
     @property
     def pretty(self):
+        """Prints the Frame object in a pretty json format.
+        """
         print(json.dumps(self.data.values.tolist(), indent=4, sort_keys=True))
 
     @property
     def summary(self):
+        """Prints a summary of the Frame object.
+
+        Returns:
+            Frame: Summary of the Frame object.
+        """
         return self.gatherSimplePaths(
             SIMPLE_PATHS["default"] + SIMPLE_PATHS.get(self.resourceType, [])
         )
@@ -402,6 +476,11 @@ class Frame(
 
     # TODO report bug to pandas, explode doesn't preserve metadata
     def explode(self, *args, **kwargs):
+        """Explodes all lists in the Frame object.
+
+        Returns:
+            Frame: Exploded Frame object.
+        """
         if not args:
             result = super().explode("data")
         else:
@@ -411,6 +490,14 @@ class Frame(
         return result
 
     def cast(self, format):
+        """Casts the Frame object to a different format.
+
+        Args:
+            format (str): Format to cast to.
+
+        Raises:
+            NotImplementedError: If the format is not implemented.
+        """
         if format == "frame":
             return self
         elif format == "list":
