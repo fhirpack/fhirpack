@@ -390,14 +390,13 @@ class Frame(
     custom.PluginMixin,
 ):
     """This is the main datatstructure of the FHIRPACK package. It inherits from pandas.DataFrame
-      and adds the functionality to work with FHIR resources.
+    and adds the functionality to work with FHIR resources.
     """
 
     _metadata = ["client", "resourceType"]
 
     def __init__(self, *args, **kwargs):
-        """Initializes a Frame object.
-        """
+        """Initializes a Frame object."""
         # print(kwargs)
         self.client = kwargs.pop("client", None)
         self.resourceType = kwargs.pop("resourceType", None)
@@ -454,8 +453,7 @@ class Frame(
 
     @property
     def pretty(self):
-        """Prints the Frame object in a pretty json format.
-        """
+        """Prints the Frame object in a pretty json format."""
         print(json.dumps(self.data.values.tolist(), indent=4, sort_keys=True))
 
     @property
