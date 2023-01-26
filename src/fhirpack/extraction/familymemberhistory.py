@@ -16,5 +16,4 @@ class ExtractorFamilyMemberHistoryMixin(base.BaseExtractorMixin):
             Frame: Frame object storing the FamilyMemberHistories.
         """
 
-
         return self.getResources(*args, resourceType="FamilyMemberHistory", **kwargs)

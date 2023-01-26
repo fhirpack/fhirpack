@@ -16,7 +16,6 @@ class ExtractorMedicationAdministrationMixin(base.BaseExtractorMixin):
             Frame: Frame object storing the MedicationAdministration.
         """
 
-
         return self.getResources(
             *args, resourceType="MedicationAdministration", **kwargs
         )
