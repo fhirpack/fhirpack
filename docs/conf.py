@@ -340,5 +340,6 @@ intersphinx_mapping = {
 
 print(f"loading configurations for {project} {version} ...", file=sys.stderr)
 
+
 def setup(app):
     app.add_css_file("my_theme.css")

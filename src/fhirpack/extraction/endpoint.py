@@ -20,5 +20,4 @@ class ExtractorEndpointMixin(base.BaseExtractorMixin):
             Frame: Frame object storing the Endpoints.
         """
 
-
         return self.getResources(*args, resourceType="Endpoint", **kwargs)

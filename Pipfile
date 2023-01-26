@@ -29,6 +29,7 @@ twine = "*"
 pandoc = "*"
 sphinx-book-theme = "*"
 nbsphinx = "*"
+packaging = "*"
 
 [packages]
 pytest = "*"

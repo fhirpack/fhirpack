@@ -15,5 +15,4 @@ class ExtractorEpisodeOfCareMixin(base.BaseExtractorMixin):
             Frame: Frame object storing the EpisodeOfCares.
         """
 
-
         return self.getResources(*args, resourceType="EpisodeOfCare", **kwargs)

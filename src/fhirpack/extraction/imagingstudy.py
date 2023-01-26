@@ -16,5 +16,4 @@ class ExtractorImagingStudyMixin(base.BaseExtractorMixin):
             Frame: Frame object storing the ImaginsStudies.
         """
 
-
         return self.getResources(*args, resourceType="ImagingStudy", **kwargs)
