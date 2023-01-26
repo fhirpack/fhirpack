@@ -3,33 +3,8 @@ name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
 
-[dev-packages]
-ipykernel = "*"
-autopep8 = "*"
-pylint = "*"
-bandit = "*"
-flake8 = "*"
-pytest-cov = "*"
-pipenv-setup = "*"
-pytest-watch = "*"
-pytest-picked = "*"
-pytest-testmon = "*"
-bump2version = "*"
-python-dotenv = {extras = ["cli"], version = "*"}
-fhirpack = {editable = true, path = "."}
-black = "*"
-jupyter = "*"
-ipywidgets = "*"
-sphinx = "*"
-markupsafe = "==2.0.1"
-myst-parser = "*"
-build = "*"
-pytest-docker-compose = "*"
-twine = "*"
-pandoc = "*"
-sphinx-book-theme = "*"
-nbsphinx = "*"
-packaging = "*"
+[requires]
+python_version = "3.9.6"
 
 [packages]
 pytest = "*"
@@ -46,15 +21,35 @@ tqdm = "*"
 python-dotenv = {extras = ["cli"], version = "*"}
 click = "*"
 black = "*"
-typeguard = "*"
-pipenv = "*"
 python-magic = "*"
 fhirpack = {editable = true, path = "."}
 dicomweb-client = "*"
 markupsafe = "==2.0.1"
+typeguard = "*"
 
-[requires]
-python_version = "3.9.6"
-
-[pipenv]
-allow_prereleases = true
+[dev-packages]
+ipykernel = "*"
+autopep8 = "*"
+pylint = "*"
+bandit = "*"
+flake8 = "*"
+pytest-cov = "*"
+pipenv-setup = "*"
+pytest-watch = "*"
+pytest-picked = "*"
+pytest-testmon = "*"
+bump2version = "*"
+python-dotenv = {extras = ["cli"], version = "*"}
+fhirpack = {editable = true, path = "."}
+black = "18.9b0"    
+jupyter = "*"
+ipywidgets = "*"
+sphinx = "*"
+markupsafe = "==2.0.1"
+myst-parser = "*"
+build = "*"
+pytest-docker-compose = "*"
+twine = "*"
+pandoc = "*"
+sphinx-book-theme = "*"
+nbsphinx = "*"
