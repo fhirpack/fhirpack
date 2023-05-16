@@ -1,5 +1,8 @@
 import warnings
+
+import pandas as pd
 from pandas import DataFrame
+pd.options.mode.chained_assignment = None
 from fhirpy import SyncFHIRClient
 
 from fhirpack.auth import AUTH_PARAMS_PRESETS
@@ -47,9 +50,7 @@ class PACK(
         elif unconnected:
             self.client = SyncFHIRClient("")
         else:
-            self.__setupClient(
-                apiBase=apiBase, authMethod=authMethod, authParams=authParams
-            )
+            self.client = _getConnectedClient(apiBase,authMethod,authParams)
             
         if self.connected:
             pass
@@ -59,46 +60,6 @@ class PACK(
 
         self.logger.info("pack initialization finished")
 
-    def __setupClient(self, apiBase=None, authMethod=None, authParams=None):
-
-        authorization = None
-
-        if apiBase is not None:
-            CONFIG.set("APIBASE", apiBase)
-            if authMethod:
-                CONFIG.set("AUTH_METHOD", authMethod)
-            if isinstance(authParams, dict) and authParams:
-                pass
-            elif isinstance(authParams, str) and authParams:
-                authParams = AUTH_PARAMS_PRESETS[authParams]
-        else:
-            if CONFIG.get("AUTH_PARAMS_PRESET"):
-                authParams = AUTH_PARAMS_PRESETS[CONFIG.get("AUTH_PARAMS_PRESET")]
-            if CONFIG.get("AUTH_METHOD") == "oauth_password":
-                token = Auth.getToken("password", authParams)
-                CONFIG.set("OAUTH_TOKEN", token["access_token"]),
-                authorization = f"Bearer {token['access_token']}"
-            elif CONFIG.get("AUTH_METHOD") == "oauth_token":
-                token = CONFIG.get("OAUTH_TOKEN")
-                authorization = f"Bearer {token}"
-            elif authMethod is None:
-                authorization = None
-            else:
-                raise NotImplementedError
-
-        self.client = SyncFHIRClient(CONFIG.get("APIBASE"), authorization=authorization)
-
-    @property
-    def connected(self):
-        try:
-            self.client._do_request("get", f"{self.client.url}/metadata")
-            return True
-        except:
-            return False
-
-    def authenticate(self, force: bool = False):
-        if not self.connected or force:
-            self.__setupClient()
 
     def countServerResources(self):
 
@@ -125,3 +86,33 @@ class PACK(
                 results.append((resource, count))
         results = DataFrame(results, columns=["resourceType", "count"])
         return results
+
+def _getConnectedClient(apiBase=None, authMethod=None, authParams=None):
+
+    authorization = None
+    
+    if apiBase is not None:
+        CONFIG.set("APIBASE", apiBase)
+        if authMethod:
+            CONFIG.set("AUTH_METHOD", authMethod)
+        if isinstance(authParams, dict) and authParams:
+            pass
+        elif isinstance(authParams, str) and authParams:
+            authParams = AUTH_PARAMS_PRESETS[authParams]
+    else:
+        if CONFIG.get("AUTH_PARAMS_PRESET"):
+            authParams = AUTH_PARAMS_PRESETS[CONFIG.get("AUTH_PARAMS_PRESET")]
+        if CONFIG.get("AUTH_METHOD") == "oauth_password":
+            token = Auth.getToken("password", authParams)
+            CONFIG.set("OAUTH_TOKEN", token["access_token"]),
+            authorization = f"Bearer {token['access_token']}"
+        elif CONFIG.get("AUTH_METHOD") == "oauth_token":
+            token = CONFIG.get("OAUTH_TOKEN")
+            authorization = f"Bearer {token}"
+        elif authMethod is None:
+            authorization = None
+        else:
+            raise NotImplementedError
+
+    return SyncFHIRClient(CONFIG.get("APIBASE"), authorization=authorization)
+    
