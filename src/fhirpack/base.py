@@ -325,6 +325,7 @@ class BaseMixin:
         if not self.connected or force:
             self.client = pack._getConnectedClient()
 
+
 class Frame(
     DataFrame,
     BaseMixin,
@@ -334,7 +335,11 @@ class Frame(
     custom.PluginMixin,
 ):
 
-    _metadata = ["client", "resourceType", "apibase",]
+    _metadata = [
+        "client",
+        "resourceType",
+        "apibase",
+    ]
 
     def __init__(self, *args, **kwargs):
         # print(kwargs)

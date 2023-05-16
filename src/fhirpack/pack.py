@@ -2,6 +2,7 @@ import warnings
 
 import pandas as pd
 from pandas import DataFrame
+
 pd.options.mode.chained_assignment = None
 from fhirpy import SyncFHIRClient
 
@@ -50,8 +51,8 @@ class PACK(
         elif unconnected:
             self.client = SyncFHIRClient("")
         else:
-            self.client = _getConnectedClient(apiBase,authMethod,authParams)
-            
+            self.client = _getConnectedClient(apiBase, authMethod, authParams)
+
         if self.connected:
             pass
         else:
@@ -59,7 +60,6 @@ class PACK(
             self.client = SyncFHIRClient("")
 
         self.logger.info("pack initialization finished")
-
 
     def countServerResources(self):
 
@@ -87,10 +87,11 @@ class PACK(
         results = DataFrame(results, columns=["resourceType", "count"])
         return results
 
+
 def _getConnectedClient(apiBase=None, authMethod=None, authParams=None):
 
     authorization = None
-    
+
     if apiBase is not None:
         CONFIG.set("APIBASE", apiBase)
         if authMethod:
@@ -115,4 +116,3 @@ def _getConnectedClient(apiBase=None, authMethod=None, authParams=None):
             raise NotImplementedError
 
     return SyncFHIRClient(CONFIG.get("APIBASE"), authorization=authorization)
-    
