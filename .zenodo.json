@@ -1,0 +1,17 @@
+{
+    "description": "FHIRPACK (FHIR Python Analysis Client and Kit) is a general purpose FHIR client that simplifies the access, analysis and representation of FHIR and EHR data using PANDAS, an ETL philosophy and a functional syntax. FHIRPACK was designed and developed at the IKIM MML (https://mml.ikim.nrw/) and HDDBS (https://dbs.ifi.uni-heidelberg.de/).", 
+    "license": "MIT", 
+    "title": "FHIRPACK (FHIR Python Analysis Client and Kit)", 
+    "upload_type": "software", 
+    "access_right": "open",
+    "license": "MIT",
+    "publication_date": "2022-10-01", 
+    "creators": [
+        {
+            "name": "Jayson Salazar",
+            "orcid": "https://orcid.org/0000-0001-7280-4890"
+        }
+    ], 
+    "keywords": ["Python package", "FHIR", "reproducible research", "ETL", "medical informatics" ,"version control"],
+    "language": "eng"
+}
