@@ -347,6 +347,7 @@ class BaseExtractorMixin:
         if len(input):
             inputReprs = set()
             uniqueInput = []
+
             for i in input:
                 r = repr(i)
                 if r not in inputReprs:
@@ -373,9 +374,10 @@ class BaseExtractorMixin:
 
             # handles
             # pack.getReferences().getResources
-            # pack.getReferences().getResources
             if targetType is None:
-                return self.getResources(self.data.values)
+                if "/" not in self.data.values[0] and resourceType is None:
+                    resourceType = self.resourceType
+                return self.getResources(self.data.values, resourceType=resourceType)
 
             field, basePath = self.getConversionPath(
                 sourceType=sourceType, targetType=metaResourceType
@@ -473,6 +475,9 @@ class BaseExtractorMixin:
         Returns:
             Frame: Frame object containing the desired FHIR resources.
         """
+
+        self.authenticate()
+
         if metaResourceType is None:
             metaResourceType = resourceType
 
@@ -482,6 +487,7 @@ class BaseExtractorMixin:
         params = {} if params is None else params
         input = [] if input is None else input
 
+        # TODO: evaluate the usefulness of search parameter restrictions
         # if searchParams:
 
         #     invalidsearchParams = set(searchParams.keys()) - set(
@@ -499,12 +505,12 @@ class BaseExtractorMixin:
         elif searchActive:
             pass
 
-        resourcePageSize = 100
+        resourcePageSize = 1000
 
         search = (
             self.client.resources(resourceType)
-            .search(**searchParams)
             .limit(resourcePageSize)
+            .search(**searchParams)
         )
         result = []
         resourceCount = 0
@@ -526,6 +532,9 @@ class BaseExtractorMixin:
                 leave=False,
             ):
                 result.append(element)
+                # unlike iterating over search,
+                # fetch returns a bundle (page)
+                # result.extend(search.fetch())
 
         if not raw:
             result = self.prepareOutput(result, resourceType)

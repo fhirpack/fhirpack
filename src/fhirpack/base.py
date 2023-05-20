@@ -7,6 +7,7 @@ import json
 from fhirpy.lib import SyncFHIRResource
 from fhirpy.lib import SyncFHIRReference
 
+import fhirpack.pack as pack
 import fhirpack.extraction as extraction
 import fhirpack.transformation as transformation
 import fhirpack.load as load
@@ -380,6 +381,18 @@ class BaseMixin:
     def isFrame(self):
         return isinstance(self, Frame)
 
+    @property
+    def connected(self):
+        try:
+            self.client._do_request("get", f"{self.client.url}/metadata")
+            return True
+        except:
+            return False
+
+    def authenticate(self, force: bool = False):
+        if not self.connected or force:
+            self.client = pack._getConnectedClient()
+
 
 class Frame(
     DataFrame,
@@ -393,7 +406,11 @@ class Frame(
     and adds the functionality to work with FHIR resources.
     """
 
-    _metadata = ["client", "resourceType"]
+    _metadata = [
+        "client",
+        "resourceType",
+        "apibase",
+    ]
 
     def __init__(self, *args, **kwargs):
         """Initializes a Frame object."""
