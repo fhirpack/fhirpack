@@ -392,10 +392,9 @@ class BaseExtractorMixin:
             if not searchValues.size:
                 path = f"{basePath}.reference"
                 searchValues = self.gatherSimplePaths([path], columns=["searchValue"])
-
             if (
                 searchValues["searchValue"].apply(type).astype(str) == "<class 'list'>"
-            ).any(0):
+            ).any():
                 searchValues = searchValues.explode("searchValue")
 
             searchValues = searchValues.dropna()
