@@ -216,7 +216,7 @@ class BaseMixin:
                 if (
                     result[input.resourceType].apply(type).astype(str)
                     == "<class 'list'>"
-                ).any(0):
+                ).any():
                     result = result.explode(input.resourceType)
                     # result[input.resourceType] = result[input.resourceType].apply(lambda x: x.id)
 
@@ -236,7 +236,7 @@ class BaseMixin:
                 if (
                     input[result.resourceType].apply(type).astype(str)
                     == "<class 'list'>"
-                ).any(0):
+                ).any():
                     input = input.explode(result.resourceType)
                     # input[result.resourceType] =input[result.resourceType].apply(lambda x:x.id)
 
