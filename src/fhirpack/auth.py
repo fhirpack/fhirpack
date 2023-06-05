@@ -10,6 +10,7 @@ LOGGER = CONFIG.getLogger(__name__)
 class Auth:
     @staticmethod
     def getToken(grant_type, params={}):
+
         token = None
 
         if grant_type == "password":

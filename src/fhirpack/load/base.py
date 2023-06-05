@@ -23,11 +23,11 @@ class BaseLoaderMixin:
         ] = None,
         combine: bool = False,
     ):
-        """This method serializes the input to JSON and saves it to the specified paths.
+        """Serializes the input to JSON and saves it to the specified paths.
 
         Args:
             paths (list[str], optional): Paths to save the JSON files to. Defaults to None.
-            input (Union[ list[str], list[SyncFHIRReference], list[SyncFHIRResource], ], optional): Input to serialize. Defaults to None.
+            input (list[str], list[SyncFHIRReference], list[SyncFHIRResource], optional): Input to serialize. Defaults to None.
             combine (bool, optional): If True, all input is combined into one file. Defaults to False.
 
         Raises:
@@ -87,7 +87,7 @@ class BaseLoaderMixin:
         combine: bool = False,
         params: dict = None,
     ):
-        """This method saves the input to the specified paths.
+        """Saves the input to the specified paths.
 
         Args:
             input (list[bytearray], optional): Input to save. Defaults to None.
@@ -152,7 +152,7 @@ class BaseLoaderMixin:
         # TODO enforce existence of paths in checks
         paths: list[str] = None,
     ):
-        """This method saves the input in csv format to the specified paths.
+        """Saves the input in csv format to the specified paths.
 
         Args:
             input (Union[ list[str], list[SyncFHIRReference], list[SyncFHIRResource], ], optional): Input to save. Defaults to None.
@@ -225,7 +225,7 @@ class BaseLoaderMixin:
         params: dict = None,
         ignoreFrame: bool = False,
     ):
-        """This method saves the input in the dicom format to the specified paths.
+        """Saves the input in the dicom format to the specified paths.
 
         Args:
             input (Union[ list[str], list[SyncFHIRReference], list[SyncFHIRResource], ], optional): Input to save. Defaults to None.

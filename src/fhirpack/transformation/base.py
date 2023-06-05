@@ -75,7 +75,7 @@ class BaseTransformerMixin:
             params (dict): Additional parameters.
 
         Returns:
-            Frame: Frame object storing the resource elemnts in the respective rows.
+            Frame: FHIRPACK Frame object storing the resource elements in the respective rows.
         """
         if not params:
             params = {}
@@ -182,17 +182,17 @@ class BaseTransformerMixin:
         ] = None,
         recursive: bool = False,
     ):
-        """Extracts all the references from the given resources and returns them in a DataFrame.
+        """Extracts all the FHIR references as Resources from the input resources and returns them in a Frame.
 
         Args:
             references (Union[ list[str], list[SyncFHIRReference], list[SyncFHIRResource], ], optional): Input references. Defaults to None.
-            recursive (bool, optional): If True, will recursively extract all the references from the given references. Defaults to False.
+            recursive (bool, optional): If True, will recursively extract all the referenced Resources found in the given input. Defaults to False.
 
         Raises:
             NotImplementedError: If references and isFrame are both True.
 
         Returns:
-            DataFrame: A DataFrame with the referencer and referencee of the references.
+            Frame: FHIRPACK Frame with the referencer and referencee of the references.
         """
 
         if references:
@@ -246,7 +246,7 @@ class BaseTransformerMixin:
         defaultLookUps: bool = True,
         includeDuplicates: bool = False,
     ):
-        """Extracts text from resources by lookups.
+        """Extracts text from resources by look-ups.
 
         Args:
             input: Data to extract text from.
@@ -336,14 +336,14 @@ class BaseTransformerMixin:
             list[SyncFHIRResource],
         ] = None,
     ):
-        """Extracts keys from resources.
+        """Extracts all keys(without values) found in the given input.
 
         Args:
             params (dict, optional): Parameters for the operation. Defaults to None.
             input (Union[list[str], list[SyncFHIRReference], list[SyncFHIRResource]], optional): Data to extract keys from. Defaults to None.
 
         Returns:
-            DataFrame: A Frame with the keys of the resources.
+            DataFrame: DataFrame with the keys of the resources.
         """
         params = {} if params is None else params
 
@@ -381,7 +381,7 @@ class BaseTransformerMixin:
         ] = None,
         params: dict = None,
     ):
-        """Extracts values for keys from resources.
+        """Extracts the values(without keys) for the given keys from the input resources.
 
         Args:
             keys (list[str]): Keys to extract values for.

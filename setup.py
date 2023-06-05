@@ -52,7 +52,6 @@ if __name__ == "__main__":
                 "tqdm",
                 "python-dotenv[cli]",
                 "click",
-                "black",
                 "python-magic",
                 "dicomweb-client",
                 "markupsafe==2.0.1",

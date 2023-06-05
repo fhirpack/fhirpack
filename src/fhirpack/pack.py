@@ -1,9 +1,12 @@
 import warnings
 
+from typing import Union
+
 import pandas as pd
 from pandas import DataFrame
 
 pd.options.mode.chained_assignment = None
+
 from fhirpy import SyncFHIRClient
 
 from fhirpack.auth import AUTH_PARAMS_PRESETS
@@ -26,8 +29,8 @@ class PACK(
     fhirpack.load.LoaderMixin,
     fhirpack.custom.PluginMixin,
 ):
-    """This class is the main class of the package.
-    It is used to connect to the FHIR server, and to call the other classes."""
+    """This class is FHIRPACK's main entry point.
+    It is used to connect to the FHIR server, and to interact with the other classes."""
 
     def __init__(
         self,
@@ -37,7 +40,7 @@ class PACK(
         ignoreEnvFile: bool = False,
         unconnected: bool = False,
         authMethod: str = None,
-        authParams: str = None,
+        authParams: Union[str, dict] = None,
     ):
         """This function initializes the PACK class.
 
@@ -48,7 +51,7 @@ class PACK(
             ignoreEnvFile (bool, optional): If True, the .env file will be ignored. Defaults to False.
             unconnected (bool, optional): If True, the client will not be connected to the server. Defaults to False.
             authMethod (str, optional): Authentication method. Defaults to None.
-            authParams (str, optional): Authentication parameters. Defaults to None.
+            authParams (str, dict, optional): Authentication parameters; str with a preset name or dict if individually provided. Defaults to None.
         """
         self.logger = CONFIG.getLogger(__name__)
         self.logger.info("PACK initialization started.")

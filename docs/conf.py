@@ -120,7 +120,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "fhirpack"
-copyright = "2022, Jayson Salazar"
+copyright = "2023, Jayson Salazar"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -342,4 +342,4 @@ print(f"loading configurations for {project} {version} ...", file=sys.stderr)
 
 
 def setup(app):
-    app.add_css_file("my_theme.css")
+    app.add_css_file("custom.css")
