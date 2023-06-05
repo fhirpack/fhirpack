@@ -1,11 +1,7 @@
 from enum import Enum
 
 
-class BaseError(Exception):
-    pass
-
-
-class SampleError(BaseError):
+class BaseException(Exception):
     pass
 
 
@@ -34,11 +30,13 @@ class InvalidSearchParams(ValueError):
     pass
 
 
-class InvalidOperationException:
+class InvalidOperationException(BaseException):
     """Raised when operation is invalid for data."""
 
     pass
 
 
-class InvalidConfigurationException:
+class InvalidConfigurationException(BaseException):
+    """Raised when operation is invalid for data."""
+
     pass

@@ -20,11 +20,10 @@ pyjwt = "*"
 tqdm = "*"
 python-dotenv = {extras = ["cli"], version = "*"}
 click = "*"
-black = "*"
 python-magic = "*"
 fhirpack = {editable = true, path = "."}
 dicomweb-client = "*"
-markupsafe = "==2.0.1"
+markupsafe = "==2.0.1" # https://github.com/pallets/markupsafe/issues/286
 typeguard = "*"
 
 [dev-packages]
@@ -41,7 +40,8 @@ pytest-testmon = "*"
 bump2version = "*"
 python-dotenv = {extras = ["cli"], version = "*"}
 fhirpack = {editable = true, path = "."}
-black = "18.9b0"    
+#black = "18.9b0"   
+black = "*" #   
 jupyter = "*"
 ipywidgets = "*"
 sphinx = "*"

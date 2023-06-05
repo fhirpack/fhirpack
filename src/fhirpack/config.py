@@ -5,7 +5,7 @@ import dotenv
 
 
 class Config:
-    """This class is used to manage the configuration of the package."""
+    """Used to manage the configuration of the package."""
 
     __CONFIG = dict()
     __DOTENVPATH = None
@@ -16,7 +16,7 @@ class Config:
             self.__configLogger(self)
 
     def loadConfig(self, dotenvPath: str = None):
-        """This function loads the configuration from the .env file.
+        """Loads a FHIRPACK configuration from the given .env file.
 
         Args:
             dotenvPath (str, optional): Path to the .env file. Defaults to None.
@@ -47,7 +47,7 @@ class Config:
 
     @staticmethod
     def __configLogger(self):
-        """This function configures the logger."""
+        """Configures the logger to be used throughout FHIRPACK."""
         logging.basicConfig(
             filename=f"./fhirpack.log",
             filemode="a+",
@@ -59,7 +59,7 @@ class Config:
         sys.excepthook = Config.globalExceptionHandler
 
     def set(self, key: str, value: str, saveToEnv: bool = False):
-        """This function sets a configuration variable.
+        """Set a configuration variable.
 
         Args:
             key (str): Key of the configuration variable.
@@ -77,7 +77,7 @@ class Config:
         return self.__CONFIG.get(key)
 
     def getLogger(self, name: str):
-        """This function returns a logger.
+        """Returns a logger instance.
 
         Args:
             name (str): Name of the logger.

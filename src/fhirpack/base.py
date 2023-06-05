@@ -47,9 +47,10 @@ SIMPLE_PATHS = {
 
 
 class BaseMixin:
-    """This class contains basic methods that are avaialable to all Frame
-    object according to the mixin pattern. The methods are not directly
-    associated with the Extractor, Transformer or Loader.
+    """Base class with methods that are avaialable to all Frame
+    objects and operations according to the mixin pattern.
+    The methods are not directly associated with the Extractor, Transformer
+    or Loader.
     """
 
     # def __init__(self, client):
@@ -62,7 +63,7 @@ class BaseMixin:
     resourceType = "Invalid"
 
     def guessOutputResourceType(self, data):
-        """This function guesses the resource type of the output data.
+        """Guess the resource type of the data received.
 
         Args:
             data: Data to be processed.
@@ -93,7 +94,8 @@ class BaseMixin:
         return resourceType
 
     def prepareCompositeOutput(self, data: dict):
-        """This method constructs a Frame object from the provided data.
+        """Constructs a composite Frame, that is a frame containing
+        multiple resource types, from the provided data.
 
         Args:
             data (dict): Data stored in the Frame object.
@@ -114,7 +116,7 @@ class BaseMixin:
         return output
 
     def prepareOutput(self, data, resourceType=None, columns=["data"], wrap=True):
-        """This method constructs a Frame object from the provided data.
+        """Constructs a Frame object from the provided data.
 
         Args:
             data: Data stored in the Frame object.
@@ -143,7 +145,7 @@ class BaseMixin:
         return output
 
     def attachOperandIds(self, input, result, metaResourceType):
-        """This method attaches the ids of the input data to the result data.
+        """Attaches the ids of the input data to the result data.
 
         Args:
             input (_type_): _description_
@@ -262,7 +264,7 @@ class BaseMixin:
     def parseReference(
         self, reference: Union[str, SyncFHIRReference], resourceType: str = None
     ):
-        """Parses a reference string into a SyncFHIRReference object.   jj
+        """Parses a reference string into a SyncFHIRReference object.
 
         Args:
             reference (Union[str, SyncFHIRReference]): Input reference string or SyncFHIRReference object.

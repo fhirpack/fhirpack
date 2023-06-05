@@ -275,10 +275,10 @@ class BaseExtractorMixin:
         ignoreFrame: bool = False,
         raw: bool = False,
     ):
-        """This method is used to get all the references from the input resources
+        """Gets all the References found in the input Resources
 
         Args:
-            input (Union[ list[str], list[SyncFHIRReference], list[SyncFHIRResource], optional): Input resources. Defaults to None.
+            input (list[str], list[SyncFHIRReference], list[SyncFHIRResource], optional): Input resources. Defaults to None.
             params (dict, optional): Additional parameters. Defaults to None.
             ignoreFrame (bool, optional): Whether to ignore the frame. Defaults to False.
             raw (bool, optional): If True, the method will return the raw result. Defaults to False.
@@ -319,7 +319,7 @@ class BaseExtractorMixin:
         """This method retrieves FHIR resources based on the provided resource type.
 
         Args:
-            input (Union[ list[str], list[SyncFHIRReference], list[SyncFHIRResource], optional): IDs, references or resources of the desired FHIR resources.
+            input (list[str], list[SyncFHIRReference], list[SyncFHIRResource], optional): IDs, references or resources of the desired FHIR resources.
             searchParams (dict): FHIR search parameters to execute a search.
             Only valid FHIR parameters for the specified resource type can be used. This can not be combined with input.
             params (dict, optional): Additional parameters.
@@ -460,7 +460,7 @@ class BaseExtractorMixin:
         raw: bool = False,
         progressSuffix: str = "",
     ):
-        """This method executes a FHIR search based on the provided resource type and search parameters.
+        """Execute a FHIR search based on the provided resource type and search parameters.
 
         Args:
             input (Union[ list[str], list[SyncFHIRReference], list[SyncFHIRResource], optional): Not implemented.
@@ -542,8 +542,8 @@ class BaseExtractorMixin:
         return result
 
     def getConversionPath(self, sourceType: str, targetType: str) -> Tuple[str, str]:
-        """This method retrieves the needed fhir serach params (field) and the
-        respective path for a source-target pair from the handler ditcionary
+        """Retrieve the needed FHIR searchParams (field) and the
+        respective path for a {sourceType:targetType} pair from the handler ditcionary
 
         Args:
             sourceType (str): Resource type the method is operating on.
@@ -725,7 +725,7 @@ class BaseExtractorMixin:
         return result
 
     def getFromFiles(self, input: list[str]):
-        """This method generates a Frame object from FHIR resources stored in json.
+        """Generate a Frame object from FHIR resources stored in json files.
 
         Args:
             input: List of files containing json fhir resources.
