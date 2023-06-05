@@ -22,7 +22,7 @@
 
 ---
 
-# FHIR Python Analysis and Conversion Kit (FHIRPACK)
+# FHIR Python Analysis and Client and Kit (FHIRPACK)
 
 [![DOI](https://zenodo.org/badge/499840100.svg)](https://zenodo.org/badge/latestdoi/499840100)
 
