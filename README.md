@@ -213,4 +213,18 @@ If you're using FHIRPACK, feel free to reach out over [Twitter](https://twitter.
 
 FHIRPACK is released under the [MIT](https://opensource.org/licenses/MIT), see [LICENSE.txt](LICENSE.txt) for more information.
 
+For scientific work and formal citations, please use:
+
+```
+@software{jayson_salazar_2022_7945248,
+  author       = {Jayson Salazar},
+  title        = {FHIRPACK (FHIR Python Analysis Client and Kit)},
+  month        = oct,
+  year         = 2022,
+  publisher    = {Zenodo},
+  version      = {v0.0.8b1},
+  doi          = {10.5281/zenodo.7945248},
+  url          = {https://doi.org/10.5281/zenodo.7945248}
+}
+```
 
