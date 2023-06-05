@@ -24,6 +24,8 @@
 
 # FHIR Python Analysis and Conversion Kit (FHIRPACK)
 
+[![DOI](https://zenodo.org/badge/499840100.svg)](https://zenodo.org/badge/latestdoi/499840100)
+
 FHIRPACK (FHIR Python Analysis Conversion Kit) is a general purpose library that simplifies the access, analysis and representation of FHIR and EHR data using PANDAS, an ETL philosophy and a functional syntax. FHIRPACK was designed and developed at the Institute for Artificial Intelligence in Medicine ([IKIM](https://mml.ikim.nrw/)) and the Database Systems Research Group of the University of Heidelberg ([HDDBS](https://dbs.ifi.uni-heidelberg.de/)). 
 
 # About FHIRPACK
@@ -33,12 +35,13 @@ FHIRPACK provides an easy-to-use and intuitive API that enables effortless acces
 
 || :link: |
 |:---|:---|
-|:rocket: **tutorial**| learn about FHIR, FHIRPACK and PANDAS with our [example Jupyter Notebooks](docs/examples)|
-|:envelope: **email**| [jayson.salazar@uk-essen.de](mailto:jayson.salazar@uk-essen.de) or [salazar@informatik.uni-heidelberg.de](mailto:salazar@informatik.uni-heidelberg.de) |
-|:loudspeaker: **talk**| join our [Slack channel](https://join.slack.com/t/fhirpack/shared_invite/zt-16f0dt3rr-76L6OKQIMOFbG2IKYnVLqA) for the latest updates and discussions around FHIR, FHIRPACK and EHR in general|
-|:bug: **issues**| bugs and feature requests go preferrably on [our main GitLab tracker](https://gitlab.ume.de/fhirpack/main) or here on GitHub |
-|:wrench: **dev**| [learn more about contributing to FHIRPACK or extending its functionality](CONTRIBUTING.rst) |
-|:books: **docs**| read our [documentation on Read the Docs](https://fhirpack.readthedocs.io)|
+|🚀 **tutorial**| learn about FHIR, FHIRPACK and PANDAS with our [example Jupyter Notebooks](docs/examples)|
+|✉️  **email**| [jayson.salazar@uk-essen.de](mailto:jayson.salazar@uk-essen.de) or [salazar@informatik.uni-heidelberg.de](mailto:salazar@informatik.uni-heidelberg.de) |
+|🎤 **talk**| join our [Slack channel](https://join.slack.com/t/fhirpack/shared_invite/zt-16f0dt3rr-76L6OKQIMOFbG2IKYnVLqA) for the latest updates and discussions around FHIR, FHIRPACK and EHR in general|
+|🐞 **issues**| bugs and feature requests go preferrably on [our main GitLab tracker](https://gitlab.ume.de/fhirpack/main) or here on GitHub |
+|🔧 **dev**| [learn more about contributing to FHIRPACK or extending its functionality](CONTRIBUTING.rst) |
+|📚 **docs**| read our [documentation on Read the Docs](https://fhirpack.readthedocs.io)|
+|📖 **citation**| cite FHIRPACK as https://doi.org/10.5281/zenodo.7941705 or visit [Zenodo vor more details](https://doi.org/10.5281/zenodo.7941705)|
 
 # Usage
 
