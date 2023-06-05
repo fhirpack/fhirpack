@@ -1,8 +1,3 @@
-__author__ = "Jayson Salazar"
-__copyright__ = "Jayson Salazar"
-__license__ = ""
-
-
 import json
 
 import pytest
