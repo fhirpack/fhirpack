@@ -1,0 +1,10 @@
+cff-version: 1.1.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Salazar Rodriguez
+    given-names: Jayson
+    orcid: https://orcid.org/0000-0001-7280-4890
+title: fhirpack/fhirpack: FHIRPACK v0.0.9b0
+version: v0.0.9b0
+date-released: 2023-06-05
+            
