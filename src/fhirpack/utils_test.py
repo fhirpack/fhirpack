@@ -1,8 +1,3 @@
-__author__ = "Jayson Salazar"
-__copyright__ = "Jayson Salazar"
-__license__ = ""
-
-
 import tests.data as td
 import fhirpack as fp
 import pytest as pt

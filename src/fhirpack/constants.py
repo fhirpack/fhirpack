@@ -1,5 +1,6 @@
 from enum import Enum
 import json
+
 from fhirpack.config import Config
 
 CONFIG = Config()
@@ -16,6 +17,5 @@ FHIR_NARRATIVE_ELEMENTS = [
     "valueString",
 ]
 
-
-class SampleEnum(Enum):
-    sample = "sample"
+# class SampleEnum(Enum):
+#    sample = "sample"

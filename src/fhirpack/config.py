@@ -1,17 +1,12 @@
-from enum import Enum
-from pathlib import Path
-import os
-import sys
-
 import sys
 import traceback
 import logging
-
-import requests
 import dotenv
 
 
 class Config:
+    """Used to manage the configuration of the package."""
+
     __CONFIG = dict()
     __DOTENVPATH = None
 
@@ -20,7 +15,12 @@ class Config:
             self.loadConfig()
             self.__configLogger(self)
 
-    def loadConfig(self, dotenvPath=None):
+    def loadConfig(self, dotenvPath: str = None):
+        """Loads a FHIRPACK configuration from the given .env file.
+
+        Args:
+            dotenvPath (str, optional): Path to the .env file. Defaults to None.
+        """
         if not dotenvPath:
             dotenvPath = dotenv.find_dotenv()
 
@@ -47,7 +47,7 @@ class Config:
 
     @staticmethod
     def __configLogger(self):
-
+        """Configures the logger to be used throughout FHIRPACK."""
         logging.basicConfig(
             filename=f"./fhirpack.log",
             filemode="a+",
@@ -58,7 +58,17 @@ class Config:
         )
         sys.excepthook = Config.globalExceptionHandler
 
-    def set(self, key, value, saveToEnv=False):
+    def set(self, key: str, value: str, saveToEnv: bool = False):
+        """Set a configuration variable.
+
+        Args:
+            key (str): Key of the configuration variable.
+            value (str): Value of the configuration variable.
+            saveToEnv (bool, optional): Whether to save the configuration variable to the .env file. Defaults to False.
+
+        Returns:
+            str: Value of the configuration variable.
+        """
         if saveToEnv:
             dotenv.set_key(self.__DOTENVPATH, key, value)
         return self.__CONFIG.update({key: value})
@@ -66,7 +76,15 @@ class Config:
     def get(self, key):
         return self.__CONFIG.get(key)
 
-    def getLogger(self, name):
+    def getLogger(self, name: str):
+        """Returns a logger instance.
+
+        Args:
+            name (str): Name of the logger.
+
+        Returns:
+            logging.Logger: Logger.
+        """
         return logging.getLogger(name)
 
     # TODO create @properties for all compulsory configuration varibles in .env

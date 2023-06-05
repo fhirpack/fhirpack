@@ -5,8 +5,8 @@ from typing import Union
 import time
 import requests
 from tqdm import tqdm
+from typing import Tuple
 from dicomweb_client.api import DICOMwebClient
-import pandas as pd
 
 from fhirpy.lib import SyncFHIRResource
 from fhirpy.lib import SyncFHIRReference
@@ -275,6 +275,14 @@ class BaseExtractorMixin:
         ignoreFrame: bool = False,
         raw: bool = False,
     ):
+        """Gets all the References found in the input Resources
+
+        Args:
+            input (list[str], list[SyncFHIRReference], list[SyncFHIRResource], optional): Input resources. Defaults to None.
+            params (dict, optional): Additional parameters. Defaults to None.
+            ignoreFrame (bool, optional): Whether to ignore the frame. Defaults to False.
+            raw (bool, optional): If True, the method will return the raw result. Defaults to False.
+        """
 
         params = {} if params is None else params
 
@@ -308,6 +316,21 @@ class BaseExtractorMixin:
         raw: bool = False,
         progressSuffix: str = "",
     ):
+        """This method retrieves FHIR resources based on the provided resource type.
+
+        Args:
+            input (list[str], list[SyncFHIRReference], list[SyncFHIRResource], optional): IDs, references or resources of the desired FHIR resources.
+            searchParams (dict): FHIR search parameters to execute a search.
+            Only valid FHIR parameters for the specified resource type can be used. This can not be combined with input.
+            params (dict, optional): Additional parameters.
+            resourceType (str, optional): Type of the desired FHIR resources.
+            metaResourceType (str, optional): Used to avoid conflicts when non-standard fhir resources are used.
+            ignoreFrame (bool, optional): True when data inside the Frame object should be ignored.
+            raw (bool, optional): True when the raw output should be returned.
+
+        Returns:
+            Frame: Frame object containing the desired FHIR resources.
+        """
 
         if metaResourceType is None:
             metaResourceType = resourceType
@@ -369,10 +392,9 @@ class BaseExtractorMixin:
             if not searchValues.size:
                 path = f"{basePath}.reference"
                 searchValues = self.gatherSimplePaths([path], columns=["searchValue"])
-
             if (
                 searchValues["searchValue"].apply(type).astype(str) == "<class 'list'>"
-            ).any(0):
+            ).any():
                 searchValues = searchValues.explode("searchValue")
 
             searchValues = searchValues.dropna()
@@ -402,7 +424,6 @@ class BaseExtractorMixin:
         total = []
 
         while j < n:
-
             j = j + chunkSize if j + chunkSize < n else n
 
             searchValuesChunk = searchValues[i:j]
@@ -439,6 +460,20 @@ class BaseExtractorMixin:
         raw: bool = False,
         progressSuffix: str = "",
     ):
+        """Execute a FHIR search based on the provided resource type and search parameters.
+
+        Args:
+            input (Union[ list[str], list[SyncFHIRReference], list[SyncFHIRResource], optional): Not implemented.
+            searchParams (dict, optional): FHIR search parameters to execute a search.
+            params (dict, optional): Additional parameters.
+            resourceType (str, optional): Type of the desired FHIR resource.
+            metaResourceType (str, optional): Used to avoid conflicts when non-standard fhir resources are used.
+            ignoreFrame (bool, optional): True when data inside the Frame object should be ignored.
+            raw (bool, optional): True when the raw output should be returned.
+
+        Returns:
+            Frame: Frame object containing the desired FHIR resources.
+        """
 
         self.authenticate()
 
@@ -506,9 +541,17 @@ class BaseExtractorMixin:
 
         return result
 
-    def getConversionPath(self, sourceType: str, targetType: str):
-        """This method retrieves the needed fhir serach param (field) and the
-        respective path for a source-target pair from the handler ditcionary"""
+    def getConversionPath(self, sourceType: str, targetType: str) -> Tuple[str, str]:
+        """Retrieve the needed FHIR searchParams (field) and the
+        respective path for a {sourceType:targetType} pair from the handler ditcionary
+
+        Args:
+            sourceType (str): Resource type the method is operating on.
+            targetType (str): Desired Resource type.
+
+        Returns:
+            Tuple(str, str): Field and path in the handler dictionary.
+        """
 
         sourceDict = SEARCH_ATTRIBUTES.get(sourceType, {})
         targetDict = sourceDict.get(targetType, {})
@@ -538,7 +581,6 @@ class BaseExtractorMixin:
         searchParams: dict = None,
         params: dict = None,
     ):
-
         searchActive = False if searchParams is None else True
         searchParams = {} if searchParams is None else searchParams
 
@@ -639,7 +681,6 @@ class BaseExtractorMixin:
         resultInCol: str = None,
         params: dict = {},
     ):
-
         params = {} if params is None else params
         input = [] if input is None else input
 
@@ -684,7 +725,14 @@ class BaseExtractorMixin:
         return result
 
     def getFromFiles(self, input: list[str]):
-        """Creates a Frame object from json files containing fhir resources"""
+        """Generate a Frame object from FHIR resources stored in json files.
+
+        Args:
+            input: List of files containing json fhir resources.
+
+        Returns:
+            Frame: Frame object storing the FHIR resources.
+        """
 
         pathsData = []
         for iPath in input:
@@ -718,7 +766,6 @@ class BaseExtractorMixin:
         params: dict = None,
         inPlace: dict = False,
     ):
-
         params = {} if params is None else params
         input = [] if input is None else input
 

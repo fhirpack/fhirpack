@@ -3,12 +3,9 @@ import tests
 import requests
 from requests.exceptions import ConnectionError
 
-
 from fhirpack.cli import main
 
-__author__ = "Jayson Salazar"
-__copyright__ = "Jayson Salazar"
-__license__ = ""
+# TODO: write-out CLI test suite
 
 
 def test_run():

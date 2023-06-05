@@ -10,5 +10,10 @@ import fhirpack.extraction.base as base
 
 class ExtractorFamilyMemberHistoryMixin(base.BaseExtractorMixin):
     def getFamilyMemberHistories(self, *args, **kwargs):
+        """Retrieves FHIR FamilyMemberHistory resources.
+
+        Returns:
+            Frame: Frame object storing the FamilyMemberHistories.
+        """
 
         return self.getResources(*args, resourceType="FamilyMemberHistory", **kwargs)

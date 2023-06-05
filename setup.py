@@ -52,12 +52,10 @@ if __name__ == "__main__":
                 "tqdm",
                 "python-dotenv[cli]",
                 "click",
-                "black",
-                "typeguard",
-                "pipenv",
                 "python-magic",
                 "dicomweb-client",
                 "markupsafe==2.0.1",
+                "typeguard",
             ],
             #                install_requires = get_install_requirements(),
             #                use_scm_version={

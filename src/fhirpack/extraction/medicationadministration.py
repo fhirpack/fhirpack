@@ -10,6 +10,11 @@ import fhirpack.extraction.base as base
 
 class ExtractorMedicationAdministrationMixin(base.BaseExtractorMixin):
     def getMedicationAdministrations(self, *args, **kwargs):
+        """Retrieves FHIR MedicationAdministration resources.
+
+        Returns:
+            Frame: Frame object storing the MedicationAdministration.
+        """
 
         return self.getResources(
             *args, resourceType="MedicationAdministration", **kwargs

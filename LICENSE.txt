@@ -1,5 +1,5 @@
 
-License Copyright: Copyright (c) 2022 Jayson Salazar
+License Copyright: Copyright (c) 2022 Jayson Salazar Rodriguez
 License License: MIT
 License Contact: jayson.salazar@uk-essen.de
 

@@ -1,10 +1,6 @@
 import json
-import importlib
 from typing import Union
 import os
-
-import pandas as pd
-import magic
 
 from fhirpy.lib import SyncFHIRResource
 from fhirpy.lib import SyncFHIRReference
@@ -15,7 +11,6 @@ import fhirpack.utils as utils
 
 
 class BaseLoaderMixin:
-
     # TODO rename sendResourcesToJSON
     def sendResourcesToFiles(
         self,
@@ -28,6 +23,20 @@ class BaseLoaderMixin:
         ] = None,
         combine: bool = False,
     ):
+        """Serializes the input to JSON and saves it to the specified paths.
+
+        Args:
+            paths (list[str], optional): Paths to save the JSON files to. Defaults to None.
+            input (list[str], list[SyncFHIRReference], list[SyncFHIRResource], optional): Input to serialize. Defaults to None.
+            combine (bool, optional): If True, all input is combined into one file. Defaults to False.
+
+        Raises:
+            NotImplementedError: If input is a DataFrame and ignoreFrame is False.
+            Exception: If the number of paths and the number of input blobs do not match.
+
+        Returns:
+            list[bool]: List of booleans indicating whether the operation was successful.
+        """
 
         result = []
         if not input and self.isFrame:
@@ -78,7 +87,22 @@ class BaseLoaderMixin:
         combine: bool = False,
         params: dict = None,
     ):
+        """Saves the input to the specified paths.
 
+        Args:
+            input (list[bytearray], optional): Input to save. Defaults to None.
+            paths (list[str], optional): Paths to save the input to. Defaults to None.
+            guessExtension (bool, optional): If True, the extension is guessed from the first 50 bytes of the input. Defaults to False.
+            combine (bool, optional): If True, all input is combined into one file. Defaults to False.
+            params (dict, optional): Additional parameters. Defaults to None.
+
+        Raises:
+            NotImplementedError: If input is a DataFrame and ignoreFrame is False.
+            Exception: If the number of paths and the number of input blobs do not match.
+
+        Returns:
+            list[bool]: List of booleans indicating whether the operation was successful.
+        """
         if not params:
             params = {}
 
@@ -128,6 +152,21 @@ class BaseLoaderMixin:
         # TODO enforce existence of paths in checks
         paths: list[str] = None,
     ):
+        """Saves the input in csv format to the specified paths.
+
+        Args:
+            input (Union[ list[str], list[SyncFHIRReference], list[SyncFHIRResource], ], optional): Input to save. Defaults to None.
+            params (dict, optional): Additional parameters. Defaults to None.
+            ignoreFrame (bool, optional): If True, the input is ignored if the object is a DataFrame. Defaults to False.
+            fileType (str, optional): The file type to save the input as. Defaults to "csv".
+            paths (list[str], optional): Paths to save the input to. Defaults to None.
+
+        Raises:
+            NotImplementedError: If input is a DataFrame and ignoreFrame is False.
+            NotImplementedError: If the number of paths and the number of input blobs do not match.
+            ValueError: If fileType is not csv or xls.
+            NotImplementedError: If more than one path is specified.
+        """
         params = {} if params is None else params
         input = [] if input is None else input
         paths = [] if paths is None else paths
@@ -138,11 +177,9 @@ class BaseLoaderMixin:
             # input = self.castOperand(input, SyncFHIRReference, "replace")
             # result = self.getResources(input, resourceType="replace", raw=True)
         try:
-
             if self.isFrame and not ignoreFrame:
                 input = self
 
-                n = len(input)
                 if len(paths) > 1:
                     raise NotImplementedError
 
@@ -188,6 +225,20 @@ class BaseLoaderMixin:
         params: dict = None,
         ignoreFrame: bool = False,
     ):
+        """Saves the input in the dicom format to the specified paths.
+
+        Args:
+            input (Union[ list[str], list[SyncFHIRReference], list[SyncFHIRResource], ], optional): Input to save. Defaults to None.
+            combine (bool, optional): If True, all input is combined into one file. Defaults to False.
+            params (dict, optional): Additional parameters. Defaults to None.
+            ignoreFrame (bool, optional): If True, the input is ignored if the object is a DataFrame. Defaults to False.
+
+        Raises:
+            NotImplementedError: If input is a DataFrame and ignoreFrame is False.
+            Exception: If the number of paths and the number of input blobs do not match.
+            NotImplementedError: If more than one path is specified.
+            NotImplementedError: If the resource type is not ImagingStudy.
+        """
         params = {} if params is None else params
         input = [] if input is None else input
         result = []
@@ -212,7 +263,6 @@ class BaseLoaderMixin:
                 )
 
             if self.resourceTypeIs("ImagingStudy"):
-
                 input.path.apply(lambda x: os.makedirs(x, exist_ok=True))
 
                 result = input.apply(
