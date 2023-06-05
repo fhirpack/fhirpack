@@ -26,7 +26,7 @@
 
 ---
 
-/assign_reviewer @jdsalaro @trostalski 
+/assign_reviewer @jdsalaro 
 
 /milestone %
 
