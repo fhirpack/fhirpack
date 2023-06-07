@@ -19,7 +19,7 @@ class Config:
         """Loads a FHIRPACK configuration from the given .env file.
 
         Args:
-            dotenvPath (str, optional): Path to the .env file. Defaults to None.
+            dotenvPath (Union[str, None]): Path to the .env file. Defaults to None.
         """
         if not dotenvPath:
             dotenvPath = dotenv.find_dotenv()
@@ -64,7 +64,7 @@ class Config:
         Args:
             key (str): Key of the configuration variable.
             value (str): Value of the configuration variable.
-            saveToEnv (bool, optional): Whether to save the configuration variable to the .env file. Defaults to False.
+            saveToEnv (Union[bool, None]): Whether to save the configuration variable to the .env file. Defaults to False.
 
         Returns:
             str: Value of the configuration variable.

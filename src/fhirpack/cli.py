@@ -9,8 +9,8 @@ import warnings
 
 from fhirpack import __version__
 
-__author__ = "Jayson Salazar"
-__copyright__ = "Jayson Salazar"
+__author__ = "Jayson Salazar Rodriguez"
+__copyright__ = "Jayson Salazar Rodriguez"
 __license__ = ""
 
 LOGGERPREFIX = "FHIRPACK:"

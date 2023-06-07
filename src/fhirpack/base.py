@@ -148,12 +148,12 @@ class BaseMixin:
         """Attaches the ids of the input data to the result data.
 
         Args:
-            input (_type_): _description_
-            result (_type_): _description_
-            metaResourceType (_type_): _description_
+            input: Initial Frame on which an operation was performed
+            result: Resulting Frame of the operation, to which the input's Resource IDs should be attached
+            metaResourceType: _description_
 
         Returns:
-            _type_: _description_
+            Frame: Resulting frame with attached IDs under the input's type column
         """
         sourceType = input.resourceType
 
@@ -268,13 +268,14 @@ class BaseMixin:
 
         Args:
             reference (Union[str, SyncFHIRReference]): Input reference string or SyncFHIRReference object.
-            resourceType (str, optional): Resource type of the reference. Defaults to None.
+            resourceType (Union[str, None): Resource type of the reference. Defaults to None.
 
         Raises:
             Exception: If the reference string is not in the correct format.
 
         Returns:
-            _type_: _description_
+            SyncFHIRReference: FHIR resource reference constructed from a string or a valid SyncFHIRReference
+            which isn't associated with a client yet
         """
         if isinstance(reference, str):
             if "/" in reference:
@@ -298,7 +299,7 @@ class BaseMixin:
 
         Args:
             referenceList (list): List of reference strings or SyncFHIRReference objects.
-            resourceType (_type_, optional): Resource type of the references. Defaults to None.
+            resourceType (Union[str,None]): Resource type of the references. Defaults to None.
 
         Returns:
             list[SyncFHIRReference]: List of SyncFHIRReference objects.

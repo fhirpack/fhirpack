@@ -45,13 +45,13 @@ class PACK(
         """This function initializes the PACK class.
 
         Args:
-            apiBase (str, optional): Base URL of the FHIR server. Defaults to None.
-            client (SyncFHIRClient, optional): Client object. Defaults to None.
-            envFile (str, optional): Path to the .env file. Defaults to None.
-            ignoreEnvFile (bool, optional): If True, the .env file will be ignored. Defaults to False.
-            unconnected (bool, optional): If True, the client will not be connected to the server. Defaults to False.
-            authMethod (str, optional): Authentication method. Defaults to None.
-            authParams (str, dict, optional): Authentication parameters; str with a preset name or dict if individually provided. Defaults to None.
+            apiBase (Union[str, None]): Base URL of the FHIR server. Defaults to None.
+            client (Union[SyncFHIRClient, None]): Client object. Defaults to None.
+            envFile (Union[str, None]): Path to the .env file. Defaults to None.
+            ignoreEnvFile (Union[bool, None]): If True, the .env file will be ignored. Defaults to False.
+            unconnected (Union[bool, None]): If True, the client will not be connected to the server. Defaults to False.
+            authMethod (Union[str, None]): Authentication method. Defaults to None.
+            authParams (Union[str, dict, None]): Authentication parameters; str with a preset name or dict if individually provided. Defaults to None.
         """
         self.logger = CONFIG.getLogger(__name__)
         self.logger.info("PACK initialization started.")

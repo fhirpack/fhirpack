@@ -73,14 +73,14 @@ extensions = [
     "sphinx.ext.doctest",
     "sphinx.ext.ifconfig",
     "sphinx.ext.mathjax",
-    "sphinx.ext.napoleon",
+    "sphinx.ext.napoleon", # as we use Google style docstrings https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html
     "myst_parser",
     "nbsphinx",
 ]
 
-# surpress warngings
+# supress warngings
 suppress_warnings = [
-    "nbsphinx",
+#    "nbsphinx",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -120,7 +120,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "fhirpack"
-copyright = "2023, Jayson Salazar"
+copyright = "2023, Jayson Salazar Rodriguez"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

@@ -71,7 +71,7 @@ class BaseTransformerMixin:
 
         Args:
             paths (list[str]): Resource path to the desired elements.
-            input (list[str], list[SyncFHIRReference], list[SyncFHIRResource], optional: Resources to operate on. If None, calling frame object will be used as input.
+            input (Union[list[str], list[SyncFHIRReference], list[SyncFHIRResource], None]): Resources to operate on. If None, calling frame object will be used as input.
             params (dict): Additional parameters.
 
         Returns:
@@ -185,8 +185,8 @@ class BaseTransformerMixin:
         """Extracts all the FHIR references as Resources from the input resources and returns them in a Frame.
 
         Args:
-            references (Union[ list[str], list[SyncFHIRReference], list[SyncFHIRResource], ], optional): Input references. Defaults to None.
-            recursive (bool, optional): If True, will recursively extract all the referenced Resources found in the given input. Defaults to False.
+            references (Union[ list[str], list[SyncFHIRReference], list[SyncFHIRResource], None]): Input references. Defaults to None.
+            recursive  (Union[str, None]): If True, will recursively extract all the referenced Resources found in the given input. Defaults to False.
 
         Raises:
             NotImplementedError: If references and isFrame are both True.
@@ -251,12 +251,12 @@ class BaseTransformerMixin:
         Args:
             input: Data to extract text from.
             resourceType: The type is used the include type specific lookups.
-            lookUps (list, optional): List of lookups to include in the text extraction.
-            mapped (bool, optional): Store text labels as dictionary keys.
-            includeMeta (bool, optional): Include the resource meta data.
-            includeEmpty (bool, optional): Include empty Text for labels.
-            defaultLookUps (bool, optional): Include the list of default Lookups.
-            includeDuplicates (bool, optional): Include duplicated Test string.
+            lookUps (Union[list, None]): List of lookups to include in the text extraction.
+            mapped  (Union[str, None]): Store text labels as dictionary keys.
+            includeMeta  (Union[str, None]): Include the resource meta data.
+            includeEmpty  (Union[str, None]): Include empty Text for labels.
+            defaultLookUps  (Union[str, None]): Include the list of default Lookups.
+            includeDuplicates  (Union[str, None]): Include duplicated Test string.
         """
 
         input = [] if input is None else input
@@ -339,8 +339,8 @@ class BaseTransformerMixin:
         """Extracts all keys(without values) found in the given input.
 
         Args:
-            params (dict, optional): Parameters for the operation. Defaults to None.
-            input (Union[list[str], list[SyncFHIRReference], list[SyncFHIRResource]], optional): Data to extract keys from. Defaults to None.
+            params  (Union[dict, None]): Parameters for the operation. Defaults to None.
+            input (Union[list[str], list[SyncFHIRReference], list[SyncFHIRResource], None]): Data to extract keys from. Defaults to None.
 
         Returns:
             DataFrame: DataFrame with the keys of the resources.
@@ -385,8 +385,8 @@ class BaseTransformerMixin:
 
         Args:
             keys (list[str]): Keys to extract values for.
-            input (Union[ list[str], list[SyncFHIRReference], list[SyncFHIRResource], ], optional): Data to extract values from. Defaults to None.
-            params (dict, optional): Parameters for the operation. Defaults to None.
+            input (Union[ list[str], list[SyncFHIRReference], list[SyncFHIRResource], None ]): Data to extract values from. Defaults to None.
+            params  (Union[dict, None]): Parameters for the operation. Defaults to None.
 
         Raises:
             NotImplementedError: If input and isFrame are provided.
@@ -433,9 +433,9 @@ class BaseTransformerMixin:
         """Extracts dates from resources.
 
         Args:
-            input (Union[list[str], list[SyncFHIRReference], list[SyncFHIRResource]], optional): Data to extract dates from. Defaults to None.
-            recursive (bool, optional): Whether to extract dates recursively. Defaults to False.
-            params (dict, optional): Parameters for the operation. Defaults to None.
+            input (Union[list[str], list[SyncFHIRReference], list[SyncFHIRResource], None]): Data to extract dates from. Defaults to None.
+            recursive  (Union[str, None]): Whether to extract dates recursively. Defaults to False.
+            params  (Union[dict, None]): Parameters for the operation. Defaults to None.
 
         Raises:
             NotImplementedError: If input and isFrame are provided.

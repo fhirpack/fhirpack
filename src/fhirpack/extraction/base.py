@@ -278,10 +278,10 @@ class BaseExtractorMixin:
         """Gets all the References found in the input Resources
 
         Args:
-            input (list[str], list[SyncFHIRReference], list[SyncFHIRResource], optional): Input resources. Defaults to None.
-            params (dict, optional): Additional parameters. Defaults to None.
-            ignoreFrame (bool, optional): Whether to ignore the frame. Defaults to False.
-            raw (bool, optional): If True, the method will return the raw result. Defaults to False.
+            input (Union[list[str], list[SyncFHIRReference], list[SyncFHIRResource], None]): Input resources. Defaults to None.
+            params (Union[dict, None]): Additional parameters. Defaults to None.
+            ignoreFrame (Union[bool, None]): Whether to ignore the frame. Defaults to False.
+            raw (Union[bool, None]): If True, the method will return the raw result. Defaults to False.
         """
 
         params = {} if params is None else params
@@ -319,14 +319,13 @@ class BaseExtractorMixin:
         """This method retrieves FHIR resources based on the provided resource type.
 
         Args:
-            input (list[str], list[SyncFHIRReference], list[SyncFHIRResource], optional): IDs, references or resources of the desired FHIR resources.
-            searchParams (dict): FHIR search parameters to execute a search.
-            Only valid FHIR parameters for the specified resource type can be used. This can not be combined with input.
-            params (dict, optional): Additional parameters.
-            resourceType (str, optional): Type of the desired FHIR resources.
-            metaResourceType (str, optional): Used to avoid conflicts when non-standard fhir resources are used.
-            ignoreFrame (bool, optional): True when data inside the Frame object should be ignored.
-            raw (bool, optional): True when the raw output should be returned.
+            input (Union[list[str], list[SyncFHIRReference], list[SyncFHIRResource], None]): IDs, references or resources of the desired FHIR resources.
+            searchParams (dict): FHIR search parameters to execute a search. Only valid FHIR parameters for the specified resource type can be used. This can not be combined with input.
+            params  (Union[dict, None]): Additional parameters.
+            resourceType  (Union[str, None]): Type of the desired FHIR resources.
+            metaResourceType  (Union[str, None]): Used to avoid conflicts when non-standard fhir resources are used.
+            ignoreFrame  (Union[str, None]): True when data inside the Frame object should be ignored.
+            raw  (Union[str, None]): True when the raw output should be returned.
 
         Returns:
             Frame: Frame object containing the desired FHIR resources.
@@ -463,13 +462,13 @@ class BaseExtractorMixin:
         """Execute a FHIR search based on the provided resource type and search parameters.
 
         Args:
-            input (Union[ list[str], list[SyncFHIRReference], list[SyncFHIRResource], optional): Not implemented.
-            searchParams (dict, optional): FHIR search parameters to execute a search.
-            params (dict, optional): Additional parameters.
-            resourceType (str, optional): Type of the desired FHIR resource.
-            metaResourceType (str, optional): Used to avoid conflicts when non-standard fhir resources are used.
-            ignoreFrame (bool, optional): True when data inside the Frame object should be ignored.
-            raw (bool, optional): True when the raw output should be returned.
+            input (Union[ list[str], list[SyncFHIRReference], list[SyncFHIRResource], ): Not implemented.
+            searchParams  (Union[dict, None]): FHIR search parameters to execute a search.
+            params  (Union[dict, None]): Additional parameters.
+            resourceType  (Union[str, None]): Type of the desired FHIR resource.
+            metaResourceType  (Union[str, None]): Used to avoid conflicts when non-standard fhir resources are used.
+            ignoreFrame  (Union[str, None]): True when data inside the Frame object should be ignored.
+            raw  (Union[str, None]): True when the raw output should be returned.
 
         Returns:
             Frame: Frame object containing the desired FHIR resources.

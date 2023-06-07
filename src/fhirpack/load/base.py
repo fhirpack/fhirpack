@@ -26,9 +26,9 @@ class BaseLoaderMixin:
         """Serializes the input to JSON and saves it to the specified paths.
 
         Args:
-            paths (list[str], optional): Paths to save the JSON files to. Defaults to None.
-            input (list[str], list[SyncFHIRReference], list[SyncFHIRResource], optional): Input to serialize. Defaults to None.
-            combine (bool, optional): If True, all input is combined into one file. Defaults to False.
+            paths (Union[list[str], None]): Paths to save the JSON files to. Defaults to None.
+            input (Union[list[str], list[SyncFHIRReference], list[SyncFHIRResource], None]): Input to serialize. Defaults to None.
+            combine  (Union[str, None]): If True, all input is combined into one file. Defaults to False.
 
         Raises:
             NotImplementedError: If input is a DataFrame and ignoreFrame is False.
@@ -90,11 +90,11 @@ class BaseLoaderMixin:
         """Saves the input to the specified paths.
 
         Args:
-            input (list[bytearray], optional): Input to save. Defaults to None.
-            paths (list[str], optional): Paths to save the input to. Defaults to None.
-            guessExtension (bool, optional): If True, the extension is guessed from the first 50 bytes of the input. Defaults to False.
-            combine (bool, optional): If True, all input is combined into one file. Defaults to False.
-            params (dict, optional): Additional parameters. Defaults to None.
+            input (Union[list[bytearray], None]): Input to save. Defaults to None.
+            paths (Union[list[str], None]): Paths to save the input to. Defaults to None.
+            guessExtension  (Union[str, None]): If True, the extension is guessed from the first 50 bytes of the input. Defaults to False.
+            combine  (Union[str, None]): If True, all input is combined into one file. Defaults to False.
+            params  (Union[dict, None]): Additional parameters. Defaults to None.
 
         Raises:
             NotImplementedError: If input is a DataFrame and ignoreFrame is False.
@@ -155,11 +155,11 @@ class BaseLoaderMixin:
         """Saves the input in csv format to the specified paths.
 
         Args:
-            input (Union[ list[str], list[SyncFHIRReference], list[SyncFHIRResource], ], optional): Input to save. Defaults to None.
-            params (dict, optional): Additional parameters. Defaults to None.
-            ignoreFrame (bool, optional): If True, the input is ignored if the object is a DataFrame. Defaults to False.
-            fileType (str, optional): The file type to save the input as. Defaults to "csv".
-            paths (list[str], optional): Paths to save the input to. Defaults to None.
+            input (Union[ list[str], list[SyncFHIRReference], list[SyncFHIRResource], None]): Input to save. Defaults to None.
+            params  (Union[dict, None]): Additional parameters. Defaults to None.
+            ignoreFrame  (Union[str, None]): If True, the input is ignored if the object is a DataFrame. Defaults to False.
+            fileType  (Union[str, None]): The file type to save the input as. Defaults to "csv".
+            paths (Union[list[str], None]): Paths to save the input to. Defaults to None.
 
         Raises:
             NotImplementedError: If input is a DataFrame and ignoreFrame is False.
@@ -228,10 +228,10 @@ class BaseLoaderMixin:
         """Saves the input in the dicom format to the specified paths.
 
         Args:
-            input (Union[ list[str], list[SyncFHIRReference], list[SyncFHIRResource], ], optional): Input to save. Defaults to None.
-            combine (bool, optional): If True, all input is combined into one file. Defaults to False.
-            params (dict, optional): Additional parameters. Defaults to None.
-            ignoreFrame (bool, optional): If True, the input is ignored if the object is a DataFrame. Defaults to False.
+            input (Union[ list[str], list[SyncFHIRReference], list[SyncFHIRResource], None]): Input to save. Defaults to None.
+            combine  (Union[str, None]): If True, all input is combined into one file. Defaults to False.
+            params  (Union[dict, None]): Additional parameters. Defaults to None.
+            ignoreFrame  (Union[str, None]): If True, the input is ignored if the object is a DataFrame. Defaults to False.
 
         Raises:
             NotImplementedError: If input is a DataFrame and ignoreFrame is False.
