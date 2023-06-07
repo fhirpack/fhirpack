@@ -52,7 +52,9 @@ As usual with Python, we strongly recommend using virtual environments such as [
 
 ### Requirements
 
-FHIRPACK requires Python 3.9 or greater as well as `libmagic` to work without problems. In case you're using an older Python version, you can use [asdf](https://asdf-vm.com/), [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation) or [pyenv](https://github.com/pyenv/pyenv) to have several Python versions coexist on your system. `libmagic` can be installed with `apt-get install libmagic-dev` on Ubuntu or `brew install libmagic` on MacOS.
+FHIRPACK requires Python 3.9 or greater as well as `libmagic` to work without problems. In case you're using an older Python version, you can use [asdf](https://asdf-vm.com/), [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation) or [pyenv](https://github.com/pyenv/pyenv) to have several Python versions coexist on your system.
+
+⚠️  `libmagic` can be installed with `apt-get install libmagic-dev` on Ubuntu or `brew install libmagic` on MacOS.
 
 ### Using the Latest Release from PyPI
 

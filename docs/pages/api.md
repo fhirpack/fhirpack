@@ -20,5 +20,5 @@ Loader <loader>
 :maxdepth: 1
 :caption: Full Package
 
-Fhirpack <../api/fhirpack>
+FHIRPACK <../api/fhirpack>
 ```
