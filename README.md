@@ -217,7 +217,7 @@ For scientific work and formal citations, please use:
 
 ```
 @software{jayson_salazar_2022_7945248,
-  author       = {Jayson Salazar},
+  author       = {Jayson Salazar Rodriguez},
   title        = {FHIRPACK (FHIR Python Analysis Client and Kit)},
   month        = oct,
   year         = 2022,
