@@ -37,8 +37,8 @@ FHIRPACK provides an easy-to-use and intuitive API that enables effortless acces
 |:---|:---|
 |🚀 **tutorial**| learn about FHIR, FHIRPACK and PANDAS with our [example Jupyter Notebooks](docs/examples)|
 |✉️  **email**| [jayson.salazar@uk-essen.de](mailto:jayson.salazar@uk-essen.de) or [salazar@informatik.uni-heidelberg.de](mailto:salazar@informatik.uni-heidelberg.de) |
-|🎤 **talk**| join our [Slack channel](https://join.slack.com/t/fhirpack/shared_invite/zt-16f0dt3rr-76L6OKQIMOFbG2IKYnVLqA) for the latest updates and discussions around FHIR, FHIRPACK and EHR in general|
-|🐞 **issues**| bugs and feature requests go preferrably on [our main GitLab tracker](https://gitlab.ume.de/fhirpack/main) or here on GitHub |
+|🎤 **talk**| join the [Slack channel](https://join.slack.com/t/fhirpack/shared_invite/zt-16f0dt3rr-76L6OKQIMOFbG2IKYnVLqA) for the latest updates and discussions around FHIR, FHIRPACK and EHR in general|
+|🐞 **issues**| bugs and feature requests go preferrably on [the main GitLab tracker](https://gitlab.com/fhirpack/main) or [on GitHub](https://github.com/fhirpack/fhirpack) |
 |🔧 **dev**| [learn more about contributing to FHIRPACK or extending its functionality](CONTRIBUTING.rst) |
 |📚 **docs**| read our [documentation on Read the Docs](https://fhirpack.readthedocs.io)|
 |📖 **citation**| cite FHIRPACK as https://doi.org/10.5281/zenodo.7941705 or visit [Zenodo vor more details](https://doi.org/10.5281/zenodo.7941705)|
@@ -98,7 +98,7 @@ Alternatively, copy, rename and modify `.env.example` according to your needs.
 
 ## Simple Examples
 
-FHIRPACK is based on the [ETL paradigm](https://en.wikipedia.org/wiki/Extract,_transform,_load), and as all functions available to you can be classified as [Extractors](src/fhirpack/extraction), [Transformers](src/fhirpack/transformation) or [Loaders](src/fhirpack/load). In the following examples we quickly show how this works, but remember to have a look at our [examplary Jupyter Notebooks](docs/examples/usage.py) and the [API reference](https://fhirpack.readthedocs.io/en/latest/)
+FHIRPACK is based on the [ETL paradigm](https://en.wikipedia.org/wiki/Extract,_transform,_load), and as all functions available to you can be classified as [Extractors](src/fhirpack/extraction), [Transformers](src/fhirpack/transformation) or [Loaders](src/fhirpack/load). In the following examples we quickly show how this works, but remember to have a look at the [examplary Jupyter Notebooks](docs/examples/usage.py) and the [API reference](https://fhirpack.readthedocs.io/en/latest/)
 
 ### 1. Get All Conditions for a Patient
 
@@ -207,7 +207,7 @@ CLI usage is analogous to the general `fhirpack` dataflow.
 # Bugs and Feature Requests
 
 Please report any bugs you find on [our main GitLab Tracker](https://gitlab.com/fhirpack/main/-/issues) or here as well.
-If you want to contribute a fix or feature, you're welcomed to create a pull request from your fork/branch or create a merge request on [our main GitLab repository](https://gitlab.com/fhirpack/main) according to our [contribution guidelines](CONTRIBUTING.rst).
+If you want to contribute a fix or feature, you're welcomed to create a pull request from your fork/branch or create a merge request on [the main GitLab repository](https://gitlab.com/fhirpack/main) according to our [contribution guidelines](CONTRIBUTING.rst).
 
 # Attribution and License
 
