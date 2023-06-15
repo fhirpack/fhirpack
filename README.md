@@ -41,7 +41,7 @@ FHIRPACK provides an easy-to-use and intuitive API that enables effortless acces
 |🐞 **issues**| bugs and feature requests go preferrably on [the main GitLab tracker](https://gitlab.com/fhirpack/main) or [on GitHub](https://github.com/fhirpack/fhirpack) |
 |🔧 **dev**| [learn more about contributing to FHIRPACK or extending its functionality](CONTRIBUTING.rst) |
 |📚 **docs**| read our [documentation on Read the Docs](https://fhirpack.readthedocs.io)|
-|📖 **citation**| cite FHIRPACK as https://doi.org/10.5281/zenodo.7941705 or visit [Zenodo vor more details](https://doi.org/10.5281/zenodo.7941705)|
+|📖 **citation**| cite FHIRPACK as https://doi.org/10.5281/zenodo.8006589 or visit [Zenodo vor more details](https://doi.org/10.5281/zenodo.8006589)|
 
 # Usage
 
@@ -224,9 +224,9 @@ For scientific work and formal citations, please use:
   month        = oct,
   year         = 2022,
   publisher    = {Zenodo},
-  version      = {v0.0.8b1},
-  doi          = {10.5281/zenodo.7945248},
-  url          = {https://doi.org/10.5281/zenodo.7945248}
+  version      = {v0.0.9b0},
+  doi          = {10.5281/zenodo.8006589},
+  url          = {https://doi.org/10.5281/zenodo.8006589}
 }
 ```
 
