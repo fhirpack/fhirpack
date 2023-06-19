@@ -109,7 +109,6 @@ class PACK(
 
 
 def _getConnectedClient(apiBase=None, authMethod=None, authParams=None):
-
     authorization = None
 
     if apiBase is not None:

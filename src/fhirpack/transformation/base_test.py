@@ -5,7 +5,6 @@ import fhirpack as fp
 @pt.mark.reqdocker
 @pt.mark.parametrize("input", ["Frame", ["Patient/1"], "Reference", "Resource"])
 def test_gatherText(input, packDocker, patientFrame, patientReference, patientResource):
-
     expected = [
         "S99942380",
         "M",

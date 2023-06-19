@@ -15,7 +15,6 @@ logger = logging.getLogger(__name__)
 
 
 def valuesForKeys(data: Union[dict, list], lookupKeys: list):
-
     lookup_keys = list(set(lookupKeys))
 
     if isinstance(data, dict):
@@ -31,7 +30,6 @@ def valuesForKeys(data: Union[dict, list], lookupKeys: list):
 
 
 def keys(obj, prefix=""):
-
     separator = ""
     if prefix:
         separator = "."
@@ -49,7 +47,6 @@ def getInstallationPath():
 
 
 def clientFromEnv():
-
     DOTENVPATH = dotenv.find_dotenv()
     CONFIG = dotenv.dotenv_values(DOTENVPATH)
     logger.info(f"found .env file at {DOTENVPATH}")
@@ -82,7 +79,6 @@ def textToAscii():
 
 
 def guessBufferMIMEType(bytes: bytes):
-
     guessedType = magic.from_buffer(bytes, mime=True).split("/")
     if len(guessedType) == 2:
         return guessedType[1]
@@ -99,7 +95,6 @@ def flattenList(input: list):
 
 
 def validateFrame(frame):
-
     if frame.client is None:
         raise exceptions.ServerConnectionException(
             "No server connection. For this operation, a server connection is required."

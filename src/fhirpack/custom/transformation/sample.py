@@ -21,7 +21,6 @@ class PluginSampleTransformerMixin:
         params: dict = None,
         ignoreFrame: bool = False,
     ):
-
         searchActive = False if searchParams is None else True
         searchParams = {} if searchParams is None else searchParams
         params = {} if params is None else params
@@ -36,7 +35,6 @@ class PluginSampleTransformerMixin:
             result = self.getResources(input, resourceType="replace", raw=True)
 
         elif self.isFrame and not ignoreFrame:
-
             # TODO your code for data coming in as a frame
             if self.resourceTypeIs("Patient"):
                 input = self.data

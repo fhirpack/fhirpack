@@ -12,7 +12,6 @@ import fhirpack.extraction.base as extractionBase
 
 
 class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
-
     # TODO test len(references) = 0
     # TODO test len(references) = 1
     # TODO test len(references) > 1
@@ -64,7 +63,6 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
         ignoreFrame: bool = False,
         raw: bool = False,
     ):
-
         searchActive = False if searchParams is None else searchParams
         searchParams = {} if searchParams is None else searchParams
         params = {} if params is None else params
@@ -77,7 +75,6 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
         elif self.isFrame and not ignoreFrame:
             input = self
             if input.resourceType in ["Patient", "LinkedPatient"]:
-
                 result = input.getResources(
                     resourceType="Patient",
                     metaResourceType="RootPatient",
@@ -124,7 +121,6 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
         ignoreFrame: bool = False,
         raw: bool = False,
     ):
-
         searchActive = False if searchParams is None else searchParams
         searchParams = {} if searchParams is None else searchParams
         params = {} if params is None else params
@@ -141,7 +137,6 @@ class ExtractorPatientMixin(extractionBase.BaseExtractorMixin):
                 return input.getRootPatients().getLinkedPatients()
 
             elif input.resourceTypeIs("RootPatient"):
-
                 result = self.getResources(
                     resourceType="Patient",
                     metaResourceType="LinkedPatient",

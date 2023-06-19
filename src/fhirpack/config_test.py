@@ -13,7 +13,7 @@ def envFile(tmp_path):
     tempDir = tmp_path / "tmp"
     tempDir.mkdir()
     tempFile = tempDir / ".env"
-    tempFile.write_text('')
+    tempFile.write_text("")
 
     return tempFile
 
@@ -28,7 +28,6 @@ def test_initFromEmptyDic():
 
 
 def test_loadConfig(envFile):
-
     dotenv.set_key(envFile, "test_one", "1")
     config = Config()
     config.loadConfig(envFile)
@@ -37,7 +36,6 @@ def test_loadConfig(envFile):
 
 
 def test_get(envFile):
-
     dotenv.set_key(envFile, "test_one", "1")
     config = Config()
     config.loadConfig(envFile)
@@ -46,7 +44,6 @@ def test_get(envFile):
 
 
 def test_set(envFile):
-
     config = Config()
     config.loadConfig(envFile)
     config.set("test_two", "2", saveToEnv=True)

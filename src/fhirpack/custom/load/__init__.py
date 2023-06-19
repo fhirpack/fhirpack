@@ -15,7 +15,6 @@ class PluginLoaderMixin(
     # TODO add your other load plugin classes here
     sample.PluginSampleLoaderMixin,
 ):
-
     # def __init__(self, client):
     # mixin methods should never have state of their own
     # otherwise the several levels of indirection make it

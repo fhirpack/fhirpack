@@ -14,7 +14,6 @@ class PluginExtractorMixin(
     # TODO add your other extraction plugin classes here
     sample.PluginSampleExtractorMixin,
 ):
-
     # def __init__(self, client):
     # mixin methods should never have state of their own
     # otherwise the several levels of indirection make it

@@ -14,5 +14,4 @@ class LoaderConditionMixin(base.BaseLoaderMixin):
     def transformerConditionMethod(
         self,
     ):
-
         pass

@@ -13,7 +13,6 @@ def y(request):
 @pt.mark.reqdocker
 @pt.mark.parametrize("input", [["Patient/1"], "Reference", "Resource"])
 def test_getResources_onlyInput(input, packDocker, patientReference, patientResource):
-
     d = packDocker
     if input == "Reference":
         patientReference.client = d.client
@@ -45,7 +44,6 @@ def test_getResources_onlyInput(input, packDocker, patientReference, patientReso
 @pt.mark.reqdocker
 @pt.mark.parametrize("searchParamsId", ["1"])
 def test_searchResources_patientId(searchParamsId, packDocker):
-
     d = packDocker
     input = {"searchParams": {"_id": searchParamsId}, "resourceType": "Patient"}
     p = d.searchResources(**input).data[0]
@@ -72,7 +70,6 @@ def test_searchResources_patientId(searchParamsId, packDocker):
 
 @pt.mark.reqdocker
 def test_getFromFiles_singleResource(packDocker):
-
     d = packDocker
     dataPath = f"{ts.TEST_DATA_DIR}/fhirpack.extraction.base.getFromFiles.patient.00.in"
     p = d.getFromFiles([dataPath]).data[0]
@@ -95,7 +92,6 @@ def test_getFromFiles_singleResource(packDocker):
 
 
 def test_getFromFiles_multipleResourcesFromOneFile(packUnconnected):
-
     d = packUnconnected
     dataPath = (
         f"{ts.TEST_DATA_DIR}/fhirpack.extraction.base.getFromFiles.patients.00.in"
@@ -139,7 +135,6 @@ def test_getFromFiles_multipleResourcesFromOneFile(packUnconnected):
 
 
 def test_getFromFiles_multipleResourcesMultipleFiles(packUnconnected):
-
     d = packUnconnected
     data = d.getFromFiles(
         [
@@ -185,7 +180,6 @@ def test_getFromFiles_multipleResourcesMultipleFiles(packUnconnected):
 
 
 def test_getFromFiles_multipleResourcesError(packUnconnected):
-
     d = packUnconnected
     with pt.raises(TypeError):
         data = d.getFromFiles(

@@ -20,7 +20,6 @@ class ExtractorListMixin(base.BaseExtractorMixin):
         params: dict = None,
         ignoreFrame: bool = False,
     ):
-
         searchActive = False if searchParams is None else True
         searchParams = {} if searchParams is None else searchParams
         params = {} if params is None else params
@@ -32,7 +31,6 @@ class ExtractorListMixin(base.BaseExtractorMixin):
             result = self.getResources(input, resourceType="List", raw=True)
 
         elif self.isFrame and not ignoreFrame:
-
             utils.validateFrame(self)
 
             if self.resourceTypeIs("Patient"):

@@ -37,7 +37,6 @@ class PluginSampleExtractorMixin(base.PluginBaseExtractorMixin):
             result = self.getResources(input, resourceType="replace", raw=True)
 
         elif self.isFrame and not ignoreFrame:
-
             # TODO your code for data coming in as a frame
             if self.resourceTypeIs("Patient"):
                 input = self.data

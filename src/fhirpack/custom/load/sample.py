@@ -21,7 +21,6 @@ class PluginSampleLoaderMixin:
         params: dict = None,
         ignoreFrame: bool = False,
     ):
-
         params = {} if params is None else params
         input = [] if input is None else input
         result = []
@@ -33,7 +32,6 @@ class PluginSampleLoaderMixin:
             pass
 
         elif self.isFrame and not ignoreFrame:
-
             # TODO your code for data coming in as a frame
             if self.resourceTypeIs("Patient"):
                 input = self.data

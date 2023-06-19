@@ -37,7 +37,6 @@ def processParams(string: str) -> dict:
 
 
 def loadToDestination(data, destination: str) -> None:
-
     destination = destination.replace(",", "").split(" ")
     jsonString = data.to_json(date_format="iso", orient="records")
     jsonParsed = json.loads(jsonString)
@@ -105,7 +104,6 @@ def setupLogging():
     is_flag=True,
 )
 def main(source, environment, params, operation, destination, verbose):
-
     setupLogging()
     info("execution started")
 

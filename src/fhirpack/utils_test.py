@@ -14,7 +14,6 @@ import tests as ts
 
 
 def test_keys_forPatients():
-
     input = td.jsonFile("fhirpack.utils.keys.forPatients.00.in")
     expected = td.jsonFile("fhirpack.utils.keys.forPatients.00.out")
 
@@ -80,19 +79,17 @@ def test_guessBufferMIMEType(globalSessionFixture):
 @pt.mark.reqdocker
 @pt.mark.parametrize("input", [np.nan, None, pd.NA, np.NaN])
 def test_validateFrame_NullValues(input, packDocker):
-
     d = packDocker
 
     p = d.getPatients(["1"])
     nullValues = fp.base.Frame({"data": [input]})
-    brokenFrame = pd.concat([p,nullValues])
+    brokenFrame = pd.concat([p, nullValues])
 
     with pt.raises(fp.exceptions.InvalidInputDataException):
         fp.utils.validateFrame(brokenFrame)
 
 
 def test_validateFrame_Unconnected(packUnconnected):
-
     d = packUnconnected
     d.client = None
     dataPath = f"{ts.TEST_DATA_DIR}/fhirpack.extraction.base.getFromFiles.patient.00.in"

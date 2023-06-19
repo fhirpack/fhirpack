@@ -28,7 +28,6 @@ pytest_plugins = ["docker_compose"]
 
 @pt.fixture(scope="session", autouse=True)
 def globalSessionFixture(request):
-
     ts.debug("global session confSetup")
 
     def globalSessionFixtureFin():
@@ -54,7 +53,6 @@ def fhirServerDocker(session_scoped_container_getter):
 
 @pt.fixture(scope="session")
 def packUnconnected(request):
-
     ts.debug("global session pack")
     # session, apiUrl = remoteFhirServer
     # client = fhirpy.SyncFHIRClient(f"{apiUrl}hapi-fhir-jpaserver/fhir")
@@ -71,7 +69,6 @@ def packUnconnected(request):
 
 @pt.fixture(scope="session")
 def packEnv(request):
-
     ts.debug("global session pack")
     # session, apiUrl = remoteFhirServer
     # client = fhirpy.SyncFHIRClient(f"{apiUrl}hapi-fhir-jpaserver/fhir")
@@ -103,7 +100,6 @@ def packDocker(request, fhirServerDocker):
 
 @pt.fixture(scope="function")
 def functionData(request):
-
     # behaves differently on linux and mac, src. prepended on mac
     # moduleName = request.module.__name__
 

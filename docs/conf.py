@@ -73,14 +73,14 @@ extensions = [
     "sphinx.ext.doctest",
     "sphinx.ext.ifconfig",
     "sphinx.ext.mathjax",
-    "sphinx.ext.napoleon", # as we use Google style docstrings https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html
+    "sphinx.ext.napoleon",  # as we use Google style docstrings https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html
     "myst_parser",
     "nbsphinx",
 ]
 
 # supress warngings
 suppress_warnings = [
-#    "nbsphinx",
+    #    "nbsphinx",
 ]
 
 # Add any paths that contain templates here, relative to this directory.

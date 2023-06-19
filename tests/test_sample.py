@@ -22,7 +22,6 @@ print("[debug pytest] INSTALLATION DIRECTORY: ", ts.PACKAGE_INSTALLATION_DIR)
 
 @pt.mark.reqdocker
 def test_sample(packDocker):
-
     d = packDocker
     ts.debug(d.client)
     p = d.getPatients(["Patient/1"]).data[0]

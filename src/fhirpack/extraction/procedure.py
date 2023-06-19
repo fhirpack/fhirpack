@@ -16,6 +16,4 @@ class ExtractorProcedureMixin(base.BaseExtractorMixin):
             Frame: Frame object storing the Procedures.
         """
 
-        return self.getResources(
-            *args, resourceType="Procedure", **kwargs
-        )
+        return self.getResources(*args, resourceType="Procedure", **kwargs)

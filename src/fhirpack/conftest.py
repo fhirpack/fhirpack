@@ -27,6 +27,7 @@ def packageSessionFixture(request):
 # def patientFrame(packEnv):
 #     f = packEnv.getPatients(["1","181","525","821"])
 
+
 # uncomment to use files in /tests/data to build your frame
 @pt.fixture(scope="session")
 def patientFrame(packUnconnected):
@@ -50,6 +51,7 @@ def patientResourceList(patientFrame):
 # uncomment to use .env to connect to the configured FHIR server and  build your frame
 # def observationFrame(packEnv):
 #     f = packEnv.getObservations(["9","10","11","12"])
+
 
 # uncomment to use files in /tests/data to build your frame
 @pt.fixture(scope="session")

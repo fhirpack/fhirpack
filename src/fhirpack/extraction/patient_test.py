@@ -6,7 +6,6 @@ import fhirpack as fp
 @pt.mark.reqdocker
 @pt.mark.parametrize("input", [["1"], ["Patient/1"]])
 def test_getPatients_input(input, packDocker):
-
     d = packDocker
     p = d.getPatients(input).data[0]
 
@@ -30,7 +29,6 @@ def test_getPatients_input(input, packDocker):
 @pt.mark.reqdocker
 @pt.mark.parametrize("searchParamsId", [["1"], ["Patient/1"]])
 def test_getPatients_searchParams(searchParamsId, packDocker):
-
     d = packDocker
     searchParams = {"_id": searchParamsId}
     p = d.getPatients(searchParams=searchParams).data[0]

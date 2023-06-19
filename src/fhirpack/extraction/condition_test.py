@@ -8,7 +8,6 @@ import tests as ts
 @pt.mark.reqdocker
 @pt.mark.parametrize("input", [["5"], ["Condition/5"]])
 def test_getConditions_input(input, packDocker):
-
     d = packDocker
     c = d.getConditions(input).data[0]
 
@@ -25,7 +24,6 @@ def test_getConditions_input(input, packDocker):
 @pt.mark.reqdocker
 @pt.mark.parametrize("searchParamsId", ["5"])
 def test_getConditions_searchParams(searchParamsId, packDocker):
-
     d = packDocker
     searchParams = {"_id": searchParamsId}
     c = d.getConditions(searchParams=searchParams).data[0]

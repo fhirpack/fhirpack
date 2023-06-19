@@ -14,5 +14,4 @@ class TransformerConditionMixin(base.BaseTransformerMixin):
     def transformerConditionMethod(
         self,
     ):
-
         pass

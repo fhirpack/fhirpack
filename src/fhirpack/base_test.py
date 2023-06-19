@@ -31,7 +31,6 @@ def test_guessOutputResourceType_dict(packUnconnected, patientAsDict):
 
 
 def test_guessOutputResourceType_uninitializedType(packUnconnected):
-
     # other type than dic, resource or reference
     input = ["random string"]
     expected = "Uninitialized"
@@ -43,7 +42,6 @@ def test_guessOutputResourceType_uninitializedType(packUnconnected):
 def test_guessOutputResourceType_mixed(
     packUnconnected, observationResourceList, patientResourceList
 ):
-
     input = [patientResourceList[0], observationResourceList[0]]
     expected = "Mixed"
     result = packUnconnected.guessOutputResourceType(input)
@@ -58,7 +56,6 @@ def test_guessOutputResourceType_mixed(
 
 
 def test_prepareOutput_noResourceType(packUnconnected, patientResourceList):
-
     p = packUnconnected.prepareOutput(patientResourceList).data[0]
 
     checks = {
@@ -79,7 +76,6 @@ def test_prepareOutput_noResourceType(packUnconnected, patientResourceList):
 
 
 def test_parseReference_stringSlash(packUnconnected, patientReference):
-
     d = packUnconnected
     input = "Patient/1"
     expected = patientReference
@@ -101,7 +97,6 @@ def test_parseReference_stringNoSlashWithResourceType(
 
 
 def test_parseReference_reference(packUnconnected, patientReference):
-
     d = packUnconnected
     # .reference gives the string representation of a SyncFHIRReference
     input = patientReference.reference
@@ -112,7 +107,6 @@ def test_parseReference_reference(packUnconnected, patientReference):
 
 
 def test_prepareReferences_sinlgeReference(packUnconnected, patientReference):
-
     d = packUnconnected
     input = [patientReference]
     expected = [patientReference]
@@ -122,7 +116,6 @@ def test_prepareReferences_sinlgeReference(packUnconnected, patientReference):
 
 
 def test_prepareReferences_twoStrings(packUnconnected, patientReference):
-
     d = packUnconnected
     input = ["Patient/1", "Patient/1"]
     expected = [patientReference] * 2
@@ -136,7 +129,6 @@ def test_prepareReferences_twoStrings(packUnconnected, patientReference):
 
 @pt.mark.reqdocker
 def test_castOperand_stringToResource(packDocker):
-
     input = {"input": ["Patient/1"], "target": SyncFHIRResource}
     expected = SyncFHIRResource
     d = packDocker
@@ -146,7 +138,6 @@ def test_castOperand_stringToResource(packDocker):
 
 
 def test_castOperand_stringToReference(packUnconnected):
-
     input = {"input": ["Patient/1"], "target": SyncFHIRReference}
     expected = SyncFHIRReference
     d = packUnconnected
@@ -159,7 +150,6 @@ def test_castOperand_stringToReference(packUnconnected):
 
 @pt.mark.reqdocker
 def test_castOperand_resourceToReference(patientResource, packUnconnected):
-
     input = {"input": [patientResource], "target": SyncFHIRReference}
     expected = SyncFHIRReference
     d = packUnconnected
@@ -172,7 +162,6 @@ def test_castOperand_resourceToReference(patientResource, packUnconnected):
 
 @pt.mark.reqdocker
 def test_castOperand_referenceToResource(patientReference, packDocker):
-
     input = {"input": [patientReference.reference], "target": SyncFHIRResource}
     expected = SyncFHIRResource
     d = packDocker
@@ -184,7 +173,6 @@ def test_castOperand_referenceToResource(patientReference, packDocker):
 
 
 def test_frame_resourceTypeIsTrue(patientFrame):
-
     expected = "patient"
     ok = patientFrame.resourceTypeIs(expected)
 
@@ -192,7 +180,6 @@ def test_frame_resourceTypeIsTrue(patientFrame):
 
 
 def test_frame_resourceTypeIsFalse(patientFrame):
-
     expected = "observation"
     ok = not patientFrame.resourceTypeIs(expected)
 
