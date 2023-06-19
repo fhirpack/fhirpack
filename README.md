@@ -41,7 +41,7 @@ FHIRPACK provides an easy-to-use and intuitive API that enables effortless acces
 |🐞 **issues**| bugs and feature requests go preferrably on [the main GitLab tracker](https://gitlab.com/fhirpack/main) or [on GitHub](https://github.com/fhirpack/fhirpack) |
 |🔧 **dev**| [learn more about contributing to FHIRPACK or extending its functionality](CONTRIBUTING.rst) |
 |📚 **docs**| read our [documentation on Read the Docs](https://fhirpack.readthedocs.io)|
-|📖 **citation**| cite FHIRPACK as https://doi.org/10.5281/zenodo.8006589 or visit [Zenodo vor more details](https://zenodo.org/record/8006589)|
+|📖 **citation**| cite FHIRPACK as https://doi.org/10.5281/zenodo.8006589 or visit [Zenodo for more details](https://zenodo.org/record/8006589)|
 
 # Usage
 
