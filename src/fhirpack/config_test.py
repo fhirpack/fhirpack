@@ -13,6 +13,7 @@ def envFile(tmp_path):
     tempDir = tmp_path / "tmp"
     tempDir.mkdir()
     tempFile = tempDir / ".env"
+    tempFile.write_text('')
 
     return tempFile
 

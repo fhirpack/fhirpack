@@ -36,7 +36,11 @@ class InvalidOperationException(BaseException):
     pass
 
 
+class ConfigurationFileNotFound(BaseException):
+    """Raised when operation is invalid for data."""
+    pass
+
+
 class InvalidConfigurationException(BaseException):
     """Raised when operation is invalid for data."""
-
     pass

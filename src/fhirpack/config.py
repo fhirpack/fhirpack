@@ -1,8 +1,11 @@
+
 import sys
+from pathlib import Path
 import traceback
 import logging
 import dotenv
 
+from fhirpack.exceptions import ConfigurationFileNotFound
 
 class Config:
     """Used to manage the configuration of the package."""
@@ -21,11 +24,17 @@ class Config:
         Args:
             dotenvPath (Union[str, None]): Path to the .env file. Defaults to None.
         """
+        
+        # try to find a suitable .env file if none is provided
         if not dotenvPath:
             dotenvPath = dotenv.find_dotenv()
-
         # TODO: decide whether to fail or attempt rescue via .env.example
         dotenvPath = ".env.example" if not dotenvPath else dotenvPath
+
+        dotenvPath = Path(dotenvPath)
+        if not dotenvPath.is_file():
+            raise ConfigurationFileNotFound
+
         config = dotenv.dotenv_values(dotenvPath)
 
         self.__CONFIG = config
