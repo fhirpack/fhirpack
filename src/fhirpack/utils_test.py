@@ -85,7 +85,7 @@ def test_validateFrame_NullValues(input, packDocker):
 
     p = d.getPatients(["1"])
     nullValues = fp.base.Frame({"data": [input]})
-    brokenFrame = p.append(nullValues)
+    brokenFrame = pd.concat([p,nullValues])
 
     with pt.raises(fp.exceptions.InvalidInputDataException):
         fp.utils.validateFrame(brokenFrame)
