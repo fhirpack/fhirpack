@@ -1,7 +1,7 @@
 # Examples
 
 ```{toctree}
-:maxdepth: 1
+:maxdepth: 0
 
 FHIRPACK Minimal Example <../examples/minimal>
 FHIRPACK Detailed Usage <../examples/usage>
